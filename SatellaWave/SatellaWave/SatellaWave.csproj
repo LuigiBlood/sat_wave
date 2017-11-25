@@ -67,7 +67,16 @@
       <DependentUpon>MainWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
+    <Compile Include="AddChannel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddChannel.Designer.cs">
+      <DependentUpon>AddChannel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="AddChannel.resx">
+      <DependentUpon>AddChannel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>
