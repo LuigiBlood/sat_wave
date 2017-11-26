@@ -36,6 +36,87 @@ namespace SatellaWave
 
         public static void ExportBSX(string folderPath)
         {
+            //Make other stuff before
+            List<byte> ChannelFile = new List<byte>();
+            for (int i = 0; i < ChannelMap.Count; i++)
+            {
+                if (ChannelMap[i].type == 2)
+                {
+                    //Town Status
+                    TownStatus _town = ChannelMap[i] as TownStatus;
+
+                    ChannelFile.Clear();
+
+                    ChannelFile.Add(0); //Flag
+                    ChannelFile.Add(1); //Town Status ID
+                    ChannelFile.Add(1); //Directory ID
+
+                    ChannelFile.Add(0);
+                    ChannelFile.Add(0);
+                    ChannelFile.Add(0);
+                    ChannelFile.Add(0);
+
+                    ChannelFile.Add((byte)((_town.radio_setup << 6) | (_town.apu_setup << 4)));
+                    ChannelFile.Add(0);
+
+                    //NPC/Event Flags
+                    for (int x = 0; x < 8; x++)
+                    {
+                        byte _flag = 0;
+                        for (int y = 0; y < 8; y++)
+                        {
+                            if (_town.npc_flags[x * 8 + y] == true)
+                                _flag |= (byte)(1 << y);
+                        }
+                        ChannelFile.Add(_flag);
+                    }
+
+                    ushort townsetup = 0;
+                    townsetup = (ushort)(1 << (_town.fountain - 1));
+                    townsetup |= (ushort)((1 << (_town.season - 1) << 12));
+
+                    ChannelFile.Add((byte)townsetup);
+                    ChannelFile.Add((byte)(townsetup >> 8));
+
+                    ChannelFile.Add(0);
+                    ChannelFile.Add(0);
+                    ChannelFile.Add(0);
+                    ChannelFile.Add(0);
+
+                    ChannelFile.Add(0); //Number of file IDs, 0 because no files implemented
+
+                    int filesize = ChannelFile.Count;
+                    if (filesize > 256)
+                    {
+                        MessageBox.Show("Error: Town Status is more than 256 bytes.");
+                        return;
+                    }
+
+                    //Target Offset
+                    ChannelFile.Insert(0, 0);
+                    ChannelFile.Insert(0, 0);
+                    ChannelFile.Insert(0, 0);
+                    //Number of Fragments (1)
+                    ChannelFile.Insert(0, 1);
+                    //Fixed
+                    ChannelFile.Insert(0, 1);
+                    //Data Group Size
+                    ChannelFile.Insert(0, (byte)filesize);
+                    ChannelFile.Insert(0, (byte)(filesize >> 8));
+                    ChannelFile.Insert(0, (byte)(filesize >> 16));
+                    //Data Group Continuity
+                    ChannelFile.Insert(0, 0);
+                    //Data Group ID 1
+                    ChannelFile.Insert(0, 0);
+
+                    FileStream chnfile = new FileStream(folderPath + "\\BSX"+ ChannelMap[i].lci.ToString("X4") + "-0.bin", FileMode.Create);
+                    chnfile.Write(ChannelFile.ToArray(), 0, ChannelFile.Count);
+                    chnfile.Close();
+
+                    MessageBox.Show("Export succeeded");
+                }
+            }
+
             //Make the Service List
             List<ushort> ServiceList = new List<ushort>();
             foreach (Channel _chan in ChannelMap)
@@ -46,7 +127,7 @@ namespace SatellaWave
                 }
             }
 
-            //Make BSX0124-0.bin first, it is the full channel map
+            //Make BSX0124-0.bin, it is the full channel map
             List<byte> ChannelMapFile = new List<byte>();
 
             //Header part
@@ -115,6 +196,10 @@ namespace SatellaWave
             ChannelMapFile.Insert(0, (byte)(size >> 16));
             ChannelMapFile.Insert(0, 0);
             ChannelMapFile.Insert(0, 0);
+
+            FileStream mapfile = new FileStream(folderPath + "\\BSX0124-0.bin", FileMode.Create);
+            mapfile.Write(ChannelMapFile.ToArray(), 0, ChannelMapFile.Count);
+            mapfile.Close();
         }
 
         public static List<TreeNode> UpdateList()
