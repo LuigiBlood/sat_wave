@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newServerRepositoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openServerRepositoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -52,8 +53,11 @@
             this.label5 = new System.Windows.Forms.Label();
             this.comboBoxSeason = new System.Windows.Forms.ComboBox();
             this.groupBoxTown = new System.Windows.Forms.GroupBox();
+            this.contextMenuStripChannelMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItemEditChnInfo = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.groupBoxTown.SuspendLayout();
+            this.contextMenuStripChannelMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // fileToolStripMenuItem
@@ -83,18 +87,21 @@
             this.openServerRepositoryToolStripMenuItem.Name = "openServerRepositoryToolStripMenuItem";
             this.openServerRepositoryToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openServerRepositoryToolStripMenuItem.Text = "Open Repository...";
+            this.openServerRepositoryToolStripMenuItem.Click += new System.EventHandler(this.openServerRepositoryToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveToolStripMenuItem.Text = "Save Repository";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // saveAsRepositoryToolStripMenuItem
             // 
             this.saveAsRepositoryToolStripMenuItem.Name = "saveAsRepositoryToolStripMenuItem";
             this.saveAsRepositoryToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveAsRepositoryToolStripMenuItem.Text = "Save as Repository...";
+            this.saveAsRepositoryToolStripMenuItem.Click += new System.EventHandler(this.saveAsRepositoryToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
@@ -106,6 +113,7 @@
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
             this.exportToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exportToolStripMenuItem.Text = "Export...";
+            this.exportToolStripMenuItem.Click += new System.EventHandler(this.exportToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
@@ -130,7 +138,7 @@
             // addChannelToolStripMenuItem
             // 
             this.addChannelToolStripMenuItem.Name = "addChannelToolStripMenuItem";
-            this.addChannelToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.addChannelToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.addChannelToolStripMenuItem.Text = "Add Channel";
             // 
             // menuStrip1
@@ -244,7 +252,7 @@
             "Half Volume",
             "SFX only",
             "Mute"});
-            this.comboBoxAudio.Location = new System.Drawing.Point(251, 256);
+            this.comboBoxAudio.Location = new System.Drawing.Point(251, 254);
             this.comboBoxAudio.Name = "comboBoxAudio";
             this.comboBoxAudio.Size = new System.Drawing.Size(121, 21);
             this.comboBoxAudio.TabIndex = 2;
@@ -253,7 +261,7 @@
             // 
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(251, 238);
+            this.label2.Location = new System.Drawing.Point(251, 236);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(71, 13);
             this.label2.TabIndex = 3;
@@ -263,7 +271,7 @@
             // 
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(254, 296);
+            this.label3.Location = new System.Drawing.Point(254, 294);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(68, 13);
             this.label3.TabIndex = 4;
@@ -278,7 +286,7 @@
             "No Radio",
             "Radio Channel 1",
             "Radio Channel 2"});
-            this.comboBoxRadio.Location = new System.Drawing.Point(251, 312);
+            this.comboBoxRadio.Location = new System.Drawing.Point(251, 310);
             this.comboBoxRadio.Name = "comboBoxRadio";
             this.comboBoxRadio.Size = new System.Drawing.Size(121, 21);
             this.comboBoxRadio.TabIndex = 5;
@@ -366,6 +374,19 @@
             this.groupBoxTown.Text = "Town Status";
             this.groupBoxTown.Visible = false;
             // 
+            // contextMenuStripChannelMenu
+            // 
+            this.contextMenuStripChannelMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemEditChnInfo});
+            this.contextMenuStripChannelMenu.Name = "contextMenuStripChannelMenu";
+            this.contextMenuStripChannelMenu.Size = new System.Drawing.Size(208, 26);
+            // 
+            // toolStripMenuItemEditChnInfo
+            // 
+            this.toolStripMenuItemEditChnInfo.Name = "toolStripMenuItemEditChnInfo";
+            this.toolStripMenuItemEditChnInfo.Size = new System.Drawing.Size(207, 22);
+            this.toolStripMenuItemEditChnInfo.Text = "Edit Channel Information";
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -381,6 +402,7 @@
             this.menuStrip1.PerformLayout();
             this.groupBoxTown.ResumeLayout(false);
             this.groupBoxTown.PerformLayout();
+            this.contextMenuStripChannelMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -412,6 +434,8 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox comboBoxSeason;
         private System.Windows.Forms.GroupBox groupBoxTown;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripChannelMenu;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemEditChnInfo;
     }
 }
 

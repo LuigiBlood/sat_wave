@@ -3,145 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace SatellaWave
 {
-    class Channel
-    {
-        //Default Channel content
-
-        public byte[] channel_number;
-            //?.?.?.? format
-        public byte type;
-            //0 = Nothing
-            //1 = Welcome Message
-            //2 = Town Status
-            //3 = Directory
-            //4 = SNES Patch
-            //5 = Download File
-        public string name;
-            //Name
-        public UInt16 lci;
-            //Logical Channel
-        public UInt16 timeout;
-            //In Seconds
-
-        public Channel()
-        {
-            channel_number = new byte[4];
-            type = 0;
-            name = "";
-            lci = 0x0000;
-            timeout = 10;
-        }
-
-        public Channel(byte nb1, byte nb2, byte nb3, byte nb4, string _name, UInt16 _lci)
-        {
-            channel_number = new byte[4];
-            channel_number[0] = nb1;
-            channel_number[1] = nb2;
-            channel_number[2] = nb3;
-            channel_number[3] = nb4;
-
-            type = 0;
-            name = _name;
-            lci = _lci;
-            timeout = 10;
-        }
-
-        public Channel(byte nb1, byte nb2, byte nb3, byte nb4, string _name, UInt16 _lci, UInt16 _timeout)
-        {
-            channel_number = new byte[4];
-            channel_number[0] = nb1;
-            channel_number[1] = nb2;
-            channel_number[2] = nb3;
-            channel_number[3] = nb4;
-
-            type = 0;
-            name = _name;
-            lci = _lci;
-            timeout = _timeout;
-        }
-
-        public string GetChannelNumberString()
-        {
-            return channel_number[0].ToString() + "." + channel_number[1].ToString() + "." + channel_number[2].ToString() + "." + channel_number[3].ToString();
-        }
-    }
-
-    class MessageChannel : Channel
-    {
-        public string message;
-
-        public MessageChannel() : base()
-        {
-            type = 1;
-            message = "";
-        }
-
-        public MessageChannel(byte nb1, byte nb2, byte nb3, byte nb4, string _name, UInt16 _lci, string _msg) : base(nb1, nb2, nb3, nb4, _name, _lci)
-        {
-            type = 1;
-            message = _msg;
-        }
-
-        public MessageChannel(byte nb1, byte nb2, byte nb3, byte nb4, string _name, UInt16 _lci, UInt16 _timeout, string _msg) : base(nb1, nb2, nb3, nb4, _name, _lci, _timeout)
-        {
-            type = 1;
-            message = _msg;
-        }
-    }
-
-    class TownStatus : Channel
-    {
-        public byte apu_setup;
-        public byte radio_setup;
-        public bool[] npc_flags;
-        public byte fountain;
-        public byte season;
-
-        public TownStatus() : base()
-        {
-            type = 2;
-            apu_setup = 3;
-            radio_setup = 0;
-            npc_flags = new bool[64];
-            fountain = 0;
-            season = 0;
-        }
-
-        public TownStatus(byte nb1, byte nb2, byte nb3, byte nb4, string _name, UInt16 _lci) : base(nb1, nb2, nb3, nb4, _name, _lci)
-        {
-            type = 2;
-            apu_setup = 3;
-            radio_setup = 0;
-            npc_flags = new bool[64];
-            fountain = 0;
-            season = 0;
-        }
-    }
-
-    class DownloadFile : Channel
-    {
-        string filename;
-        byte autostart;
-            //0 = No
-            //1 = Optional
-            //2 = Yes
-        byte dest;
-            //0 = WRAM
-            //1 = PSRAM
-            //2 = FLASH (All)
-            //3 = FLASH (Free Space)
-        
-        public DownloadFile() : base()
-        {
-            filename = "";
-            autostart = 0;
-            dest = 0;
-        }
-    }
-
     static class Program
     {
         /// <summary>
@@ -158,13 +23,130 @@ namespace SatellaWave
             Application.Run(new MainWindow());
         }
 
-        public static void NewRepository()
+        public static List<TreeNode> NewRepository()
         {
             //New repository needs Town Status at least
             ChannelMap = new List<Channel>();
 
-            TownStatus _town = new TownStatus(1, 1, 0, 5, "Town Status", 0x0125);
+            TownStatus _town = new TownStatus(0x0101, 0x0005, "Town Status", 0x0125);
             ChannelMap.Add(_town);
+
+            return UpdateList();
+        }
+
+        public static void ExportBSX(string folderPath)
+        {
+            //Make the Service List
+            List<ushort> ServiceList = new List<ushort>();
+            foreach (Channel _chan in ChannelMap)
+            {
+                if (ServiceList.Contains(_chan.service_broadcast) == false)
+                {
+                    ServiceList.Add(_chan.service_broadcast);
+                }
+            }
+
+            //Make BSX0124-0.bin first, it is the full channel map
+            List<byte> ChannelMapFile = new List<byte>();
+
+            //Header part
+            ChannelMapFile.Add((byte)'S');
+            ChannelMapFile.Add((byte)'F');
+            ChannelMapFile.Add(0);
+            ChannelMapFile.Add(0);
+            ChannelMapFile.Add(0);
+            ChannelMapFile.Add(0);
+            ChannelMapFile.Add((byte)ServiceList.Count);
+            byte chksum = 0;
+            foreach (byte _chk in ChannelMapFile)
+            {
+                chksum += _chk;
+            }
+            ChannelMapFile.Add(chksum);
+
+            //Service Broadcast List
+            foreach (ushort _cur_service in ServiceList)
+            {
+                ChannelMapFile.Add((byte)(_cur_service >> 8));
+                ChannelMapFile.Add((byte)_cur_service);
+
+                //Counter
+                byte _count = 0;
+                foreach (Channel _chan in ChannelMap)
+                {
+                    if (_chan.service_broadcast == _cur_service)
+                    {
+                        _count++;
+                    }
+                }
+
+                ChannelMapFile.Add(_count);
+
+                //Program List
+                foreach (Channel _chan in ChannelMap)
+                {
+                    if (_chan.service_broadcast == _cur_service)
+                    {
+                        ChannelMapFile.Add(_chan.type);
+                        ChannelMapFile.Add((byte)(_chan.program_number >> 8));
+                        ChannelMapFile.Add((byte)_chan.program_number);
+
+                        ChannelMapFile.Add(0);
+                        ChannelMapFile.Add(0);
+                        ChannelMapFile.Add(0);
+                        ChannelMapFile.Add(0);
+                        ChannelMapFile.Add(0);
+
+                        ChannelMapFile.Add((byte)(_chan.timeout >> 8));
+                        ChannelMapFile.Add((byte)_chan.timeout);
+
+                        ChannelMapFile.Add(0); //Autostart stuff
+
+                        ChannelMapFile.Add((byte)_chan.lci);
+                        ChannelMapFile.Add((byte)(_chan.lci >> 8));
+                    }
+                }
+            }
+
+            //Finalize Channel Map File
+            int size = ChannelMapFile.Count;
+            ChannelMapFile.Insert(0, (byte)size);
+            ChannelMapFile.Insert(0, (byte)(size >> 8));
+            ChannelMapFile.Insert(0, (byte)(size >> 16));
+            ChannelMapFile.Insert(0, 0);
+            ChannelMapFile.Insert(0, 0);
+        }
+
+        public static List<TreeNode> UpdateList()
+        {
+            List<TreeNode> MainList = new List<TreeNode>();
+            MainList.Clear();
+
+            for (int i = 0; i < ChannelMap.Count; i++)
+            {
+                TreeNode _cur = new TreeNode(ChannelMap[i].name + " (" + ChannelMap[i].GetChannelNumberString() + ")");
+                _cur.Tag = i;
+
+                MainList.Add(_cur);
+            }
+
+            return MainList;
+        }
+
+        public static void SaveTownStatus(int index, byte _apu_setup, byte _radio_setup, bool[] _npc_flags, byte _fountain, byte _season)
+        {
+            if (ChannelMap[index].type != 2)
+                return;
+
+            TownStatus _town = ChannelMap[index] as TownStatus;
+            _town.apu_setup = _apu_setup;
+            _town.radio_setup = _radio_setup;
+            _town.npc_flags = _npc_flags;
+            _town.fountain = _fountain;
+            _town.season = _season;
+
+            ChannelMap.RemoveAt(index);
+            ChannelMap.Insert(index, _town);
         }
     }
 }

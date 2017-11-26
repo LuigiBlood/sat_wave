@@ -17,6 +17,8 @@ namespace SatellaWave
             InitializeComponent();
         }
 
+        /* MENU */
+
         private void quitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
@@ -24,11 +26,44 @@ namespace SatellaWave
 
         private void newServerRepositoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Program.NewRepository();
             treeViewChn.Nodes.Clear();
 
-            treeViewChn.Nodes.Add(Program.ChannelMap[0].name + " (" + Program.ChannelMap[0].GetChannelNumberString() + ")").Tag = 0;
+            foreach (TreeNode _node in Program.NewRepository())
+            {
+                _node.ContextMenuStrip = contextMenuStripChannelMenu;
+                treeViewChn.Nodes.Add(_node);
+            }
         }
+
+        private void openServerRepositoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void saveAsRepositoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void exportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveAll();
+
+            FolderSelect.FolderSelectDialog fsd = new FolderSelect.FolderSelectDialog();
+            fsd.Title = "Select Export BS-X File Folder...";
+            if (fsd.ShowDialog())
+            {
+                //No \ at the end
+                Program.ExportBSX(fsd.FileName);
+            }
+        }
+
+        /* OTHER EVENTS */
 
         private void treeViewChn_AfterSelect(object sender, TreeViewEventArgs e)
         {
@@ -53,6 +88,24 @@ namespace SatellaWave
             {
                 groupBoxTown.Visible = false;
             }
+        }
+
+        /* OTHER FUNCTIONS */
+
+        private void SaveAll()
+        {
+            SaveTownStatus();
+        }
+
+        private void SaveTownStatus()
+        {
+            bool[] _npc_flags = new bool[64];
+
+            for (int i = 0; i <= 58; i++)
+                _npc_flags[i] = checkedListBoxNPCs.GetItemChecked(i);
+
+            Program.SaveTownStatus((int)treeViewChn.SelectedNode.Tag, (byte)(comboBoxAudio.SelectedIndex ^ 3),
+                (byte)comboBoxRadio.SelectedIndex, _npc_flags, (byte)comboBoxMonth.SelectedIndex, (byte)comboBoxSeason.SelectedIndex);
         }
     }
 }
