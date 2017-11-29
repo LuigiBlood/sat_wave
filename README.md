@@ -10,7 +10,7 @@ TODO:
 - Set up BS-X Channels
   - Welcome Message (1.1.0.4) [For v0.1]
   - Town Status (1.1.0.5) [For v0.1]
-  - Directory (1.1.0.6)
+  - Directory (1.1.0.6) [For v0.1]
   - SNES Patch (1.1.0.7)
 - Set up other kinds of channels
   - Time Channels (1.1.0.8, 1.2.0.48, etc) [Default Time LCI is 0x0000] [For v0.1]

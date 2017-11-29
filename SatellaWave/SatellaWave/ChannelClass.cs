@@ -7,32 +7,47 @@ using System.Threading.Tasks;
 namespace SatellaWave
 {
     //All Channel Classes
+    enum ServiceType : ushort
+    {
+        BSX=0x0101,
+        Game=0x0102,
+    };
+
+    enum ChannelType : byte
+    {
+        None, Message, Town, Directory, Patch, DownloadFile
+    };
+
+    enum FolderType
+    {
+        Download, Shop
+    }
+
+    enum FileType
+    {
+        File, Item
+    }
+
     class Channel
     {
         //Default Channel content
-
         public ushort service_broadcast;
         public ushort program_number;
-        //?.?.?.? format
+            //?.?.?.? format
         public byte type;
-        //0 = Nothing
-        //1 = Welcome Message
-        //2 = Town Status
-        //3 = Directory
-        //4 = SNES Patch
-        //5 = Download File
+            //Channel Type enum
         public string name;
-        //Name
+            //Name
         public ushort lci;
-        //Logical Channel
+            //Logical Channel
         public ushort timeout;
-        //In Seconds
+            //In Seconds
 
         public Channel()
         {
             service_broadcast = 0;
             program_number = 0;
-            type = 0;
+            type = (byte)ChannelType.None;
             name = "";
             lci = 0x0000;
             timeout = 10;
@@ -43,7 +58,7 @@ namespace SatellaWave
             service_broadcast = _pv;
             program_number = _pr;
 
-            type = 0;
+            type = (byte)ChannelType.None;
             name = _name;
             lci = _lci;
             timeout = 10;
@@ -54,7 +69,7 @@ namespace SatellaWave
             service_broadcast = _pv;
             program_number = _pr;
 
-            type = 0;
+            type = (byte)ChannelType.None;
             name = _name;
             lci = _lci;
             timeout = _timeout;
@@ -76,19 +91,19 @@ namespace SatellaWave
 
         public MessageChannel() : base()
         {
-            type = 1;
+            type = (byte)ChannelType.Message;
             message = "";
         }
 
         public MessageChannel(ushort _pv, ushort _pr, string _name, ushort _lci, string _msg) : base(_pv, _pr, _name, _lci)
         {
-            type = 1;
+            type = (byte)ChannelType.Message;
             message = _msg;
         }
 
         public MessageChannel(ushort _pv, ushort _pr, string _name, ushort _lci, ushort _timeout, string _msg) : base(_pv, _pr, _name, _lci, _timeout)
         {
-            type = 1;
+            type = (byte)ChannelType.Message;
             message = _msg;
         }
     }
@@ -96,24 +111,24 @@ namespace SatellaWave
     class TownStatus : Channel
     {
         public byte apu_setup;
-        //0 = Mute
-        //1 = SFX Only
-        //2 = Half Volume (Music + SFX)
-        //3 = Full Volume (Music + SFX)
+            //0 = Mute
+            //1 = SFX Only
+            //2 = Half Volume (Music + SFX)
+            //3 = Full Volume (Music + SFX)
         public byte radio_setup;
-        //0 = No Radio
-        //1 = Radio (0x00 sent to $2199)
-        //2 = Radio (0x88 sent to $2199)
+            //0 = No Radio
+            //1 = Radio (0x00 sent to $2199)
+            //2 = Radio (0x88 sent to $2199)
         public bool[] npc_flags;
-        //All NPC flags (0-63)
+            //All NPC flags (0-63)
         public byte fountain;
-        //Monthly Fountain
+            //Monthly Fountain
         public byte season;
-        //Season
+            //Season
 
         public TownStatus() : base()
         {
-            type = 2;
+            type = (byte)ChannelType.Town;
             apu_setup = 3;
             radio_setup = 0;
             npc_flags = new bool[64];
@@ -123,7 +138,7 @@ namespace SatellaWave
 
         public TownStatus(ushort _pv, ushort _pr, string _name, ushort _lci) : base(_pv, _pr, _name, _lci)
         {
-            type = 2;
+            type = (byte)ChannelType.Town;
             apu_setup = 3;
             radio_setup = 0;
             npc_flags = new bool[64];
@@ -132,25 +147,78 @@ namespace SatellaWave
         }
     }
 
+    class Directory : Channel
+    {
+        List<Folder> folderlist;
+    }
+
+    class Folder
+    {
+        string name;
+        string message;
+        int type;
+        int purpose;
+        int id;
+        int mugshot;
+
+        List<File> filelist;
+    }
+
+    class File
+    {
+        int type;
+        string name;
+        string description;
+
+        //Item only
+        string usage;
+        int price;
+        bool oneuse;
+
+        int fileindex;      //index from ChannelMap
+        int includeIndex;   //index from folder
+    }
+
     class DownloadFile : Channel
     {
         string filename;
-        //Filename
+            //Filename
         byte autostart;
-        //0 = No
-        //1 = Optional
-        //2 = Yes
+            //0 = No
+            //1 = Optional
+            //2 = Yes
         byte dest;
-        //0 = WRAM
-        //1 = PSRAM
-        //2 = FLASH (All)
-        //3 = FLASH (Free Space)
+            //0 = WRAM
+            //1 = PSRAM
+            //2 = FLASH (All)
+            //3 = FLASH (Free Space)
+
+        int filesize;
+        bool alsoAtHome;
+        bool fullDownload;
+
+        byte month;
+        byte day;
+
+        byte hourstart;
+        byte min_start;
+        byte hourend;
+        byte min_end;
 
         public DownloadFile() : base()
         {
             filename = "";
             autostart = 0;
             dest = 0;
+            filesize = 0;
+            alsoAtHome = false;
+            fullDownload = true;
+            month = 1;
+            day = 1;
+            hourstart = 0;
+            min_start = 0;
+            hourend = 23;
+            min_end = 59;
         }
     }
 }

@@ -13,37 +13,98 @@ namespace SatellaWave
         /// Point d'entrée principal de l'application.
         /// </summary>
 
-        public static List<Channel> ChannelMap;
+        public static MainWindow mainWindow;
 
         [STAThread]
         static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainWindow());
+
+            mainWindow = new MainWindow();
+
+            Application.Run(mainWindow);
         }
 
-        public static List<TreeNode> NewRepository()
+        public static void NewRepository()
         {
-            //New repository needs Town Status at least
-            ChannelMap = new List<Channel>();
+            //New repository needs Town Status and Directory (TODO) at least
+            TownStatus _town = new TownStatus(0x0101, 0x0005, "Town Status", 0x0123);
 
-            TownStatus _town = new TownStatus(0x0101, 0x0005, "Town Status", 0x0125);
-            ChannelMap.Add(_town);
+            mainWindow.treeViewChn.Nodes.Clear();
+            AddChannel(_town);
+        }
 
-            return UpdateList();
+        public static void AddChannel(Channel _chn)
+        {
+            TreeNode _node = new TreeNode(_chn.name);
+            _node.Tag = _chn;
+            _node.ContextMenuStrip = mainWindow.contextMenuStripChannelMenu;
+
+            mainWindow.treeViewChn.Nodes.Add(_node);
+        }
+
+        public static void AddChannel(int type)
+        {
+            if (type == 0)
+            {
+                //Welcome Message
+                //Check if already present
+                foreach (TreeNode _chn in mainWindow.treeViewChn.Nodes)
+                {
+                    if ((_chn.Tag as Channel).service_broadcast == 0x0101 && (_chn.Tag as Channel).program_number == 0x0004)
+                    {
+                        MessageBox.Show("There is already a Message Channel.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+
+                MessageChannel _msg = new MessageChannel(0x0101, 0x0004, "Welcome Message", 0x0121, "");
+                AddChannel(_msg);
+            }
         }
 
         public static void ExportBSX(string folderPath)
         {
             //Make other stuff before
             List<byte> ChannelFile = new List<byte>();
-            for (int i = 0; i < ChannelMap.Count; i++)
+
+            for (int i = 0; i < mainWindow.treeViewChn.Nodes.Count; i++)
             {
-                if (ChannelMap[i].type == 2)
+                if ((mainWindow.treeViewChn.Nodes[i].Tag as Channel).type == (byte)ChannelType.Message)
+                {
+                    //Message
+                    MessageChannel _msg = mainWindow.treeViewChn.Nodes[i].Tag as MessageChannel;
+
+                    ChannelFile.Clear();
+
+                    //Header
+                    ChannelFile.Add(0);
+                    ChannelFile.Add(0);
+                    ChannelFile.Add(0);
+                    ChannelFile.Add(0);
+                    ChannelFile.Add((byte)(_msg.message.Length + 5 + 1)); //can only be under 255 bytes
+                    ChannelFile.Add(1);
+                    ChannelFile.Add(1);
+                    ChannelFile.Add(0);
+                    ChannelFile.Add(0);
+                    ChannelFile.Add(0);
+
+                    //Message
+                    foreach (char _chr in _msg.message.ToCharArray())
+                    {
+                        ChannelFile.Add((byte)_chr);
+                    }
+                    ChannelFile.Add(0);
+
+                    FileStream chnfile = new FileStream(folderPath + "\\BSX" + _msg.lci.ToString("X4") + "-0.bin", FileMode.Create);
+                    chnfile.Write(ChannelFile.ToArray(), 0, ChannelFile.Count);
+                    chnfile.Close();
+                }
+                else if ((mainWindow.treeViewChn.Nodes[i].Tag as Channel).type == (byte)ChannelType.Town)
                 {
                     //Town Status
-                    TownStatus _town = ChannelMap[i] as TownStatus;
+                    TownStatus _town = mainWindow.treeViewChn.Nodes[i].Tag as TownStatus;
 
                     ChannelFile.Clear();
 
@@ -109,18 +170,18 @@ namespace SatellaWave
                     //Data Group ID 1
                     ChannelFile.Insert(0, 0);
 
-                    FileStream chnfile = new FileStream(folderPath + "\\BSX"+ ChannelMap[i].lci.ToString("X4") + "-0.bin", FileMode.Create);
+                    FileStream chnfile = new FileStream(folderPath + "\\BSX"+ _town.lci.ToString("X4") + "-0.bin", FileMode.Create);
                     chnfile.Write(ChannelFile.ToArray(), 0, ChannelFile.Count);
                     chnfile.Close();
-
-                    MessageBox.Show("Export succeeded");
                 }
             }
 
             //Make the Service List
             List<ushort> ServiceList = new List<ushort>();
-            foreach (Channel _chan in ChannelMap)
+            foreach (TreeNode _node in mainWindow.treeViewChn.Nodes)
             {
+                Channel _chan = _node.Tag as Channel;
+
                 if (ServiceList.Contains(_chan.service_broadcast) == false)
                 {
                     ServiceList.Add(_chan.service_broadcast);
@@ -153,8 +214,9 @@ namespace SatellaWave
 
                 //Counter
                 byte _count = 0;
-                foreach (Channel _chan in ChannelMap)
+                foreach (TreeNode _node in mainWindow.treeViewChn.Nodes)
                 {
+                    Channel _chan = _node.Tag as Channel;
                     if (_chan.service_broadcast == _cur_service)
                     {
                         _count++;
@@ -164,8 +226,9 @@ namespace SatellaWave
                 ChannelMapFile.Add(_count);
 
                 //Program List
-                foreach (Channel _chan in ChannelMap)
+                foreach (TreeNode _node in mainWindow.treeViewChn.Nodes)
                 {
+                    Channel _chan = _node.Tag as Channel;
                     if (_chan.service_broadcast == _cur_service)
                     {
                         ChannelMapFile.Add(_chan.type);
@@ -200,38 +263,8 @@ namespace SatellaWave
             FileStream mapfile = new FileStream(folderPath + "\\BSX0124-0.bin", FileMode.Create);
             mapfile.Write(ChannelMapFile.ToArray(), 0, ChannelMapFile.Count);
             mapfile.Close();
-        }
 
-        public static List<TreeNode> UpdateList()
-        {
-            List<TreeNode> MainList = new List<TreeNode>();
-            MainList.Clear();
-
-            for (int i = 0; i < ChannelMap.Count; i++)
-            {
-                TreeNode _cur = new TreeNode(ChannelMap[i].name + " (" + ChannelMap[i].GetChannelNumberString() + ")");
-                _cur.Tag = i;
-
-                MainList.Add(_cur);
-            }
-
-            return MainList;
-        }
-
-        public static void SaveTownStatus(int index, byte _apu_setup, byte _radio_setup, bool[] _npc_flags, byte _fountain, byte _season)
-        {
-            if (ChannelMap[index].type != 2)
-                return;
-
-            TownStatus _town = ChannelMap[index] as TownStatus;
-            _town.apu_setup = _apu_setup;
-            _town.radio_setup = _radio_setup;
-            _town.npc_flags = _npc_flags;
-            _town.fountain = _fountain;
-            _town.season = _season;
-
-            ChannelMap.RemoveAt(index);
-            ChannelMap.Insert(index, _town);
+            MessageBox.Show("Export succeeded");
         }
     }
 }

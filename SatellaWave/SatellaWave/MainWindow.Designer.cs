@@ -55,9 +55,13 @@
             this.groupBoxTown = new System.Windows.Forms.GroupBox();
             this.contextMenuStripChannelMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemEditChnInfo = new System.Windows.Forms.ToolStripMenuItem();
+            this.groupBoxMessage = new System.Windows.Forms.GroupBox();
+            this.labelMessageCharLeft = new System.Windows.Forms.Label();
+            this.textBoxMessage = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
             this.groupBoxTown.SuspendLayout();
             this.contextMenuStripChannelMenu.SuspendLayout();
+            this.groupBoxMessage.SuspendLayout();
             this.SuspendLayout();
             // 
             // fileToolStripMenuItem
@@ -138,8 +142,9 @@
             // addChannelToolStripMenuItem
             // 
             this.addChannelToolStripMenuItem.Name = "addChannelToolStripMenuItem";
-            this.addChannelToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.addChannelToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.addChannelToolStripMenuItem.Text = "Add Channel";
+            this.addChannelToolStripMenuItem.Click += new System.EventHandler(this.addChannelToolStripMenuItem_Click);
             // 
             // menuStrip1
             // 
@@ -160,6 +165,7 @@
             this.treeViewChn.Name = "treeViewChn";
             this.treeViewChn.Size = new System.Drawing.Size(219, 341);
             this.treeViewChn.TabIndex = 1;
+            this.treeViewChn.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeViewChn_BeforeSelect);
             this.treeViewChn.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewChn_AfterSelect);
             // 
             // checkedListBoxNPCs
@@ -387,11 +393,49 @@
             this.toolStripMenuItemEditChnInfo.Size = new System.Drawing.Size(207, 22);
             this.toolStripMenuItemEditChnInfo.Text = "Edit Channel Information";
             // 
+            // groupBoxMessage
+            // 
+            this.groupBoxMessage.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxMessage.Controls.Add(this.labelMessageCharLeft);
+            this.groupBoxMessage.Controls.Add(this.textBoxMessage);
+            this.groupBoxMessage.Location = new System.Drawing.Point(225, 27);
+            this.groupBoxMessage.Name = "groupBoxMessage";
+            this.groupBoxMessage.Size = new System.Drawing.Size(378, 341);
+            this.groupBoxMessage.TabIndex = 4;
+            this.groupBoxMessage.TabStop = false;
+            this.groupBoxMessage.Text = "Welcome Message";
+            this.groupBoxMessage.Visible = false;
+            // 
+            // labelMessageCharLeft
+            // 
+            this.labelMessageCharLeft.AutoSize = true;
+            this.labelMessageCharLeft.Location = new System.Drawing.Point(119, 95);
+            this.labelMessageCharLeft.Name = "labelMessageCharLeft";
+            this.labelMessageCharLeft.Size = new System.Drawing.Size(89, 13);
+            this.labelMessageCharLeft.TabIndex = 1;
+            this.labelMessageCharLeft.Text = "99 characters left";
+            this.labelMessageCharLeft.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // textBoxMessage
+            // 
+            this.textBoxMessage.Font = new System.Drawing.Font("Lucida Console", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxMessage.Location = new System.Drawing.Point(9, 26);
+            this.textBoxMessage.MaxLength = 99;
+            this.textBoxMessage.Multiline = true;
+            this.textBoxMessage.Name = "textBoxMessage";
+            this.textBoxMessage.Size = new System.Drawing.Size(199, 63);
+            this.textBoxMessage.TabIndex = 0;
+            this.textBoxMessage.Text = "Line1\r\nLine2\r\nLine3\r\nLine4";
+            this.textBoxMessage.TextChanged += new System.EventHandler(this.textBoxMessage_TextChanged);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(609, 372);
+            this.Controls.Add(this.groupBoxMessage);
             this.Controls.Add(this.groupBoxTown);
             this.Controls.Add(this.treeViewChn);
             this.Controls.Add(this.menuStrip1);
@@ -403,6 +447,8 @@
             this.groupBoxTown.ResumeLayout(false);
             this.groupBoxTown.PerformLayout();
             this.contextMenuStripChannelMenu.ResumeLayout(false);
+            this.groupBoxMessage.ResumeLayout(false);
+            this.groupBoxMessage.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -422,7 +468,6 @@
         private System.Windows.Forms.ToolStripMenuItem channelToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addChannelToolStripMenuItem;
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.TreeView treeViewChn;
         private System.Windows.Forms.CheckedListBox checkedListBoxNPCs;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox comboBoxAudio;
@@ -434,8 +479,12 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox comboBoxSeason;
         private System.Windows.Forms.GroupBox groupBoxTown;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStripChannelMenu;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemEditChnInfo;
+        private System.Windows.Forms.GroupBox groupBoxMessage;
+        private System.Windows.Forms.TextBox textBoxMessage;
+        private System.Windows.Forms.Label labelMessageCharLeft;
+        public System.Windows.Forms.TreeView treeViewChn;
+        public System.Windows.Forms.ContextMenuStrip contextMenuStripChannelMenu;
     }
 }
 
