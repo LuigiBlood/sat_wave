@@ -54,14 +54,38 @@
             this.comboBoxSeason = new System.Windows.Forms.ComboBox();
             this.groupBoxTown = new System.Windows.Forms.GroupBox();
             this.contextMenuStripChannelMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripMenuItemEditChnInfo = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemChannel_Edit = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBoxMessage = new System.Windows.Forms.GroupBox();
             this.labelMessageCharLeft = new System.Windows.Forms.Label();
             this.textBoxMessage = new System.Windows.Forms.TextBox();
+            this.contextMenuStripDirectoryMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItemDirectory_Edit = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemDirectory_NewFolder = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItemDirectory_Delete = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemChannel_Delete = new System.Windows.Forms.ToolStripMenuItem();
+            this.groupBoxDirectory = new System.Windows.Forms.GroupBox();
+            this.buttonAddFolder = new System.Windows.Forms.Button();
+            this.groupBoxFolder = new System.Windows.Forms.GroupBox();
+            this.textBoxFolderName = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.textBoxFolderMessage = new System.Windows.Forms.TextBox();
+            this.comboBoxFolderPurpose = new System.Windows.Forms.ComboBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.comboBoxFolderType = new System.Windows.Forms.ComboBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.comboBoxFolderID = new System.Windows.Forms.ComboBox();
+            this.labelFolderID = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.comboBoxFolderMugshot = new System.Windows.Forms.ComboBox();
             this.menuStrip1.SuspendLayout();
             this.groupBoxTown.SuspendLayout();
             this.contextMenuStripChannelMenu.SuspendLayout();
             this.groupBoxMessage.SuspendLayout();
+            this.contextMenuStripDirectoryMenu.SuspendLayout();
+            this.groupBoxDirectory.SuspendLayout();
+            this.groupBoxFolder.SuspendLayout();
             this.SuspendLayout();
             // 
             // fileToolStripMenuItem
@@ -161,12 +185,14 @@
             // 
             this.treeViewChn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.treeViewChn.HideSelection = false;
             this.treeViewChn.Location = new System.Drawing.Point(0, 27);
             this.treeViewChn.Name = "treeViewChn";
             this.treeViewChn.Size = new System.Drawing.Size(219, 341);
             this.treeViewChn.TabIndex = 1;
             this.treeViewChn.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeViewChn_BeforeSelect);
             this.treeViewChn.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewChn_AfterSelect);
+            this.treeViewChn.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewChn_NodeMouseClick);
             // 
             // checkedListBoxNPCs
             // 
@@ -383,15 +409,16 @@
             // contextMenuStripChannelMenu
             // 
             this.contextMenuStripChannelMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItemEditChnInfo});
+            this.toolStripMenuItemChannel_Edit,
+            this.toolStripMenuItemChannel_Delete});
             this.contextMenuStripChannelMenu.Name = "contextMenuStripChannelMenu";
-            this.contextMenuStripChannelMenu.Size = new System.Drawing.Size(208, 26);
+            this.contextMenuStripChannelMenu.Size = new System.Drawing.Size(208, 48);
             // 
-            // toolStripMenuItemEditChnInfo
+            // toolStripMenuItemChannel_Edit
             // 
-            this.toolStripMenuItemEditChnInfo.Name = "toolStripMenuItemEditChnInfo";
-            this.toolStripMenuItemEditChnInfo.Size = new System.Drawing.Size(207, 22);
-            this.toolStripMenuItemEditChnInfo.Text = "Edit Channel Information";
+            this.toolStripMenuItemChannel_Edit.Name = "toolStripMenuItemChannel_Edit";
+            this.toolStripMenuItemChannel_Edit.Size = new System.Drawing.Size(207, 22);
+            this.toolStripMenuItemChannel_Edit.Text = "Edit Channel Information";
             // 
             // groupBoxMessage
             // 
@@ -430,11 +457,256 @@
             this.textBoxMessage.Text = "Line1\r\nLine2\r\nLine3\r\nLine4";
             this.textBoxMessage.TextChanged += new System.EventHandler(this.textBoxMessage_TextChanged);
             // 
+            // contextMenuStripDirectoryMenu
+            // 
+            this.contextMenuStripDirectoryMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemDirectory_NewFolder,
+            this.toolStripSeparator3,
+            this.toolStripMenuItemDirectory_Edit,
+            this.toolStripMenuItemDirectory_Delete});
+            this.contextMenuStripDirectoryMenu.Name = "contextMenuStripDirectoryMenu";
+            this.contextMenuStripDirectoryMenu.Size = new System.Drawing.Size(208, 76);
+            // 
+            // toolStripMenuItemDirectory_Edit
+            // 
+            this.toolStripMenuItemDirectory_Edit.Name = "toolStripMenuItemDirectory_Edit";
+            this.toolStripMenuItemDirectory_Edit.Size = new System.Drawing.Size(207, 22);
+            this.toolStripMenuItemDirectory_Edit.Text = "Edit Channel Information";
+            // 
+            // toolStripMenuItemDirectory_NewFolder
+            // 
+            this.toolStripMenuItemDirectory_NewFolder.Name = "toolStripMenuItemDirectory_NewFolder";
+            this.toolStripMenuItemDirectory_NewFolder.Size = new System.Drawing.Size(207, 22);
+            this.toolStripMenuItemDirectory_NewFolder.Text = "Create New Folder";
+            this.toolStripMenuItemDirectory_NewFolder.Click += new System.EventHandler(this.createFolder);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(204, 6);
+            // 
+            // toolStripMenuItemDirectory_Delete
+            // 
+            this.toolStripMenuItemDirectory_Delete.Name = "toolStripMenuItemDirectory_Delete";
+            this.toolStripMenuItemDirectory_Delete.Size = new System.Drawing.Size(207, 22);
+            this.toolStripMenuItemDirectory_Delete.Text = "Delete Channel";
+            this.toolStripMenuItemDirectory_Delete.Click += new System.EventHandler(this.toolStripMenuItemChannel_Delete_Click);
+            // 
+            // toolStripMenuItemChannel_Delete
+            // 
+            this.toolStripMenuItemChannel_Delete.Name = "toolStripMenuItemChannel_Delete";
+            this.toolStripMenuItemChannel_Delete.Size = new System.Drawing.Size(207, 22);
+            this.toolStripMenuItemChannel_Delete.Text = "Delete Channel";
+            this.toolStripMenuItemChannel_Delete.Click += new System.EventHandler(this.toolStripMenuItemChannel_Delete_Click);
+            // 
+            // groupBoxDirectory
+            // 
+            this.groupBoxDirectory.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxDirectory.Controls.Add(this.buttonAddFolder);
+            this.groupBoxDirectory.Location = new System.Drawing.Point(225, 27);
+            this.groupBoxDirectory.Name = "groupBoxDirectory";
+            this.groupBoxDirectory.Size = new System.Drawing.Size(378, 341);
+            this.groupBoxDirectory.TabIndex = 2;
+            this.groupBoxDirectory.TabStop = false;
+            this.groupBoxDirectory.Text = "Directory";
+            this.groupBoxDirectory.Visible = false;
+            // 
+            // buttonAddFolder
+            // 
+            this.buttonAddFolder.Location = new System.Drawing.Point(9, 19);
+            this.buttonAddFolder.Name = "buttonAddFolder";
+            this.buttonAddFolder.Size = new System.Drawing.Size(168, 73);
+            this.buttonAddFolder.TabIndex = 0;
+            this.buttonAddFolder.Text = "Create New Folder";
+            this.buttonAddFolder.UseVisualStyleBackColor = true;
+            this.buttonAddFolder.Click += new System.EventHandler(this.createFolder);
+            // 
+            // groupBoxFolder
+            // 
+            this.groupBoxFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxFolder.Controls.Add(this.comboBoxFolderMugshot);
+            this.groupBoxFolder.Controls.Add(this.label10);
+            this.groupBoxFolder.Controls.Add(this.labelFolderID);
+            this.groupBoxFolder.Controls.Add(this.comboBoxFolderID);
+            this.groupBoxFolder.Controls.Add(this.label9);
+            this.groupBoxFolder.Controls.Add(this.comboBoxFolderType);
+            this.groupBoxFolder.Controls.Add(this.label8);
+            this.groupBoxFolder.Controls.Add(this.comboBoxFolderPurpose);
+            this.groupBoxFolder.Controls.Add(this.textBoxFolderMessage);
+            this.groupBoxFolder.Controls.Add(this.label7);
+            this.groupBoxFolder.Controls.Add(this.label6);
+            this.groupBoxFolder.Controls.Add(this.textBoxFolderName);
+            this.groupBoxFolder.Location = new System.Drawing.Point(225, 27);
+            this.groupBoxFolder.Name = "groupBoxFolder";
+            this.groupBoxFolder.Size = new System.Drawing.Size(378, 341);
+            this.groupBoxFolder.TabIndex = 1;
+            this.groupBoxFolder.TabStop = false;
+            this.groupBoxFolder.Text = "Folder";
+            this.groupBoxFolder.Visible = false;
+            // 
+            // textBoxFolderName
+            // 
+            this.textBoxFolderName.Location = new System.Drawing.Point(74, 26);
+            this.textBoxFolderName.Name = "textBoxFolderName";
+            this.textBoxFolderName.Size = new System.Drawing.Size(100, 20);
+            this.textBoxFolderName.TabIndex = 0;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(15, 29);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(38, 13);
+            this.label6.TabIndex = 1;
+            this.label6.Text = "Name:";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(15, 61);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(53, 13);
+            this.label7.TabIndex = 2;
+            this.label7.Text = "Message:";
+            // 
+            // textBoxFolderMessage
+            // 
+            this.textBoxFolderMessage.Location = new System.Drawing.Point(74, 58);
+            this.textBoxFolderMessage.Multiline = true;
+            this.textBoxFolderMessage.Name = "textBoxFolderMessage";
+            this.textBoxFolderMessage.Size = new System.Drawing.Size(175, 66);
+            this.textBoxFolderMessage.TabIndex = 3;
+            // 
+            // comboBoxFolderPurpose
+            // 
+            this.comboBoxFolderPurpose.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxFolderPurpose.FormattingEnabled = true;
+            this.comboBoxFolderPurpose.Items.AddRange(new object[] {
+            "Download",
+            "Shop"});
+            this.comboBoxFolderPurpose.Location = new System.Drawing.Point(74, 139);
+            this.comboBoxFolderPurpose.Name = "comboBoxFolderPurpose";
+            this.comboBoxFolderPurpose.Size = new System.Drawing.Size(175, 21);
+            this.comboBoxFolderPurpose.TabIndex = 4;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(15, 169);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(34, 13);
+            this.label8.TabIndex = 5;
+            this.label8.Text = "Type:";
+            // 
+            // comboBoxFolderType
+            // 
+            this.comboBoxFolderType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxFolderType.FormattingEnabled = true;
+            this.comboBoxFolderType.Items.AddRange(new object[] {
+            "Building",
+            "People"});
+            this.comboBoxFolderType.Location = new System.Drawing.Point(74, 166);
+            this.comboBoxFolderType.Name = "comboBoxFolderType";
+            this.comboBoxFolderType.Size = new System.Drawing.Size(175, 21);
+            this.comboBoxFolderType.TabIndex = 6;
+            this.comboBoxFolderType.SelectedIndexChanged += new System.EventHandler(this.comboBoxFolderType_SelectedIndexChanged);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(15, 142);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(49, 13);
+            this.label9.TabIndex = 7;
+            this.label9.Text = "Purpose:";
+            // 
+            // comboBoxFolderID
+            // 
+            this.comboBoxFolderID.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxFolderID.FormattingEnabled = true;
+            this.comboBoxFolderID.Items.AddRange(new object[] {
+            "Robot Tower",
+            "News Wall",
+            "Broadcast Station",
+            "Burger Shop",
+            "Police Box",
+            "Calculator Building",
+            "Beach House (Shop)",
+            "Stadium",
+            "Convenience Center (Shop)",
+            "Girls School",
+            "Game Factory",
+            "Department Store",
+            "Game Museum",
+            "Abacus Building",
+            "Tofu Hall",
+            "Event Plaza",
+            "Bagpotamia Temple",
+            "Celebrity House",
+            "Private House",
+            "Telephone Booth",
+            "Sewerage (Shop)"});
+            this.comboBoxFolderID.Location = new System.Drawing.Point(74, 193);
+            this.comboBoxFolderID.Name = "comboBoxFolderID";
+            this.comboBoxFolderID.Size = new System.Drawing.Size(175, 21);
+            this.comboBoxFolderID.TabIndex = 8;
+            // 
+            // labelFolderID
+            // 
+            this.labelFolderID.AutoSize = true;
+            this.labelFolderID.Location = new System.Drawing.Point(15, 196);
+            this.labelFolderID.Name = "labelFolderID";
+            this.labelFolderID.Size = new System.Drawing.Size(50, 13);
+            this.labelFolderID.TabIndex = 9;
+            this.labelFolderID.Text = "Identifier:";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(15, 236);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(51, 13);
+            this.label10.TabIndex = 10;
+            this.label10.Text = "Mugshot:";
+            // 
+            // comboBoxFolderMugshot
+            // 
+            this.comboBoxFolderMugshot.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxFolderMugshot.FormattingEnabled = true;
+            this.comboBoxFolderMugshot.Items.AddRange(new object[] {
+            "00",
+            "01",
+            "02",
+            "03",
+            "04",
+            "05",
+            "06",
+            "07",
+            "08",
+            "09",
+            "0A",
+            "0B",
+            "0C",
+            "0D",
+            "0E",
+            "0F",
+            "10 (BS-X Logo)"});
+            this.comboBoxFolderMugshot.Location = new System.Drawing.Point(74, 233);
+            this.comboBoxFolderMugshot.Name = "comboBoxFolderMugshot";
+            this.comboBoxFolderMugshot.Size = new System.Drawing.Size(175, 21);
+            this.comboBoxFolderMugshot.TabIndex = 11;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(609, 372);
+            this.Controls.Add(this.groupBoxFolder);
+            this.Controls.Add(this.groupBoxDirectory);
             this.Controls.Add(this.groupBoxMessage);
             this.Controls.Add(this.groupBoxTown);
             this.Controls.Add(this.treeViewChn);
@@ -449,6 +721,10 @@
             this.contextMenuStripChannelMenu.ResumeLayout(false);
             this.groupBoxMessage.ResumeLayout(false);
             this.groupBoxMessage.PerformLayout();
+            this.contextMenuStripDirectoryMenu.ResumeLayout(false);
+            this.groupBoxDirectory.ResumeLayout(false);
+            this.groupBoxFolder.ResumeLayout(false);
+            this.groupBoxFolder.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -479,12 +755,33 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox comboBoxSeason;
         private System.Windows.Forms.GroupBox groupBoxTown;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemEditChnInfo;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemChannel_Edit;
         private System.Windows.Forms.GroupBox groupBoxMessage;
         private System.Windows.Forms.TextBox textBoxMessage;
         private System.Windows.Forms.Label labelMessageCharLeft;
         public System.Windows.Forms.TreeView treeViewChn;
         public System.Windows.Forms.ContextMenuStrip contextMenuStripChannelMenu;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDirectory_NewFolder;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDirectory_Edit;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDirectory_Delete;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemChannel_Delete;
+        private System.Windows.Forms.GroupBox groupBoxDirectory;
+        private System.Windows.Forms.Button buttonAddFolder;
+        public System.Windows.Forms.ContextMenuStrip contextMenuStripDirectoryMenu;
+        private System.Windows.Forms.GroupBox groupBoxFolder;
+        private System.Windows.Forms.TextBox textBoxFolderName;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox textBoxFolderMessage;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.ComboBox comboBoxFolderPurpose;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.ComboBox comboBoxFolderType;
+        private System.Windows.Forms.Label labelFolderID;
+        private System.Windows.Forms.ComboBox comboBoxFolderID;
+        private System.Windows.Forms.ComboBox comboBoxFolderMugshot;
+        private System.Windows.Forms.Label label10;
     }
 }
 

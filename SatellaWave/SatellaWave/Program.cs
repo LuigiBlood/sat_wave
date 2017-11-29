@@ -15,6 +15,80 @@ namespace SatellaWave
 
         public static MainWindow mainWindow;
 
+        public static readonly string[] buildingList = {
+            "Robot Tower",
+            "News Wall",
+            "Broadcast Station",
+            "Burger Shop",
+            "Police Box",
+            "Calculator Building",
+            "Beach House (Shop)",
+            "Stadium",
+            "Convenience Center (Shop)",
+            "Girls School",
+            "Game Factory",
+            "Department Store",
+            "Game Museum",
+            "Abacus Building",
+            "Tofu Hall",
+            "Event Plaza",
+            "Bagpotamia Temple",
+            "Celebrity House",
+            "Private House",
+            "Telephone Booth",
+            "Sewerage (Shop)"
+        };
+
+        public static readonly string[] peopleList =
+        {
+            "[Red Ball at Beach]",
+            "Dr. Hiroshi",
+            "Dororin",
+            "Temple Guardian Left",
+            "Temple Guardian Right",
+            "Ghost",
+            "Otakuman",
+            "Gorou",
+            "Samson",
+            "Gozen Reiji",
+            "Tamotsu Sekishita",
+            "Mr. Arai",
+            "Rinzo Charikawa",
+            "Star Rarawo",
+            "Manbei",
+            "Kenichi",
+            "Youta",
+            "MIO",
+            "MIO (School Uniform)",
+            "Reiko",
+            "Marina",
+            "Akane",
+            "Mako",
+            "Midori",
+            "Suzu Charikawa",
+            "Ms. Sera",
+            "Secretary Akiko",
+            "Tomoko Shirase",
+            "Yuka Tsutsumi",
+            "Ina Sanda",
+            "Fortuneteller Miki",
+            "Asaji Kayo",
+            "Kimono Girl",
+            "Ikebe",
+            "Ms. Ochiyo",
+            "Old Woman",
+            "Tell",
+            "Sachiko",
+            "Akiko",
+            "Rocky (Dog)",
+            "Jitsu Hyoue (Cat)",
+            "Quack (Duck)",
+            "TeeVee",
+            "Wide TeeVee",
+            "[Custom Script 1]",
+            "[Custom Script 2]"
+        };
+
         [STAThread]
         static void Main()
         {
@@ -37,9 +111,13 @@ namespace SatellaWave
 
         public static void AddChannel(Channel _chn)
         {
-            TreeNode _node = new TreeNode(_chn.name);
+            TreeNode _node = new TreeNode(_chn.name + " (" + _chn.GetChannelNumberString() + ")");
             _node.Tag = _chn;
-            _node.ContextMenuStrip = mainWindow.contextMenuStripChannelMenu;
+
+            if (_chn.type != (byte)ChannelType.Directory)
+                _node.ContextMenuStrip = mainWindow.contextMenuStripChannelMenu;
+            else
+                _node.ContextMenuStrip = mainWindow.contextMenuStripDirectoryMenu;
 
             mainWindow.treeViewChn.Nodes.Add(_node);
         }
@@ -48,19 +126,63 @@ namespace SatellaWave
         {
             if (type == 0)
             {
-                //Welcome Message
+                //BS-X Welcome Message
                 //Check if already present
                 foreach (TreeNode _chn in mainWindow.treeViewChn.Nodes)
                 {
                     if ((_chn.Tag as Channel).service_broadcast == 0x0101 && (_chn.Tag as Channel).program_number == 0x0004)
                     {
-                        MessageBox.Show("There is already a Message Channel.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("There is already a BS-X Message Channel.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
                 }
 
                 MessageChannel _msg = new MessageChannel(0x0101, 0x0004, "Welcome Message", 0x0121, "");
                 AddChannel(_msg);
+            }
+            else if(type == 1)
+            {
+                //BS-X Town Status
+                //Check if already present
+                foreach (TreeNode _chn in mainWindow.treeViewChn.Nodes)
+                {
+                    if ((_chn.Tag as Channel).service_broadcast == 0x0101 && (_chn.Tag as Channel).program_number == 0x0005)
+                    {
+                        MessageBox.Show("There is already a BS-X Town Status Channel.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+
+                TownStatus _town = new TownStatus(0x0101, 0x0005, "Town Status", 0x0123);
+                AddChannel(_town);
+            }
+            else if (type == 2)
+            {
+                //BS-X Directory
+                //Check if already present
+                foreach (TreeNode _chn in mainWindow.treeViewChn.Nodes)
+                {
+                    if ((_chn.Tag as Channel).service_broadcast == 0x0101 && (_chn.Tag as Channel).program_number == 0x0006)
+                    {
+                        MessageBox.Show("There is already a BS-X Directory Channel.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+
+                Directory _dir = new Directory(0x0101, 0x0006, "Directory", 0x0122);
+                AddChannel(_dir);
+            }
+        }
+
+        public static void AddFolder(TreeNode _node)
+        {
+            if (_node.Tag.GetType() == typeof(Directory))
+            {
+                Folder _folder = new Folder();
+                TreeNode _tnode = new TreeNode(_folder.name);
+                _tnode.Tag = _folder;
+                _node.Nodes.Add(_tnode);
+                mainWindow.treeViewChn.SelectedNode.Expand();
             }
         }
 

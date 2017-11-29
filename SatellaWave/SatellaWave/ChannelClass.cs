@@ -149,39 +149,52 @@ namespace SatellaWave
 
     class Directory : Channel
     {
-        List<Folder> folderlist;
+        public Directory() : base()
+        {
+            type = (byte)ChannelType.Directory;
+        }
+
+        public Directory(ushort _pv, ushort _pr, string _name, ushort _lci) : base(_pv, _pr, _name, _lci)
+        {
+            type = (byte)ChannelType.Directory;
+        }
     }
 
     class Folder
     {
-        string name;
-        string message;
-        int type;
-        int purpose;
-        int id;
-        int mugshot;
+        public string name;        //Name
+        public string message;     //Message
+        public int purpose;        //0 = Files, 1 = Shop with Items
+        public int type;           //0 = Building, 1 = NPC
+        public int id;             //ID of the building/NPC
+        public int mugshot;        //Mugshot in the Building/NPC screen
 
-        List<File> filelist;
-    }
-
-    class File
-    {
-        int type;
-        string name;
-        string description;
-
-        //Item only
-        string usage;
-        int price;
-        bool oneuse;
-
-        int fileindex;      //index from ChannelMap
-        int includeIndex;   //index from folder
+        public Folder()
+        {
+            name = "Folder";
+            message = "This is a folder.";
+            type = 0;
+            purpose = 1;
+            id = 0;
+            mugshot = 0;
+        }
     }
 
     class DownloadFile : Channel
     {
-        string filename;
+        bool isItem;    //Is this file an item?
+                        //If true, ignore the rest
+        
+        string filename;    //Name of the File/Item
+        string filedesc;    //Description of the File/Item
+
+        //Item only     (Ignored if isItem is false)
+        string usage;   //Message when Item is used
+        int price;      //Price in G
+        bool oneuse;    //Item can only be used once or not
+
+        //File only     (Ignored if isItem is true)
+        string filepath;
             //Filename
         byte autostart;
             //0 = No
@@ -194,30 +207,39 @@ namespace SatellaWave
             //3 = FLASH (Free Space)
 
         int filesize;
+            //File Size
         bool alsoAtHome;
-        bool fullDownload;
+            //Accessible at Home (32 max)
+        bool streamed;
+            //File is a streamed executable
 
         byte month;
+            //Month (1-12)
         byte day;
+            //Day (1-31)
 
-        byte hourstart;
+        byte hour_start;
         byte min_start;
-        byte hourend;
+            //HH:MM Begin
+        byte hour_end;
         byte min_end;
+            //HH:MM End
 
         public DownloadFile() : base()
         {
-            filename = "";
+            type = (byte)ChannelType.DownloadFile;
+
+            filepath = "";
             autostart = 0;
             dest = 0;
             filesize = 0;
             alsoAtHome = false;
-            fullDownload = true;
+            streamed = false;
             month = 1;
             day = 1;
-            hourstart = 0;
+            hour_start = 0;
             min_start = 0;
-            hourend = 23;
+            hour_end = 23;
             min_end = 59;
         }
     }
