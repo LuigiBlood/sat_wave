@@ -186,6 +186,18 @@ namespace SatellaWave
             }
         }
 
+        public static void AddFile(TreeNode _node)
+        {
+            if (_node.Tag.GetType() == typeof(Folder))
+            {
+                DownloadFile _file = new DownloadFile((_node.Tag as Folder).purpose == 1);
+                TreeNode _tnode = new TreeNode(_file.name);
+                _tnode.Tag = _file;
+                _node.Nodes.Add(_tnode);
+                mainWindow.treeViewChn.SelectedNode.Expand();
+            }
+        }
+
         public static void ExportBSX(string folderPath)
         {
             //Make other stuff before

@@ -55,30 +55,57 @@
             this.groupBoxTown = new System.Windows.Forms.GroupBox();
             this.contextMenuStripChannelMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemChannel_Edit = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemChannel_Delete = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBoxMessage = new System.Windows.Forms.GroupBox();
             this.labelMessageCharLeft = new System.Windows.Forms.Label();
             this.textBoxMessage = new System.Windows.Forms.TextBox();
             this.contextMenuStripDirectoryMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripMenuItemDirectory_Edit = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemDirectory_NewFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItemDirectory_Edit = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemDirectory_Delete = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemChannel_Delete = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBoxDirectory = new System.Windows.Forms.GroupBox();
             this.buttonAddFolder = new System.Windows.Forms.Button();
             this.groupBoxFolder = new System.Windows.Forms.GroupBox();
-            this.textBoxFolderName = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.textBoxFolderMessage = new System.Windows.Forms.TextBox();
-            this.comboBoxFolderPurpose = new System.Windows.Forms.ComboBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.comboBoxFolderType = new System.Windows.Forms.ComboBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.comboBoxFolderID = new System.Windows.Forms.ComboBox();
-            this.labelFolderID = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
+            this.buttonFolderAddFile = new System.Windows.Forms.Button();
             this.comboBoxFolderMugshot = new System.Windows.Forms.ComboBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.labelFolderID = new System.Windows.Forms.Label();
+            this.comboBoxFolderID = new System.Windows.Forms.ComboBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.comboBoxFolderType = new System.Windows.Forms.ComboBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.comboBoxFolderPurpose = new System.Windows.Forms.ComboBox();
+            this.textBoxFolderMessage = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.textBoxFolderName = new System.Windows.Forms.TextBox();
+            this.groupBoxFileItem = new System.Windows.Forms.GroupBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.textBoxFileItemDesc = new System.Windows.Forms.TextBox();
+            this.groupBoxFileItem_Item = new System.Windows.Forms.GroupBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.textBoxFileItemUsage = new System.Windows.Forms.TextBox();
+            this.numericUpDownFileItemPrice = new System.Windows.Forms.NumericUpDown();
+            this.label13 = new System.Windows.Forms.Label();
+            this.checkBoxFileItemOneUse = new System.Windows.Forms.CheckBox();
+            this.groupBoxFileItem_File = new System.Windows.Forms.GroupBox();
+            this.textBoxFileItem_FilePath = new System.Windows.Forms.TextBox();
+            this.ButtonFileItem_FileBrowse = new System.Windows.Forms.Button();
+            this.label14 = new System.Windows.Forms.Label();
+            this.textBoxFileItem_Name = new System.Windows.Forms.TextBox();
+            this.comboBoxFileItem_AutoStart = new System.Windows.Forms.ComboBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.comboBoxFileItem_Destination = new System.Windows.Forms.ComboBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.checkBoxFileItem_AtHome = new System.Windows.Forms.CheckBox();
+            this.checkBoxFileItem_Streaming = new System.Windows.Forms.CheckBox();
+            this.dateTimePickerFileItem_Date = new System.Windows.Forms.DateTimePicker();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.dateTimePickerFileItem_TimeStart = new System.Windows.Forms.DateTimePicker();
+            this.dateTimePickerFileItem_TimeEnd = new System.Windows.Forms.DateTimePicker();
+            this.label19 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.groupBoxTown.SuspendLayout();
             this.contextMenuStripChannelMenu.SuspendLayout();
@@ -86,6 +113,10 @@
             this.contextMenuStripDirectoryMenu.SuspendLayout();
             this.groupBoxDirectory.SuspendLayout();
             this.groupBoxFolder.SuspendLayout();
+            this.groupBoxFileItem.SuspendLayout();
+            this.groupBoxFileItem_Item.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFileItemPrice)).BeginInit();
+            this.groupBoxFileItem_File.SuspendLayout();
             this.SuspendLayout();
             // 
             // fileToolStripMenuItem
@@ -420,6 +451,13 @@
             this.toolStripMenuItemChannel_Edit.Size = new System.Drawing.Size(207, 22);
             this.toolStripMenuItemChannel_Edit.Text = "Edit Channel Information";
             // 
+            // toolStripMenuItemChannel_Delete
+            // 
+            this.toolStripMenuItemChannel_Delete.Name = "toolStripMenuItemChannel_Delete";
+            this.toolStripMenuItemChannel_Delete.Size = new System.Drawing.Size(207, 22);
+            this.toolStripMenuItemChannel_Delete.Text = "Delete Channel";
+            this.toolStripMenuItemChannel_Delete.Click += new System.EventHandler(this.toolStripMenuItemChannel_Delete_Click);
+            // 
             // groupBoxMessage
             // 
             this.groupBoxMessage.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -467,12 +505,6 @@
             this.contextMenuStripDirectoryMenu.Name = "contextMenuStripDirectoryMenu";
             this.contextMenuStripDirectoryMenu.Size = new System.Drawing.Size(208, 76);
             // 
-            // toolStripMenuItemDirectory_Edit
-            // 
-            this.toolStripMenuItemDirectory_Edit.Name = "toolStripMenuItemDirectory_Edit";
-            this.toolStripMenuItemDirectory_Edit.Size = new System.Drawing.Size(207, 22);
-            this.toolStripMenuItemDirectory_Edit.Text = "Edit Channel Information";
-            // 
             // toolStripMenuItemDirectory_NewFolder
             // 
             this.toolStripMenuItemDirectory_NewFolder.Name = "toolStripMenuItemDirectory_NewFolder";
@@ -485,19 +517,18 @@
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(204, 6);
             // 
+            // toolStripMenuItemDirectory_Edit
+            // 
+            this.toolStripMenuItemDirectory_Edit.Name = "toolStripMenuItemDirectory_Edit";
+            this.toolStripMenuItemDirectory_Edit.Size = new System.Drawing.Size(207, 22);
+            this.toolStripMenuItemDirectory_Edit.Text = "Edit Channel Information";
+            // 
             // toolStripMenuItemDirectory_Delete
             // 
             this.toolStripMenuItemDirectory_Delete.Name = "toolStripMenuItemDirectory_Delete";
             this.toolStripMenuItemDirectory_Delete.Size = new System.Drawing.Size(207, 22);
             this.toolStripMenuItemDirectory_Delete.Text = "Delete Channel";
             this.toolStripMenuItemDirectory_Delete.Click += new System.EventHandler(this.toolStripMenuItemChannel_Delete_Click);
-            // 
-            // toolStripMenuItemChannel_Delete
-            // 
-            this.toolStripMenuItemChannel_Delete.Name = "toolStripMenuItemChannel_Delete";
-            this.toolStripMenuItemChannel_Delete.Size = new System.Drawing.Size(207, 22);
-            this.toolStripMenuItemChannel_Delete.Text = "Delete Channel";
-            this.toolStripMenuItemChannel_Delete.Click += new System.EventHandler(this.toolStripMenuItemChannel_Delete_Click);
             // 
             // groupBoxDirectory
             // 
@@ -528,6 +559,7 @@
             this.groupBoxFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxFolder.Controls.Add(this.buttonFolderAddFile);
             this.groupBoxFolder.Controls.Add(this.comboBoxFolderMugshot);
             this.groupBoxFolder.Controls.Add(this.label10);
             this.groupBoxFolder.Controls.Add(this.labelFolderID);
@@ -548,81 +580,60 @@
             this.groupBoxFolder.Text = "Folder";
             this.groupBoxFolder.Visible = false;
             // 
-            // textBoxFolderName
+            // buttonFolderAddFile
             // 
-            this.textBoxFolderName.Location = new System.Drawing.Point(74, 26);
-            this.textBoxFolderName.Name = "textBoxFolderName";
-            this.textBoxFolderName.Size = new System.Drawing.Size(100, 20);
-            this.textBoxFolderName.TabIndex = 0;
+            this.buttonFolderAddFile.Location = new System.Drawing.Point(18, 283);
+            this.buttonFolderAddFile.Name = "buttonFolderAddFile";
+            this.buttonFolderAddFile.Size = new System.Drawing.Size(110, 35);
+            this.buttonFolderAddFile.TabIndex = 12;
+            this.buttonFolderAddFile.Text = "Create File/Item";
+            this.buttonFolderAddFile.UseVisualStyleBackColor = true;
+            this.buttonFolderAddFile.Click += new System.EventHandler(this.createFile);
             // 
-            // label6
+            // comboBoxFolderMugshot
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(15, 29);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(38, 13);
-            this.label6.TabIndex = 1;
-            this.label6.Text = "Name:";
+            this.comboBoxFolderMugshot.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxFolderMugshot.FormattingEnabled = true;
+            this.comboBoxFolderMugshot.Items.AddRange(new object[] {
+            "00",
+            "01",
+            "02",
+            "03",
+            "04",
+            "05",
+            "06",
+            "07",
+            "08",
+            "09",
+            "0A",
+            "0B",
+            "0C",
+            "0D",
+            "0E",
+            "0F",
+            "10 (BS-X Logo)"});
+            this.comboBoxFolderMugshot.Location = new System.Drawing.Point(74, 233);
+            this.comboBoxFolderMugshot.Name = "comboBoxFolderMugshot";
+            this.comboBoxFolderMugshot.Size = new System.Drawing.Size(175, 21);
+            this.comboBoxFolderMugshot.TabIndex = 11;
             // 
-            // label7
+            // label10
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(15, 61);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(53, 13);
-            this.label7.TabIndex = 2;
-            this.label7.Text = "Message:";
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(15, 236);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(51, 13);
+            this.label10.TabIndex = 10;
+            this.label10.Text = "Mugshot:";
             // 
-            // textBoxFolderMessage
+            // labelFolderID
             // 
-            this.textBoxFolderMessage.Location = new System.Drawing.Point(74, 58);
-            this.textBoxFolderMessage.Multiline = true;
-            this.textBoxFolderMessage.Name = "textBoxFolderMessage";
-            this.textBoxFolderMessage.Size = new System.Drawing.Size(175, 66);
-            this.textBoxFolderMessage.TabIndex = 3;
-            // 
-            // comboBoxFolderPurpose
-            // 
-            this.comboBoxFolderPurpose.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxFolderPurpose.FormattingEnabled = true;
-            this.comboBoxFolderPurpose.Items.AddRange(new object[] {
-            "Download",
-            "Shop"});
-            this.comboBoxFolderPurpose.Location = new System.Drawing.Point(74, 139);
-            this.comboBoxFolderPurpose.Name = "comboBoxFolderPurpose";
-            this.comboBoxFolderPurpose.Size = new System.Drawing.Size(175, 21);
-            this.comboBoxFolderPurpose.TabIndex = 4;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(15, 169);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(34, 13);
-            this.label8.TabIndex = 5;
-            this.label8.Text = "Type:";
-            // 
-            // comboBoxFolderType
-            // 
-            this.comboBoxFolderType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxFolderType.FormattingEnabled = true;
-            this.comboBoxFolderType.Items.AddRange(new object[] {
-            "Building",
-            "People"});
-            this.comboBoxFolderType.Location = new System.Drawing.Point(74, 166);
-            this.comboBoxFolderType.Name = "comboBoxFolderType";
-            this.comboBoxFolderType.Size = new System.Drawing.Size(175, 21);
-            this.comboBoxFolderType.TabIndex = 6;
-            this.comboBoxFolderType.SelectedIndexChanged += new System.EventHandler(this.comboBoxFolderType_SelectedIndexChanged);
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(15, 142);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(49, 13);
-            this.label9.TabIndex = 7;
-            this.label9.Text = "Purpose:";
+            this.labelFolderID.AutoSize = true;
+            this.labelFolderID.Location = new System.Drawing.Point(15, 196);
+            this.labelFolderID.Name = "labelFolderID";
+            this.labelFolderID.Size = new System.Drawing.Size(50, 13);
+            this.labelFolderID.TabIndex = 9;
+            this.labelFolderID.Text = "Identifier:";
             // 
             // comboBoxFolderID
             // 
@@ -655,56 +666,372 @@
             this.comboBoxFolderID.Size = new System.Drawing.Size(175, 21);
             this.comboBoxFolderID.TabIndex = 8;
             // 
-            // labelFolderID
+            // label9
             // 
-            this.labelFolderID.AutoSize = true;
-            this.labelFolderID.Location = new System.Drawing.Point(15, 196);
-            this.labelFolderID.Name = "labelFolderID";
-            this.labelFolderID.Size = new System.Drawing.Size(50, 13);
-            this.labelFolderID.TabIndex = 9;
-            this.labelFolderID.Text = "Identifier:";
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(15, 142);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(49, 13);
+            this.label9.TabIndex = 7;
+            this.label9.Text = "Purpose:";
             // 
-            // label10
+            // comboBoxFolderType
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(15, 236);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(51, 13);
-            this.label10.TabIndex = 10;
-            this.label10.Text = "Mugshot:";
+            this.comboBoxFolderType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxFolderType.FormattingEnabled = true;
+            this.comboBoxFolderType.Items.AddRange(new object[] {
+            "Building",
+            "People"});
+            this.comboBoxFolderType.Location = new System.Drawing.Point(74, 166);
+            this.comboBoxFolderType.Name = "comboBoxFolderType";
+            this.comboBoxFolderType.Size = new System.Drawing.Size(175, 21);
+            this.comboBoxFolderType.TabIndex = 6;
+            this.comboBoxFolderType.SelectedIndexChanged += new System.EventHandler(this.comboBoxFolderType_SelectedIndexChanged);
             // 
-            // comboBoxFolderMugshot
+            // label8
             // 
-            this.comboBoxFolderMugshot.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxFolderMugshot.FormattingEnabled = true;
-            this.comboBoxFolderMugshot.Items.AddRange(new object[] {
-            "00",
-            "01",
-            "02",
-            "03",
-            "04",
-            "05",
-            "06",
-            "07",
-            "08",
-            "09",
-            "0A",
-            "0B",
-            "0C",
-            "0D",
-            "0E",
-            "0F",
-            "10 (BS-X Logo)"});
-            this.comboBoxFolderMugshot.Location = new System.Drawing.Point(74, 233);
-            this.comboBoxFolderMugshot.Name = "comboBoxFolderMugshot";
-            this.comboBoxFolderMugshot.Size = new System.Drawing.Size(175, 21);
-            this.comboBoxFolderMugshot.TabIndex = 11;
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(15, 169);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(34, 13);
+            this.label8.TabIndex = 5;
+            this.label8.Text = "Type:";
+            // 
+            // comboBoxFolderPurpose
+            // 
+            this.comboBoxFolderPurpose.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxFolderPurpose.FormattingEnabled = true;
+            this.comboBoxFolderPurpose.Items.AddRange(new object[] {
+            "Download",
+            "Shop"});
+            this.comboBoxFolderPurpose.Location = new System.Drawing.Point(74, 139);
+            this.comboBoxFolderPurpose.Name = "comboBoxFolderPurpose";
+            this.comboBoxFolderPurpose.Size = new System.Drawing.Size(175, 21);
+            this.comboBoxFolderPurpose.TabIndex = 4;
+            // 
+            // textBoxFolderMessage
+            // 
+            this.textBoxFolderMessage.Location = new System.Drawing.Point(74, 58);
+            this.textBoxFolderMessage.Multiline = true;
+            this.textBoxFolderMessage.Name = "textBoxFolderMessage";
+            this.textBoxFolderMessage.Size = new System.Drawing.Size(175, 66);
+            this.textBoxFolderMessage.TabIndex = 3;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(15, 61);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(53, 13);
+            this.label7.TabIndex = 2;
+            this.label7.Text = "Message:";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(15, 29);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(38, 13);
+            this.label6.TabIndex = 1;
+            this.label6.Text = "Name:";
+            // 
+            // textBoxFolderName
+            // 
+            this.textBoxFolderName.Location = new System.Drawing.Point(74, 26);
+            this.textBoxFolderName.Name = "textBoxFolderName";
+            this.textBoxFolderName.Size = new System.Drawing.Size(100, 20);
+            this.textBoxFolderName.TabIndex = 0;
+            // 
+            // groupBoxFileItem
+            // 
+            this.groupBoxFileItem.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxFileItem.Controls.Add(this.groupBoxFileItem_File);
+            this.groupBoxFileItem.Controls.Add(this.groupBoxFileItem_Item);
+            this.groupBoxFileItem.Controls.Add(this.textBoxFileItem_Name);
+            this.groupBoxFileItem.Controls.Add(this.label14);
+            this.groupBoxFileItem.Controls.Add(this.textBoxFileItemDesc);
+            this.groupBoxFileItem.Controls.Add(this.label11);
+            this.groupBoxFileItem.Location = new System.Drawing.Point(225, 27);
+            this.groupBoxFileItem.Name = "groupBoxFileItem";
+            this.groupBoxFileItem.Size = new System.Drawing.Size(378, 341);
+            this.groupBoxFileItem.TabIndex = 13;
+            this.groupBoxFileItem.TabStop = false;
+            this.groupBoxFileItem.Text = "File/Item";
+            this.groupBoxFileItem.Visible = false;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(15, 55);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(63, 13);
+            this.label11.TabIndex = 0;
+            this.label11.Text = "Description:";
+            // 
+            // textBoxFileItemDesc
+            // 
+            this.textBoxFileItemDesc.Location = new System.Drawing.Point(84, 52);
+            this.textBoxFileItemDesc.MaxLength = 500;
+            this.textBoxFileItemDesc.Multiline = true;
+            this.textBoxFileItemDesc.Name = "textBoxFileItemDesc";
+            this.textBoxFileItemDesc.Size = new System.Drawing.Size(168, 66);
+            this.textBoxFileItemDesc.TabIndex = 1;
+            // 
+            // groupBoxFileItem_Item
+            // 
+            this.groupBoxFileItem_Item.Controls.Add(this.checkBoxFileItemOneUse);
+            this.groupBoxFileItem_Item.Controls.Add(this.label13);
+            this.groupBoxFileItem_Item.Controls.Add(this.numericUpDownFileItemPrice);
+            this.groupBoxFileItem_Item.Controls.Add(this.textBoxFileItemUsage);
+            this.groupBoxFileItem_Item.Controls.Add(this.label12);
+            this.groupBoxFileItem_Item.Location = new System.Drawing.Point(9, 124);
+            this.groupBoxFileItem_Item.Name = "groupBoxFileItem_Item";
+            this.groupBoxFileItem_Item.Size = new System.Drawing.Size(168, 172);
+            this.groupBoxFileItem_Item.TabIndex = 2;
+            this.groupBoxFileItem_Item.TabStop = false;
+            this.groupBoxFileItem_Item.Text = "Item";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(7, 25);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(65, 13);
+            this.label12.TabIndex = 0;
+            this.label12.Text = "Usage Text:";
+            // 
+            // textBoxFileItemUsage
+            // 
+            this.textBoxFileItemUsage.Location = new System.Drawing.Point(10, 45);
+            this.textBoxFileItemUsage.MaxLength = 500;
+            this.textBoxFileItemUsage.Multiline = true;
+            this.textBoxFileItemUsage.Name = "textBoxFileItemUsage";
+            this.textBoxFileItemUsage.Size = new System.Drawing.Size(143, 65);
+            this.textBoxFileItemUsage.TabIndex = 1;
+            // 
+            // numericUpDownFileItemPrice
+            // 
+            this.numericUpDownFileItemPrice.Location = new System.Drawing.Point(47, 117);
+            this.numericUpDownFileItemPrice.Maximum = new decimal(new int[] {
+            -727379969,
+            232,
+            0,
+            0});
+            this.numericUpDownFileItemPrice.Name = "numericUpDownFileItemPrice";
+            this.numericUpDownFileItemPrice.Size = new System.Drawing.Size(106, 20);
+            this.numericUpDownFileItemPrice.TabIndex = 2;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(7, 119);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(34, 13);
+            this.label13.TabIndex = 3;
+            this.label13.Text = "Price:";
+            // 
+            // checkBoxFileItemOneUse
+            // 
+            this.checkBoxFileItemOneUse.AutoSize = true;
+            this.checkBoxFileItemOneUse.Location = new System.Drawing.Point(10, 143);
+            this.checkBoxFileItemOneUse.Name = "checkBoxFileItemOneUse";
+            this.checkBoxFileItemOneUse.Size = new System.Drawing.Size(104, 17);
+            this.checkBoxFileItemOneUse.TabIndex = 4;
+            this.checkBoxFileItemOneUse.Text = "One Usage Only";
+            this.checkBoxFileItemOneUse.UseVisualStyleBackColor = true;
+            // 
+            // groupBoxFileItem_File
+            // 
+            this.groupBoxFileItem_File.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxFileItem_File.Controls.Add(this.label19);
+            this.groupBoxFileItem_File.Controls.Add(this.dateTimePickerFileItem_TimeEnd);
+            this.groupBoxFileItem_File.Controls.Add(this.dateTimePickerFileItem_TimeStart);
+            this.groupBoxFileItem_File.Controls.Add(this.label18);
+            this.groupBoxFileItem_File.Controls.Add(this.label17);
+            this.groupBoxFileItem_File.Controls.Add(this.dateTimePickerFileItem_Date);
+            this.groupBoxFileItem_File.Controls.Add(this.checkBoxFileItem_Streaming);
+            this.groupBoxFileItem_File.Controls.Add(this.checkBoxFileItem_AtHome);
+            this.groupBoxFileItem_File.Controls.Add(this.label16);
+            this.groupBoxFileItem_File.Controls.Add(this.comboBoxFileItem_Destination);
+            this.groupBoxFileItem_File.Controls.Add(this.label15);
+            this.groupBoxFileItem_File.Controls.Add(this.comboBoxFileItem_AutoStart);
+            this.groupBoxFileItem_File.Controls.Add(this.textBoxFileItem_FilePath);
+            this.groupBoxFileItem_File.Controls.Add(this.ButtonFileItem_FileBrowse);
+            this.groupBoxFileItem_File.Location = new System.Drawing.Point(9, 124);
+            this.groupBoxFileItem_File.Name = "groupBoxFileItem_File";
+            this.groupBoxFileItem_File.Size = new System.Drawing.Size(363, 211);
+            this.groupBoxFileItem_File.TabIndex = 3;
+            this.groupBoxFileItem_File.TabStop = false;
+            this.groupBoxFileItem_File.Text = "File";
+            this.groupBoxFileItem_File.Visible = false;
+            // 
+            // textBoxFileItem_FilePath
+            // 
+            this.textBoxFileItem_FilePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxFileItem_FilePath.Location = new System.Drawing.Point(14, 21);
+            this.textBoxFileItem_FilePath.Name = "textBoxFileItem_FilePath";
+            this.textBoxFileItem_FilePath.Size = new System.Drawing.Size(262, 20);
+            this.textBoxFileItem_FilePath.TabIndex = 0;
+            // 
+            // ButtonFileItem_FileBrowse
+            // 
+            this.ButtonFileItem_FileBrowse.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.ButtonFileItem_FileBrowse.Location = new System.Drawing.Point(282, 19);
+            this.ButtonFileItem_FileBrowse.Name = "ButtonFileItem_FileBrowse";
+            this.ButtonFileItem_FileBrowse.Size = new System.Drawing.Size(75, 23);
+            this.ButtonFileItem_FileBrowse.TabIndex = 1;
+            this.ButtonFileItem_FileBrowse.Text = "Browse...";
+            this.ButtonFileItem_FileBrowse.UseVisualStyleBackColor = true;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(15, 22);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(38, 13);
+            this.label14.TabIndex = 4;
+            this.label14.Text = "Name:";
+            // 
+            // textBoxFileItem_Name
+            // 
+            this.textBoxFileItem_Name.Location = new System.Drawing.Point(84, 19);
+            this.textBoxFileItem_Name.Name = "textBoxFileItem_Name";
+            this.textBoxFileItem_Name.Size = new System.Drawing.Size(168, 20);
+            this.textBoxFileItem_Name.TabIndex = 5;
+            // 
+            // comboBoxFileItem_AutoStart
+            // 
+            this.comboBoxFileItem_AutoStart.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxFileItem_AutoStart.FormattingEnabled = true;
+            this.comboBoxFileItem_AutoStart.Items.AddRange(new object[] {
+            "No",
+            "Optional",
+            "Yes"});
+            this.comboBoxFileItem_AutoStart.Location = new System.Drawing.Point(14, 101);
+            this.comboBoxFileItem_AutoStart.Name = "comboBoxFileItem_AutoStart";
+            this.comboBoxFileItem_AutoStart.Size = new System.Drawing.Size(89, 21);
+            this.comboBoxFileItem_AutoStart.TabIndex = 2;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(11, 85);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(57, 13);
+            this.label15.TabIndex = 3;
+            this.label15.Text = "Auto-Start:";
+            // 
+            // comboBoxFileItem_Destination
+            // 
+            this.comboBoxFileItem_Destination.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxFileItem_Destination.FormattingEnabled = true;
+            this.comboBoxFileItem_Destination.Items.AddRange(new object[] {
+            "WRAM",
+            "PSRAM",
+            "Memory Pack (Full)",
+            "Memory Pack (Free)"});
+            this.comboBoxFileItem_Destination.Location = new System.Drawing.Point(122, 101);
+            this.comboBoxFileItem_Destination.Name = "comboBoxFileItem_Destination";
+            this.comboBoxFileItem_Destination.Size = new System.Drawing.Size(154, 21);
+            this.comboBoxFileItem_Destination.TabIndex = 4;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(119, 85);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(63, 13);
+            this.label16.TabIndex = 5;
+            this.label16.Text = "Destination:";
+            // 
+            // checkBoxFileItem_AtHome
+            // 
+            this.checkBoxFileItem_AtHome.AutoSize = true;
+            this.checkBoxFileItem_AtHome.Location = new System.Drawing.Point(14, 61);
+            this.checkBoxFileItem_AtHome.Name = "checkBoxFileItem_AtHome";
+            this.checkBoxFileItem_AtHome.Size = new System.Drawing.Size(113, 17);
+            this.checkBoxFileItem_AtHome.TabIndex = 6;
+            this.checkBoxFileItem_AtHome.Text = "Available At Home";
+            this.checkBoxFileItem_AtHome.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxFileItem_Streaming
+            // 
+            this.checkBoxFileItem_Streaming.AutoSize = true;
+            this.checkBoxFileItem_Streaming.Location = new System.Drawing.Point(141, 61);
+            this.checkBoxFileItem_Streaming.Name = "checkBoxFileItem_Streaming";
+            this.checkBoxFileItem_Streaming.Size = new System.Drawing.Size(90, 17);
+            this.checkBoxFileItem_Streaming.TabIndex = 7;
+            this.checkBoxFileItem_Streaming.Text = "Streamed File";
+            this.checkBoxFileItem_Streaming.UseVisualStyleBackColor = true;
+            // 
+            // dateTimePickerFileItem_Date
+            // 
+            this.dateTimePickerFileItem_Date.CustomFormat = "MM/dd";
+            this.dateTimePickerFileItem_Date.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTimePickerFileItem_Date.Location = new System.Drawing.Point(152, 136);
+            this.dateTimePickerFileItem_Date.Name = "dateTimePickerFileItem_Date";
+            this.dateTimePickerFileItem_Date.ShowUpDown = true;
+            this.dateTimePickerFileItem_Date.Size = new System.Drawing.Size(56, 20);
+            this.dateTimePickerFileItem_Date.TabIndex = 8;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(14, 139);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(132, 13);
+            this.label17.TabIndex = 9;
+            this.label17.Text = "Broadcast Date (MM/DD):";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(14, 170);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(109, 13);
+            this.label18.TabIndex = 10;
+            this.label18.Text = "Broadcast Time Start:";
+            // 
+            // dateTimePickerFileItem_TimeStart
+            // 
+            this.dateTimePickerFileItem_TimeStart.CustomFormat = "HH:mm";
+            this.dateTimePickerFileItem_TimeStart.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTimePickerFileItem_TimeStart.Location = new System.Drawing.Point(125, 167);
+            this.dateTimePickerFileItem_TimeStart.Name = "dateTimePickerFileItem_TimeStart";
+            this.dateTimePickerFileItem_TimeStart.ShowUpDown = true;
+            this.dateTimePickerFileItem_TimeStart.Size = new System.Drawing.Size(60, 20);
+            this.dateTimePickerFileItem_TimeStart.TabIndex = 11;
+            // 
+            // dateTimePickerFileItem_TimeEnd
+            // 
+            this.dateTimePickerFileItem_TimeEnd.CustomFormat = "HH:mm";
+            this.dateTimePickerFileItem_TimeEnd.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTimePickerFileItem_TimeEnd.Location = new System.Drawing.Point(228, 167);
+            this.dateTimePickerFileItem_TimeEnd.Name = "dateTimePickerFileItem_TimeEnd";
+            this.dateTimePickerFileItem_TimeEnd.ShowUpDown = true;
+            this.dateTimePickerFileItem_TimeEnd.Size = new System.Drawing.Size(60, 20);
+            this.dateTimePickerFileItem_TimeEnd.TabIndex = 12;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(191, 170);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(29, 13);
+            this.label19.TabIndex = 13;
+            this.label19.Text = "End:";
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(609, 372);
+            this.Controls.Add(this.groupBoxFileItem);
             this.Controls.Add(this.groupBoxFolder);
             this.Controls.Add(this.groupBoxDirectory);
             this.Controls.Add(this.groupBoxMessage);
@@ -725,6 +1052,13 @@
             this.groupBoxDirectory.ResumeLayout(false);
             this.groupBoxFolder.ResumeLayout(false);
             this.groupBoxFolder.PerformLayout();
+            this.groupBoxFileItem.ResumeLayout(false);
+            this.groupBoxFileItem.PerformLayout();
+            this.groupBoxFileItem_Item.ResumeLayout(false);
+            this.groupBoxFileItem_Item.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFileItemPrice)).EndInit();
+            this.groupBoxFileItem_File.ResumeLayout(false);
+            this.groupBoxFileItem_File.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -782,6 +1116,33 @@
         private System.Windows.Forms.ComboBox comboBoxFolderID;
         private System.Windows.Forms.ComboBox comboBoxFolderMugshot;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Button buttonFolderAddFile;
+        private System.Windows.Forms.GroupBox groupBoxFileItem;
+        private System.Windows.Forms.TextBox textBoxFileItemDesc;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.GroupBox groupBoxFileItem_Item;
+        private System.Windows.Forms.TextBox textBoxFileItemUsage;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.NumericUpDown numericUpDownFileItemPrice;
+        private System.Windows.Forms.CheckBox checkBoxFileItemOneUse;
+        private System.Windows.Forms.GroupBox groupBoxFileItem_File;
+        private System.Windows.Forms.TextBox textBoxFileItem_FilePath;
+        private System.Windows.Forms.Button ButtonFileItem_FileBrowse;
+        private System.Windows.Forms.TextBox textBoxFileItem_Name;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.ComboBox comboBoxFileItem_AutoStart;
+        private System.Windows.Forms.ComboBox comboBoxFileItem_Destination;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.CheckBox checkBoxFileItem_AtHome;
+        private System.Windows.Forms.CheckBox checkBoxFileItem_Streaming;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.DateTimePicker dateTimePickerFileItem_Date;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.DateTimePicker dateTimePickerFileItem_TimeEnd;
+        private System.Windows.Forms.DateTimePicker dateTimePickerFileItem_TimeStart;
+        private System.Windows.Forms.Label label18;
     }
 }
 

@@ -182,52 +182,59 @@ namespace SatellaWave
 
     class DownloadFile : Channel
     {
-        bool isItem;    //Is this file an item?
-                        //If true, ignore the rest
-        
-        string filename;    //Name of the File/Item
-        string filedesc;    //Description of the File/Item
+        public bool isItem;    //Is this file an item?
+
+        public string filedesc;    //Description of the File/Item
 
         //Item only     (Ignored if isItem is false)
-        string usage;   //Message when Item is used
-        int price;      //Price in G
-        bool oneuse;    //Item can only be used once or not
+        public string usage;   //Message when Item is used
+        public ulong price;      //Price in G
+        public bool oneuse;    //Item can only be used once or not
 
         //File only     (Ignored if isItem is true)
-        string filepath;
-            //Filename
-        byte autostart;
-            //0 = No
-            //1 = Optional
-            //2 = Yes
-        byte dest;
-            //0 = WRAM
-            //1 = PSRAM
-            //2 = FLASH (All)
-            //3 = FLASH (Free Space)
+        public string filepath;
+        //Filename
+        public byte autostart;
+        //0 = No
+        //1 = Optional
+        //2 = Yes
+        public byte dest;
+        //0 = WRAM
+        //1 = PSRAM
+        //2 = FLASH (All)
+        //3 = FLASH (Free Space)
 
-        int filesize;
-            //File Size
-        bool alsoAtHome;
-            //Accessible at Home (32 max)
-        bool streamed;
-            //File is a streamed executable
+        public int filesize;
+        //File Size
+        public bool alsoAtHome;
+        //Accessible at Home (32 max)
+        public bool streamed;
+        //File is a streamed executable
 
-        byte month;
-            //Month (1-12)
-        byte day;
-            //Day (1-31)
+        public byte month;
+        //Month (1-12)
+        public byte day;
+        //Day (1-31)
 
-        byte hour_start;
-        byte min_start;
-            //HH:MM Begin
-        byte hour_end;
-        byte min_end;
-            //HH:MM End
+        public byte hour_start;
+        public byte min_start;
+        //HH:MM Begin
+        public byte hour_end;
+        public byte min_end;
+        //HH:MM End
 
-        public DownloadFile() : base()
+        public DownloadFile(bool _isItem) : base()
         {
             type = (byte)ChannelType.DownloadFile;
+
+            isItem = _isItem;
+
+            name = "File";
+            filedesc = "This is a file.";
+
+            usage = "I use the item.";
+            price = 0;
+            oneuse = false;
 
             filepath = "";
             autostart = 0;
