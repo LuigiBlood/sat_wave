@@ -81,31 +81,31 @@
             this.label6 = new System.Windows.Forms.Label();
             this.textBoxFolderName = new System.Windows.Forms.TextBox();
             this.groupBoxFileItem = new System.Windows.Forms.GroupBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.textBoxFileItemDesc = new System.Windows.Forms.TextBox();
-            this.groupBoxFileItem_Item = new System.Windows.Forms.GroupBox();
-            this.label12 = new System.Windows.Forms.Label();
-            this.textBoxFileItemUsage = new System.Windows.Forms.TextBox();
-            this.numericUpDownFileItemPrice = new System.Windows.Forms.NumericUpDown();
-            this.label13 = new System.Windows.Forms.Label();
-            this.checkBoxFileItemOneUse = new System.Windows.Forms.CheckBox();
             this.groupBoxFileItem_File = new System.Windows.Forms.GroupBox();
+            this.label19 = new System.Windows.Forms.Label();
+            this.dateTimePickerFileItem_TimeEnd = new System.Windows.Forms.DateTimePicker();
+            this.dateTimePickerFileItem_TimeStart = new System.Windows.Forms.DateTimePicker();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.dateTimePickerFileItem_Date = new System.Windows.Forms.DateTimePicker();
+            this.checkBoxFileItem_Streaming = new System.Windows.Forms.CheckBox();
+            this.checkBoxFileItem_AtHome = new System.Windows.Forms.CheckBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.comboBoxFileItem_Destination = new System.Windows.Forms.ComboBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.comboBoxFileItem_AutoStart = new System.Windows.Forms.ComboBox();
             this.textBoxFileItem_FilePath = new System.Windows.Forms.TextBox();
             this.ButtonFileItem_FileBrowse = new System.Windows.Forms.Button();
-            this.label14 = new System.Windows.Forms.Label();
+            this.groupBoxFileItem_Item = new System.Windows.Forms.GroupBox();
+            this.checkBoxFileItemOneUse = new System.Windows.Forms.CheckBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.numericUpDownFileItemPrice = new System.Windows.Forms.NumericUpDown();
+            this.textBoxFileItemUsage = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
             this.textBoxFileItem_Name = new System.Windows.Forms.TextBox();
-            this.comboBoxFileItem_AutoStart = new System.Windows.Forms.ComboBox();
-            this.label15 = new System.Windows.Forms.Label();
-            this.comboBoxFileItem_Destination = new System.Windows.Forms.ComboBox();
-            this.label16 = new System.Windows.Forms.Label();
-            this.checkBoxFileItem_AtHome = new System.Windows.Forms.CheckBox();
-            this.checkBoxFileItem_Streaming = new System.Windows.Forms.CheckBox();
-            this.dateTimePickerFileItem_Date = new System.Windows.Forms.DateTimePicker();
-            this.label17 = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
-            this.dateTimePickerFileItem_TimeStart = new System.Windows.Forms.DateTimePicker();
-            this.dateTimePickerFileItem_TimeEnd = new System.Windows.Forms.DateTimePicker();
-            this.label19 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.textBoxFileItemDesc = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.groupBoxTown.SuspendLayout();
             this.contextMenuStripChannelMenu.SuspendLayout();
@@ -114,9 +114,9 @@
             this.groupBoxDirectory.SuspendLayout();
             this.groupBoxFolder.SuspendLayout();
             this.groupBoxFileItem.SuspendLayout();
+            this.groupBoxFileItem_File.SuspendLayout();
             this.groupBoxFileItem_Item.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFileItemPrice)).BeginInit();
-            this.groupBoxFileItem_File.SuspendLayout();
             this.SuspendLayout();
             // 
             // fileToolStripMenuItem
@@ -761,87 +761,6 @@
             this.groupBoxFileItem.Text = "File/Item";
             this.groupBoxFileItem.Visible = false;
             // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(15, 55);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(63, 13);
-            this.label11.TabIndex = 0;
-            this.label11.Text = "Description:";
-            // 
-            // textBoxFileItemDesc
-            // 
-            this.textBoxFileItemDesc.Location = new System.Drawing.Point(84, 52);
-            this.textBoxFileItemDesc.MaxLength = 500;
-            this.textBoxFileItemDesc.Multiline = true;
-            this.textBoxFileItemDesc.Name = "textBoxFileItemDesc";
-            this.textBoxFileItemDesc.Size = new System.Drawing.Size(168, 66);
-            this.textBoxFileItemDesc.TabIndex = 1;
-            // 
-            // groupBoxFileItem_Item
-            // 
-            this.groupBoxFileItem_Item.Controls.Add(this.checkBoxFileItemOneUse);
-            this.groupBoxFileItem_Item.Controls.Add(this.label13);
-            this.groupBoxFileItem_Item.Controls.Add(this.numericUpDownFileItemPrice);
-            this.groupBoxFileItem_Item.Controls.Add(this.textBoxFileItemUsage);
-            this.groupBoxFileItem_Item.Controls.Add(this.label12);
-            this.groupBoxFileItem_Item.Location = new System.Drawing.Point(9, 124);
-            this.groupBoxFileItem_Item.Name = "groupBoxFileItem_Item";
-            this.groupBoxFileItem_Item.Size = new System.Drawing.Size(168, 172);
-            this.groupBoxFileItem_Item.TabIndex = 2;
-            this.groupBoxFileItem_Item.TabStop = false;
-            this.groupBoxFileItem_Item.Text = "Item";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(7, 25);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(65, 13);
-            this.label12.TabIndex = 0;
-            this.label12.Text = "Usage Text:";
-            // 
-            // textBoxFileItemUsage
-            // 
-            this.textBoxFileItemUsage.Location = new System.Drawing.Point(10, 45);
-            this.textBoxFileItemUsage.MaxLength = 500;
-            this.textBoxFileItemUsage.Multiline = true;
-            this.textBoxFileItemUsage.Name = "textBoxFileItemUsage";
-            this.textBoxFileItemUsage.Size = new System.Drawing.Size(143, 65);
-            this.textBoxFileItemUsage.TabIndex = 1;
-            // 
-            // numericUpDownFileItemPrice
-            // 
-            this.numericUpDownFileItemPrice.Location = new System.Drawing.Point(47, 117);
-            this.numericUpDownFileItemPrice.Maximum = new decimal(new int[] {
-            -727379969,
-            232,
-            0,
-            0});
-            this.numericUpDownFileItemPrice.Name = "numericUpDownFileItemPrice";
-            this.numericUpDownFileItemPrice.Size = new System.Drawing.Size(106, 20);
-            this.numericUpDownFileItemPrice.TabIndex = 2;
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(7, 119);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(34, 13);
-            this.label13.TabIndex = 3;
-            this.label13.Text = "Price:";
-            // 
-            // checkBoxFileItemOneUse
-            // 
-            this.checkBoxFileItemOneUse.AutoSize = true;
-            this.checkBoxFileItemOneUse.Location = new System.Drawing.Point(10, 143);
-            this.checkBoxFileItemOneUse.Name = "checkBoxFileItemOneUse";
-            this.checkBoxFileItemOneUse.Size = new System.Drawing.Size(104, 17);
-            this.checkBoxFileItemOneUse.TabIndex = 4;
-            this.checkBoxFileItemOneUse.Text = "One Usage Only";
-            this.checkBoxFileItemOneUse.UseVisualStyleBackColor = true;
-            // 
             // groupBoxFileItem_File
             // 
             this.groupBoxFileItem_File.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -869,6 +788,131 @@
             this.groupBoxFileItem_File.Text = "File";
             this.groupBoxFileItem_File.Visible = false;
             // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(191, 170);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(29, 13);
+            this.label19.TabIndex = 13;
+            this.label19.Text = "End:";
+            // 
+            // dateTimePickerFileItem_TimeEnd
+            // 
+            this.dateTimePickerFileItem_TimeEnd.CustomFormat = "HH:mm";
+            this.dateTimePickerFileItem_TimeEnd.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTimePickerFileItem_TimeEnd.Location = new System.Drawing.Point(228, 167);
+            this.dateTimePickerFileItem_TimeEnd.Name = "dateTimePickerFileItem_TimeEnd";
+            this.dateTimePickerFileItem_TimeEnd.ShowUpDown = true;
+            this.dateTimePickerFileItem_TimeEnd.Size = new System.Drawing.Size(60, 20);
+            this.dateTimePickerFileItem_TimeEnd.TabIndex = 12;
+            this.dateTimePickerFileItem_TimeEnd.Value = new System.DateTime(1995, 1, 1, 23, 59, 0, 0);
+            // 
+            // dateTimePickerFileItem_TimeStart
+            // 
+            this.dateTimePickerFileItem_TimeStart.CustomFormat = "HH:mm";
+            this.dateTimePickerFileItem_TimeStart.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTimePickerFileItem_TimeStart.Location = new System.Drawing.Point(125, 167);
+            this.dateTimePickerFileItem_TimeStart.Name = "dateTimePickerFileItem_TimeStart";
+            this.dateTimePickerFileItem_TimeStart.ShowUpDown = true;
+            this.dateTimePickerFileItem_TimeStart.Size = new System.Drawing.Size(60, 20);
+            this.dateTimePickerFileItem_TimeStart.TabIndex = 11;
+            this.dateTimePickerFileItem_TimeStart.Value = new System.DateTime(1995, 1, 1, 0, 0, 0, 0);
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(14, 170);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(109, 13);
+            this.label18.TabIndex = 10;
+            this.label18.Text = "Broadcast Time Start:";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(14, 139);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(132, 13);
+            this.label17.TabIndex = 9;
+            this.label17.Text = "Broadcast Date (MM/DD):";
+            // 
+            // dateTimePickerFileItem_Date
+            // 
+            this.dateTimePickerFileItem_Date.CustomFormat = "MM/dd";
+            this.dateTimePickerFileItem_Date.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTimePickerFileItem_Date.Location = new System.Drawing.Point(152, 136);
+            this.dateTimePickerFileItem_Date.Name = "dateTimePickerFileItem_Date";
+            this.dateTimePickerFileItem_Date.ShowUpDown = true;
+            this.dateTimePickerFileItem_Date.Size = new System.Drawing.Size(56, 20);
+            this.dateTimePickerFileItem_Date.TabIndex = 8;
+            this.dateTimePickerFileItem_Date.Value = new System.DateTime(1995, 4, 23, 0, 0, 0, 0);
+            // 
+            // checkBoxFileItem_Streaming
+            // 
+            this.checkBoxFileItem_Streaming.AutoSize = true;
+            this.checkBoxFileItem_Streaming.Location = new System.Drawing.Point(141, 61);
+            this.checkBoxFileItem_Streaming.Name = "checkBoxFileItem_Streaming";
+            this.checkBoxFileItem_Streaming.Size = new System.Drawing.Size(90, 17);
+            this.checkBoxFileItem_Streaming.TabIndex = 7;
+            this.checkBoxFileItem_Streaming.Text = "Streamed File";
+            this.checkBoxFileItem_Streaming.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxFileItem_AtHome
+            // 
+            this.checkBoxFileItem_AtHome.AutoSize = true;
+            this.checkBoxFileItem_AtHome.Location = new System.Drawing.Point(14, 61);
+            this.checkBoxFileItem_AtHome.Name = "checkBoxFileItem_AtHome";
+            this.checkBoxFileItem_AtHome.Size = new System.Drawing.Size(113, 17);
+            this.checkBoxFileItem_AtHome.TabIndex = 6;
+            this.checkBoxFileItem_AtHome.Text = "Available At Home";
+            this.checkBoxFileItem_AtHome.UseVisualStyleBackColor = true;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(119, 85);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(63, 13);
+            this.label16.TabIndex = 5;
+            this.label16.Text = "Destination:";
+            // 
+            // comboBoxFileItem_Destination
+            // 
+            this.comboBoxFileItem_Destination.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxFileItem_Destination.FormattingEnabled = true;
+            this.comboBoxFileItem_Destination.Items.AddRange(new object[] {
+            "WRAM",
+            "PSRAM",
+            "Memory Pack (Full)",
+            "Memory Pack (Free)"});
+            this.comboBoxFileItem_Destination.Location = new System.Drawing.Point(122, 101);
+            this.comboBoxFileItem_Destination.Name = "comboBoxFileItem_Destination";
+            this.comboBoxFileItem_Destination.Size = new System.Drawing.Size(154, 21);
+            this.comboBoxFileItem_Destination.TabIndex = 4;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(11, 85);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(57, 13);
+            this.label15.TabIndex = 3;
+            this.label15.Text = "Auto-Start:";
+            // 
+            // comboBoxFileItem_AutoStart
+            // 
+            this.comboBoxFileItem_AutoStart.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxFileItem_AutoStart.FormattingEnabled = true;
+            this.comboBoxFileItem_AutoStart.Items.AddRange(new object[] {
+            "No",
+            "Optional",
+            "Yes"});
+            this.comboBoxFileItem_AutoStart.Location = new System.Drawing.Point(14, 101);
+            this.comboBoxFileItem_AutoStart.Name = "comboBoxFileItem_AutoStart";
+            this.comboBoxFileItem_AutoStart.Size = new System.Drawing.Size(89, 21);
+            this.comboBoxFileItem_AutoStart.TabIndex = 2;
+            // 
             // textBoxFileItem_FilePath
             // 
             this.textBoxFileItem_FilePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -888,6 +932,76 @@
             this.ButtonFileItem_FileBrowse.Text = "Browse...";
             this.ButtonFileItem_FileBrowse.UseVisualStyleBackColor = true;
             // 
+            // groupBoxFileItem_Item
+            // 
+            this.groupBoxFileItem_Item.Controls.Add(this.checkBoxFileItemOneUse);
+            this.groupBoxFileItem_Item.Controls.Add(this.label13);
+            this.groupBoxFileItem_Item.Controls.Add(this.numericUpDownFileItemPrice);
+            this.groupBoxFileItem_Item.Controls.Add(this.textBoxFileItemUsage);
+            this.groupBoxFileItem_Item.Controls.Add(this.label12);
+            this.groupBoxFileItem_Item.Location = new System.Drawing.Point(9, 124);
+            this.groupBoxFileItem_Item.Name = "groupBoxFileItem_Item";
+            this.groupBoxFileItem_Item.Size = new System.Drawing.Size(168, 172);
+            this.groupBoxFileItem_Item.TabIndex = 2;
+            this.groupBoxFileItem_Item.TabStop = false;
+            this.groupBoxFileItem_Item.Text = "Item";
+            // 
+            // checkBoxFileItemOneUse
+            // 
+            this.checkBoxFileItemOneUse.AutoSize = true;
+            this.checkBoxFileItemOneUse.Location = new System.Drawing.Point(10, 143);
+            this.checkBoxFileItemOneUse.Name = "checkBoxFileItemOneUse";
+            this.checkBoxFileItemOneUse.Size = new System.Drawing.Size(104, 17);
+            this.checkBoxFileItemOneUse.TabIndex = 4;
+            this.checkBoxFileItemOneUse.Text = "One Usage Only";
+            this.checkBoxFileItemOneUse.UseVisualStyleBackColor = true;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(7, 119);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(34, 13);
+            this.label13.TabIndex = 3;
+            this.label13.Text = "Price:";
+            // 
+            // numericUpDownFileItemPrice
+            // 
+            this.numericUpDownFileItemPrice.Location = new System.Drawing.Point(47, 117);
+            this.numericUpDownFileItemPrice.Maximum = new decimal(new int[] {
+            -727379969,
+            232,
+            0,
+            0});
+            this.numericUpDownFileItemPrice.Name = "numericUpDownFileItemPrice";
+            this.numericUpDownFileItemPrice.Size = new System.Drawing.Size(106, 20);
+            this.numericUpDownFileItemPrice.TabIndex = 2;
+            // 
+            // textBoxFileItemUsage
+            // 
+            this.textBoxFileItemUsage.Location = new System.Drawing.Point(10, 45);
+            this.textBoxFileItemUsage.MaxLength = 500;
+            this.textBoxFileItemUsage.Multiline = true;
+            this.textBoxFileItemUsage.Name = "textBoxFileItemUsage";
+            this.textBoxFileItemUsage.Size = new System.Drawing.Size(143, 65);
+            this.textBoxFileItemUsage.TabIndex = 1;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(7, 25);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(65, 13);
+            this.label12.TabIndex = 0;
+            this.label12.Text = "Usage Text:";
+            // 
+            // textBoxFileItem_Name
+            // 
+            this.textBoxFileItem_Name.Location = new System.Drawing.Point(84, 19);
+            this.textBoxFileItem_Name.Name = "textBoxFileItem_Name";
+            this.textBoxFileItem_Name.Size = new System.Drawing.Size(168, 20);
+            this.textBoxFileItem_Name.TabIndex = 5;
+            // 
             // label14
             // 
             this.label14.AutoSize = true;
@@ -897,134 +1011,23 @@
             this.label14.TabIndex = 4;
             this.label14.Text = "Name:";
             // 
-            // textBoxFileItem_Name
+            // textBoxFileItemDesc
             // 
-            this.textBoxFileItem_Name.Location = new System.Drawing.Point(84, 19);
-            this.textBoxFileItem_Name.Name = "textBoxFileItem_Name";
-            this.textBoxFileItem_Name.Size = new System.Drawing.Size(168, 20);
-            this.textBoxFileItem_Name.TabIndex = 5;
+            this.textBoxFileItemDesc.Location = new System.Drawing.Point(84, 52);
+            this.textBoxFileItemDesc.MaxLength = 500;
+            this.textBoxFileItemDesc.Multiline = true;
+            this.textBoxFileItemDesc.Name = "textBoxFileItemDesc";
+            this.textBoxFileItemDesc.Size = new System.Drawing.Size(168, 66);
+            this.textBoxFileItemDesc.TabIndex = 1;
             // 
-            // comboBoxFileItem_AutoStart
+            // label11
             // 
-            this.comboBoxFileItem_AutoStart.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxFileItem_AutoStart.FormattingEnabled = true;
-            this.comboBoxFileItem_AutoStart.Items.AddRange(new object[] {
-            "No",
-            "Optional",
-            "Yes"});
-            this.comboBoxFileItem_AutoStart.Location = new System.Drawing.Point(14, 101);
-            this.comboBoxFileItem_AutoStart.Name = "comboBoxFileItem_AutoStart";
-            this.comboBoxFileItem_AutoStart.Size = new System.Drawing.Size(89, 21);
-            this.comboBoxFileItem_AutoStart.TabIndex = 2;
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(11, 85);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(57, 13);
-            this.label15.TabIndex = 3;
-            this.label15.Text = "Auto-Start:";
-            // 
-            // comboBoxFileItem_Destination
-            // 
-            this.comboBoxFileItem_Destination.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxFileItem_Destination.FormattingEnabled = true;
-            this.comboBoxFileItem_Destination.Items.AddRange(new object[] {
-            "WRAM",
-            "PSRAM",
-            "Memory Pack (Full)",
-            "Memory Pack (Free)"});
-            this.comboBoxFileItem_Destination.Location = new System.Drawing.Point(122, 101);
-            this.comboBoxFileItem_Destination.Name = "comboBoxFileItem_Destination";
-            this.comboBoxFileItem_Destination.Size = new System.Drawing.Size(154, 21);
-            this.comboBoxFileItem_Destination.TabIndex = 4;
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(119, 85);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(63, 13);
-            this.label16.TabIndex = 5;
-            this.label16.Text = "Destination:";
-            // 
-            // checkBoxFileItem_AtHome
-            // 
-            this.checkBoxFileItem_AtHome.AutoSize = true;
-            this.checkBoxFileItem_AtHome.Location = new System.Drawing.Point(14, 61);
-            this.checkBoxFileItem_AtHome.Name = "checkBoxFileItem_AtHome";
-            this.checkBoxFileItem_AtHome.Size = new System.Drawing.Size(113, 17);
-            this.checkBoxFileItem_AtHome.TabIndex = 6;
-            this.checkBoxFileItem_AtHome.Text = "Available At Home";
-            this.checkBoxFileItem_AtHome.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxFileItem_Streaming
-            // 
-            this.checkBoxFileItem_Streaming.AutoSize = true;
-            this.checkBoxFileItem_Streaming.Location = new System.Drawing.Point(141, 61);
-            this.checkBoxFileItem_Streaming.Name = "checkBoxFileItem_Streaming";
-            this.checkBoxFileItem_Streaming.Size = new System.Drawing.Size(90, 17);
-            this.checkBoxFileItem_Streaming.TabIndex = 7;
-            this.checkBoxFileItem_Streaming.Text = "Streamed File";
-            this.checkBoxFileItem_Streaming.UseVisualStyleBackColor = true;
-            // 
-            // dateTimePickerFileItem_Date
-            // 
-            this.dateTimePickerFileItem_Date.CustomFormat = "MM/dd";
-            this.dateTimePickerFileItem_Date.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePickerFileItem_Date.Location = new System.Drawing.Point(152, 136);
-            this.dateTimePickerFileItem_Date.Name = "dateTimePickerFileItem_Date";
-            this.dateTimePickerFileItem_Date.ShowUpDown = true;
-            this.dateTimePickerFileItem_Date.Size = new System.Drawing.Size(56, 20);
-            this.dateTimePickerFileItem_Date.TabIndex = 8;
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(14, 139);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(132, 13);
-            this.label17.TabIndex = 9;
-            this.label17.Text = "Broadcast Date (MM/DD):";
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(14, 170);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(109, 13);
-            this.label18.TabIndex = 10;
-            this.label18.Text = "Broadcast Time Start:";
-            // 
-            // dateTimePickerFileItem_TimeStart
-            // 
-            this.dateTimePickerFileItem_TimeStart.CustomFormat = "HH:mm";
-            this.dateTimePickerFileItem_TimeStart.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePickerFileItem_TimeStart.Location = new System.Drawing.Point(125, 167);
-            this.dateTimePickerFileItem_TimeStart.Name = "dateTimePickerFileItem_TimeStart";
-            this.dateTimePickerFileItem_TimeStart.ShowUpDown = true;
-            this.dateTimePickerFileItem_TimeStart.Size = new System.Drawing.Size(60, 20);
-            this.dateTimePickerFileItem_TimeStart.TabIndex = 11;
-            // 
-            // dateTimePickerFileItem_TimeEnd
-            // 
-            this.dateTimePickerFileItem_TimeEnd.CustomFormat = "HH:mm";
-            this.dateTimePickerFileItem_TimeEnd.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePickerFileItem_TimeEnd.Location = new System.Drawing.Point(228, 167);
-            this.dateTimePickerFileItem_TimeEnd.Name = "dateTimePickerFileItem_TimeEnd";
-            this.dateTimePickerFileItem_TimeEnd.ShowUpDown = true;
-            this.dateTimePickerFileItem_TimeEnd.Size = new System.Drawing.Size(60, 20);
-            this.dateTimePickerFileItem_TimeEnd.TabIndex = 12;
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(191, 170);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(29, 13);
-            this.label19.TabIndex = 13;
-            this.label19.Text = "End:";
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(15, 55);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(63, 13);
+            this.label11.TabIndex = 0;
+            this.label11.Text = "Description:";
             // 
             // MainWindow
             // 
@@ -1054,11 +1057,11 @@
             this.groupBoxFolder.PerformLayout();
             this.groupBoxFileItem.ResumeLayout(false);
             this.groupBoxFileItem.PerformLayout();
+            this.groupBoxFileItem_File.ResumeLayout(false);
+            this.groupBoxFileItem_File.PerformLayout();
             this.groupBoxFileItem_Item.ResumeLayout(false);
             this.groupBoxFileItem_Item.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFileItemPrice)).EndInit();
-            this.groupBoxFileItem_File.ResumeLayout(false);
-            this.groupBoxFileItem_File.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -136,7 +136,29 @@ namespace SatellaWave
 
         private void SaveFile(TreeNode _node)
         {
+            (_node.Tag as DownloadFile).name = textBoxFileItem_Name.Text;
+            (_node.Tag as DownloadFile).filedesc = textBoxFileItemDesc.Text;
 
+            (_node.Tag as DownloadFile).usage = textBoxFileItemUsage.Text;
+            (_node.Tag as DownloadFile).price = (ulong)numericUpDownFileItemPrice.Value;
+            (_node.Tag as DownloadFile).oneuse = checkBoxFileItemOneUse.Checked;
+
+            (_node.Tag as DownloadFile).filepath = textBoxFileItem_FilePath.Text;
+            (_node.Tag as DownloadFile).alsoAtHome = checkBoxFileItem_AtHome.Checked;
+            (_node.Tag as DownloadFile).streamed = checkBoxFileItem_Streaming.Checked;
+            (_node.Tag as DownloadFile).autostart = (byte)comboBoxFileItem_AutoStart.SelectedIndex;
+            (_node.Tag as DownloadFile).dest = (byte)comboBoxFileItem_Destination.SelectedIndex;
+
+            (_node.Tag as DownloadFile).month = (byte)dateTimePickerFileItem_Date.Value.Month;
+            (_node.Tag as DownloadFile).day = (byte)dateTimePickerFileItem_Date.Value.Day;
+
+            (_node.Tag as DownloadFile).hour_start = (byte)dateTimePickerFileItem_TimeStart.Value.Hour;
+            (_node.Tag as DownloadFile).min_start = (byte)dateTimePickerFileItem_TimeStart.Value.Minute;
+
+            (_node.Tag as DownloadFile).hour_end = (byte)dateTimePickerFileItem_TimeEnd.Value.Hour;
+            (_node.Tag as DownloadFile).min_end = (byte)dateTimePickerFileItem_TimeEnd.Value.Minute;
+
+            _node.Text = (_node.Tag as DownloadFile).name;
         }
 
         /* OTHER EVENTS */

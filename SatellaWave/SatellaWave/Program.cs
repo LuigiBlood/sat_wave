@@ -14,6 +14,8 @@ namespace SatellaWave
         /// </summary>
 
         public static MainWindow mainWindow;
+        public static ushort nextlci = 0x0120;
+        public static ushort nextprgnumber = 0x0000;
 
         public static readonly string[] buildingList = {
             "Robot Tower",
@@ -120,6 +122,7 @@ namespace SatellaWave
                 _node.ContextMenuStrip = mainWindow.contextMenuStripDirectoryMenu;
 
             mainWindow.treeViewChn.Nodes.Add(_node);
+            mainWindow.treeViewChn.SelectedNode = _node;
         }
 
         public static void AddChannel(int type)
@@ -182,7 +185,7 @@ namespace SatellaWave
                 TreeNode _tnode = new TreeNode(_folder.name);
                 _tnode.Tag = _folder;
                 _node.Nodes.Add(_tnode);
-                mainWindow.treeViewChn.SelectedNode.Expand();
+                mainWindow.treeViewChn.SelectedNode = _tnode;
             }
         }
 
@@ -191,17 +194,389 @@ namespace SatellaWave
             if (_node.Tag.GetType() == typeof(Folder))
             {
                 DownloadFile _file = new DownloadFile((_node.Tag as Folder).purpose == 1);
+
+                _file.lci = GetNextLCI();
+                _file.program_number = GetNextProgramNumber();
+                _file.service_broadcast = 0x0103; //Dedicated to content, more than enough
+
                 TreeNode _tnode = new TreeNode(_file.name);
                 _tnode.Tag = _file;
                 _node.Nodes.Add(_tnode);
-                mainWindow.treeViewChn.SelectedNode.Expand();
+                mainWindow.treeViewChn.SelectedNode = _tnode;
             }
+        }
+
+        public static ushort GetNextLCI()
+        {
+            do
+            {
+                nextlci = (ushort)(nextlci & 0x1F | (nextlci >> 3));
+                nextlci++;
+                nextlci = (ushort)(nextlci | ((nextlci & 0x3E0) << 3) | 0x0020);
+            } while (CheckUsedLCI(nextlci));
+
+            return nextlci;
+        }
+
+        public static bool CheckUsedLCI(ushort _lci)
+        {
+            foreach (TreeNode _node in mainWindow.treeViewChn.Nodes)
+            {
+                if (_node.Tag.GetType() == typeof(Directory))
+                {
+                    //Check Folders
+                    foreach (TreeNode _nodeChildFolder in _node.Nodes)
+                    {
+                        if (_nodeChildFolder.Tag.GetType() == typeof(Folder))
+                        {
+                            //Check Files
+                            foreach (TreeNode _nodeFile in _nodeChildFolder.Nodes)
+                            {
+                                if ((_nodeFile.Tag as DownloadFile).lci == _lci)
+                                {
+                                    return true;
+                                }
+
+                                if (_nodeFile.Nodes.Count > 0)
+                                {
+                                    //Check Include Files if they exist
+                                    foreach (TreeNode _nodeIncFile in _nodeFile.Nodes)
+                                    {
+                                        if ((_nodeIncFile.Tag as DownloadFile).lci == _lci)
+                                        {
+                                            return true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    if ((_node.Tag as Channel).lci == _lci)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            //not found
+            return false;
+        }
+
+        public static ushort GetNextProgramNumber()
+        {
+            nextprgnumber += 0x0100;
+            return nextprgnumber;
         }
 
         public static void ExportBSX(string folderPath)
         {
-            //Make other stuff before
+            //2794 bytes max per file
             List<byte> ChannelFile = new List<byte>();
+
+            //Find, make the Directory First
+            foreach (TreeNode _DirectoryCheck in mainWindow.treeViewChn.Nodes)
+            {
+                if (_DirectoryCheck.Tag.GetType() == typeof(Directory))
+                {
+                    ChannelFile.Clear(); //Clear everything, just to make sure
+
+                    //Directory Header
+                    ChannelFile.Add(1); //Directory ID
+                    ChannelFile.Add((byte)_DirectoryCheck.Nodes.Count); //Folder Count
+                    ChannelFile.Add(0); //Unknown
+                    ChannelFile.Add(0);
+                    ChannelFile.Add(0);
+
+                    //Folders
+                    foreach (TreeNode _Folder in _DirectoryCheck.Nodes)
+                    {
+                        if (_Folder.Tag.GetType() == typeof(Folder))
+                        {
+                            ChannelFile.Add(0); //Folder Flags
+
+                            //Count Files (including Include Files)
+                            int fileCount = _Folder.Nodes.Count;
+                            bool checkInclude = false;
+
+                            foreach (TreeNode _File in _Folder.Nodes)
+                            {
+                                fileCount += _File.Nodes.Count;
+                                checkInclude |= (_File.Nodes.Count > 0);
+                            }
+
+                            if (fileCount >= 256)
+                            {
+                                MessageBox.Show("Error: Folder has more than 255 files.");
+                                return;
+                            }
+
+                            ChannelFile.Add((byte)fileCount); //File Count
+
+                            //Folder Name
+                            for (int i = 0; i < 20; i++)
+                            {
+                                if ((_Folder.Tag as Folder).name.Length > i)
+                                    ChannelFile.Add((byte)(_Folder.Tag as Folder).name[i]);
+                                else
+                                    ChannelFile.Add(0);
+                            }
+
+                            ChannelFile.Add(0); //Name Terminator
+
+                            ChannelFile.Add((byte)((_Folder.Tag as Folder).message.Length + 1)); //Length Message
+                            foreach (char _chr in (_Folder.Tag as Folder).message)
+                            {
+                                ChannelFile.Add((byte)_chr);
+                            }
+                            ChannelFile.Add(0); //Message Terminator
+
+                            ChannelFile.Add((byte)((_Folder.Tag as Folder).purpose
+                                | ((_Folder.Tag as Folder).type << 1)
+                                | (Convert.ToByte(checkInclude) << 2))); //Folder Type
+
+                            ChannelFile.Add((byte)((_Folder.Tag as Folder).id));    //Folder ID
+                            ChannelFile.Add(0); //Unknown
+                            ChannelFile.Add(0); //Unknown
+                            ChannelFile.Add((byte)((_Folder.Tag as Folder).mugshot));    //Folder Mugshot
+                            ChannelFile.Add(0); //Unknown
+                            ChannelFile.Add(0); //Unknown
+                            ChannelFile.Add(0); //Unknown
+
+                            //Files
+                            foreach (TreeNode _File in _Folder.Nodes)
+                            {
+                                ChannelFile.Add(1); //File ID
+                                ChannelFile.Add(0); //Check
+
+                                //File Name
+                                for (int i = 0; i < 20; i++)
+                                {
+                                    if ((_File.Tag as DownloadFile).name.Length > i)
+                                        ChannelFile.Add((byte)(_File.Tag as DownloadFile).name[i]);
+                                    else
+                                        ChannelFile.Add(0);
+                                }
+                                ChannelFile.Add(0);
+
+                                if ((_File.Tag as DownloadFile).isItem)
+                                {
+                                    //Item
+                                    ChannelFile.Add(0x79); //Item Size
+
+                                    //Description
+                                    for (int i = 0; i < 36; i++)
+                                    {
+                                        if ((_File.Tag as DownloadFile).filedesc.Length > i)
+                                            ChannelFile.Add((byte)(_File.Tag as DownloadFile).filedesc[i]);
+                                        else
+                                            ChannelFile.Add(0);
+                                    }
+                                    ChannelFile.Add(0);
+
+                                    //Activation Message
+                                    for (int i = 0; i < 70; i++)
+                                    {
+                                        if ((_File.Tag as DownloadFile).usage.Length > i)
+                                            ChannelFile.Add((byte)(_File.Tag as DownloadFile).usage[i]);
+                                        else
+                                            ChannelFile.Add(0);
+                                    }
+                                    ChannelFile.Add(0);
+
+                                    //Price
+                                    foreach (char _chr in (_File.Tag as DownloadFile).price.ToString("D12"))
+                                    {
+                                        ChannelFile.Add((byte)_chr);
+                                    }
+
+                                    //One Use
+                                    ChannelFile.Add(Convert.ToByte((_File.Tag as DownloadFile).oneuse));
+
+                                    //Useless Bytes
+                                    for (int i = 0; i < 26; i++)
+                                        ChannelFile.Add(0);
+                                }
+                                else
+                                {
+                                    //File
+                                    ChannelFile.Add((byte)((_File.Tag as DownloadFile).filedesc.Length + 1)); //Description Length
+
+                                    //Description
+                                    foreach (char _chr in (_File.Tag as DownloadFile).filedesc)
+                                    {
+                                        ChannelFile.Add((byte)_chr);
+                                    }
+                                    ChannelFile.Add(0);
+
+                                    //Service Broadcast
+                                    ChannelFile.Add((byte)((_File.Tag as DownloadFile).service_broadcast >> 8));
+                                    ChannelFile.Add((byte)(_File.Tag as DownloadFile).service_broadcast);
+                                    //Program Number
+                                    ChannelFile.Add((byte)((_File.Tag as DownloadFile).program_number >> 8));
+                                    ChannelFile.Add((byte)(_File.Tag as DownloadFile).program_number);
+                                    //File Size
+                                    ChannelFile.Add((byte)((_File.Tag as DownloadFile).filesize >> 16));
+                                    ChannelFile.Add((byte)((_File.Tag as DownloadFile).filesize >> 8));
+                                    ChannelFile.Add((byte)((_File.Tag as DownloadFile).filesize));
+                                    //Unknown
+                                    ChannelFile.Add(0);
+                                    ChannelFile.Add(0);
+                                    ChannelFile.Add(0);
+                                    //Flags
+                                    ChannelFile.Add((byte)(Convert.ToByte((_File.Tag as DownloadFile).alsoAtHome) << 2
+                                        | Convert.ToByte((_File.Tag as DownloadFile).streamed) << 3));
+                                    //Unknown
+                                    ChannelFile.Add(0);
+                                    //Destination
+                                    ChannelFile.Add((byte)((_File.Tag as DownloadFile).autostart
+                                        | ((_File.Tag as DownloadFile).dest << 2)));
+                                    //Unknown
+                                    ChannelFile.Add(0);
+                                    ChannelFile.Add(0);
+                                    //Date
+                                    ChannelFile.Add((byte)((_File.Tag as DownloadFile).month << 4));
+                                    ChannelFile.Add((byte)((_File.Tag as DownloadFile).day << 3));
+                                    //Time
+                                    ChannelFile.Add((byte)(((_File.Tag as DownloadFile).hour_start << 3)
+                                        | ((_File.Tag as DownloadFile).min_start >> 3)));
+                                    ChannelFile.Add((byte)(((_File.Tag as DownloadFile).min_start << 5)
+                                        | (_File.Tag as DownloadFile).hour_end));
+                                    ChannelFile.Add((byte)((_File.Tag as DownloadFile).min_end << 2));
+
+                                    if (_File.Nodes.Count > 0)
+                                    {
+                                        //Include Files
+
+                                        //Service Broadcast
+                                        ChannelFile.Add((byte)((_File.Nodes[0].Tag as DownloadFile).service_broadcast >> 8));
+                                        ChannelFile.Add((byte)(_File.Nodes[0].Tag as DownloadFile).service_broadcast);
+                                        //Program Number
+                                        ChannelFile.Add((byte)((_File.Nodes[0].Tag as DownloadFile).program_number >> 8));
+                                        ChannelFile.Add((byte)(_File.Nodes[0].Tag as DownloadFile).program_number);
+                                    }
+                                    else
+                                    {
+                                        ChannelFile.Add(0);
+                                        ChannelFile.Add(0);
+                                        ChannelFile.Add(0);
+                                        ChannelFile.Add(0);
+                                    }
+                                    //Unknown
+                                    ChannelFile.Add(0);
+                                    ChannelFile.Add(0);
+
+                                    if (_File.Nodes.Count > 0)
+                                    {
+                                        for (int inclCount = 0; inclCount < _File.Nodes.Count; inclCount++)
+                                        {
+                                            ChannelFile.Add(1); //File ID
+                                            ChannelFile.Add(0); //Check
+
+                                            //File Name
+                                            for (int i = 0; i < 20; i++)
+                                            {
+                                                if ((_File.Nodes[inclCount].Tag as DownloadFile).name.Length > i)
+                                                    ChannelFile.Add((byte)(_File.Nodes[inclCount].Tag as DownloadFile).name[i]);
+                                                else
+                                                    ChannelFile.Add(0);
+                                            }
+                                            ChannelFile.Add(0);
+
+                                            //File
+                                            ChannelFile.Add((byte)((_File.Nodes[inclCount].Tag as DownloadFile).filedesc.Length + 1)); //Description Length
+
+                                            //Description
+                                            foreach (char _chr in (_File.Nodes[inclCount].Tag as DownloadFile).filedesc)
+                                            {
+                                                ChannelFile.Add((byte)_chr);
+                                            }
+                                            ChannelFile.Add(0);
+
+                                            //Service Broadcast
+                                            ChannelFile.Add((byte)((_File.Nodes[inclCount].Tag as DownloadFile).service_broadcast >> 8));
+                                            ChannelFile.Add((byte)(_File.Nodes[inclCount].Tag as DownloadFile).service_broadcast);
+                                            //Program Number
+                                            ChannelFile.Add((byte)((_File.Nodes[inclCount].Tag as DownloadFile).program_number >> 8));
+                                            ChannelFile.Add((byte)(_File.Nodes[inclCount].Tag as DownloadFile).program_number);
+                                            //File Size
+                                            ChannelFile.Add((byte)((_File.Nodes[inclCount].Tag as DownloadFile).filesize >> 16));
+                                            ChannelFile.Add((byte)((_File.Nodes[inclCount].Tag as DownloadFile).filesize >> 8));
+                                            ChannelFile.Add((byte)((_File.Nodes[inclCount].Tag as DownloadFile).filesize));
+                                            //Unknown
+                                            ChannelFile.Add(0);
+                                            ChannelFile.Add(0);
+                                            ChannelFile.Add(0);
+                                            //Flags
+                                            ChannelFile.Add((byte)(Convert.ToByte((_File.Nodes[inclCount].Tag as DownloadFile).alsoAtHome) << 2
+                                                | Convert.ToByte((_File.Nodes[inclCount].Tag as DownloadFile).streamed) << 3));
+                                            //Unknown
+                                            ChannelFile.Add(0);
+                                            //Destination
+                                            ChannelFile.Add((byte)((_File.Nodes[inclCount].Tag as DownloadFile).autostart
+                                                | ((_File.Nodes[inclCount].Tag as DownloadFile).dest << 2)));
+                                            //Unknown
+                                            ChannelFile.Add(0);
+                                            ChannelFile.Add(0);
+                                            //Date
+                                            ChannelFile.Add((byte)((_File.Nodes[inclCount].Tag as DownloadFile).month << 4));
+                                            ChannelFile.Add((byte)((_File.Nodes[inclCount].Tag as DownloadFile).day << 3));
+                                            //Time
+                                            ChannelFile.Add((byte)(((_File.Nodes[inclCount].Tag as DownloadFile).hour_start << 3)
+                                                | ((_File.Nodes[inclCount].Tag as DownloadFile).min_start >> 3)));
+                                            ChannelFile.Add((byte)(((_File.Nodes[inclCount].Tag as DownloadFile).min_start << 5)
+                                                | (_File.Nodes[inclCount].Tag as DownloadFile).hour_end));
+                                            ChannelFile.Add((byte)((_File.Nodes[inclCount].Tag as DownloadFile).min_end << 2));
+
+                                            if (_File.Nodes.Count > inclCount)
+                                            {
+                                                //Service Broadcast
+                                                ChannelFile.Add((byte)((_File.Nodes[inclCount + 1].Tag as DownloadFile).service_broadcast >> 8));
+                                                ChannelFile.Add((byte)(_File.Nodes[inclCount + 1].Tag as DownloadFile).service_broadcast);
+                                                //Program Number
+                                                ChannelFile.Add((byte)((_File.Nodes[inclCount + 1].Tag as DownloadFile).program_number >> 8));
+                                                ChannelFile.Add((byte)(_File.Nodes[inclCount + 1].Tag as DownloadFile).program_number);
+                                            }
+                                            else
+                                            {
+                                                ChannelFile.Add(0);
+                                                ChannelFile.Add(0);
+                                                ChannelFile.Add(0);
+                                                ChannelFile.Add(0);
+                                            }
+
+                                            ChannelFile.Add(0);
+                                            ChannelFile.Add(0);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    //Expansion Packet (TODO)
+
+                    //Add packet transmission header
+                    int filesize = ChannelFile.Count;
+                    ChannelFile.Insert(0, 0);
+                    ChannelFile.Insert(0, 0);
+                    ChannelFile.Insert(0, 0);
+                    ChannelFile.Insert(0, 1);
+                    ChannelFile.Insert(0, 1);
+                    ChannelFile.Insert(0, (byte)filesize);
+                    ChannelFile.Insert(0, (byte)(filesize >> 8));
+                    ChannelFile.Insert(0, (byte)(filesize >> 16));
+                    ChannelFile.Insert(0, 0);
+                    ChannelFile.Insert(0, 0);
+
+                    //Write File
+                    FileStream chnfile = new FileStream(folderPath + "\\BSX" + (_DirectoryCheck.Tag as Directory).lci.ToString("X4") + "-0.bin", FileMode.Create);
+                    chnfile.Write(ChannelFile.ToArray(), 0, ChannelFile.Count);
+                    chnfile.Close();
+                }
+            }
 
             for (int i = 0; i < mainWindow.treeViewChn.Nodes.Count; i++)
             {
