@@ -220,6 +220,9 @@ namespace SatellaWave
 
         public static bool CheckUsedLCI(ushort _lci)
         {
+            if (_lci == 0x0124)
+                return true;
+
             foreach (TreeNode _node in mainWindow.treeViewChn.Nodes)
             {
                 if (_node.Tag.GetType() == typeof(Directory))
@@ -558,63 +561,29 @@ namespace SatellaWave
 
                     //Expansion Packet (TODO)
 
-                    //Add packet transmission header
-                    int filesize = ChannelFile.Count;
-                    ChannelFile.Insert(0, 0);
-                    ChannelFile.Insert(0, 0);
-                    ChannelFile.Insert(0, 0);
-                    ChannelFile.Insert(0, 1);
-                    ChannelFile.Insert(0, 1);
-                    ChannelFile.Insert(0, (byte)filesize);
-                    ChannelFile.Insert(0, (byte)(filesize >> 8));
-                    ChannelFile.Insert(0, (byte)(filesize >> 16));
-                    ChannelFile.Insert(0, 0);
-                    ChannelFile.Insert(0, 0);
-
                     //Write File
-                    FileStream chnfile = new FileStream(folderPath + "\\BSX" + (_DirectoryCheck.Tag as Directory).lci.ToString("X4") + "-0.bin", FileMode.Create);
-                    chnfile.Write(ChannelFile.ToArray(), 0, ChannelFile.Count);
-                    chnfile.Close();
+                    SaveChannelFile(ChannelFile.ToArray(), (_DirectoryCheck.Tag as Directory).lci, folderPath);
                 }
             }
 
-            for (int i = 0; i < mainWindow.treeViewChn.Nodes.Count; i++)
+            foreach (TreeNode _Channel in mainWindow.treeViewChn.Nodes)
             {
-                if ((mainWindow.treeViewChn.Nodes[i].Tag as Channel).type == (byte)ChannelType.Message)
+                if (_Channel.Tag.GetType() == typeof(MessageChannel))
                 {
                     //Message
-                    MessageChannel _msg = mainWindow.treeViewChn.Nodes[i].Tag as MessageChannel;
-
                     ChannelFile.Clear();
 
-                    //Header
-                    ChannelFile.Add(0);
-                    ChannelFile.Add(0);
-                    ChannelFile.Add(0);
-                    ChannelFile.Add(0);
-                    ChannelFile.Add((byte)(_msg.message.Length + 5 + 1)); //can only be under 255 bytes
-                    ChannelFile.Add(1);
-                    ChannelFile.Add(1);
-                    ChannelFile.Add(0);
-                    ChannelFile.Add(0);
-                    ChannelFile.Add(0);
-
-                    //Message
-                    foreach (char _chr in _msg.message.ToCharArray())
+                    foreach (char _chr in (_Channel.Tag as MessageChannel).message.ToCharArray())
                     {
                         ChannelFile.Add((byte)_chr);
                     }
                     ChannelFile.Add(0);
 
-                    FileStream chnfile = new FileStream(folderPath + "\\BSX" + _msg.lci.ToString("X4") + "-0.bin", FileMode.Create);
-                    chnfile.Write(ChannelFile.ToArray(), 0, ChannelFile.Count);
-                    chnfile.Close();
+                    SaveChannelFile(ChannelFile.ToArray(), (_Channel.Tag as MessageChannel).lci, folderPath);
                 }
-                else if ((mainWindow.treeViewChn.Nodes[i].Tag as Channel).type == (byte)ChannelType.Town)
+                else if (_Channel.Tag.GetType() == typeof(TownStatus))
                 {
                     //Town Status
-                    TownStatus _town = mainWindow.treeViewChn.Nodes[i].Tag as TownStatus;
-
                     ChannelFile.Clear();
 
                     ChannelFile.Add(0); //Flag
@@ -626,7 +595,7 @@ namespace SatellaWave
                     ChannelFile.Add(0);
                     ChannelFile.Add(0);
 
-                    ChannelFile.Add((byte)((_town.radio_setup << 6) | (_town.apu_setup << 4)));
+                    ChannelFile.Add((byte)(((_Channel.Tag as TownStatus).radio_setup << 6) | ((_Channel.Tag as TownStatus).apu_setup << 4)));
                     ChannelFile.Add(0);
 
                     //NPC/Event Flags
@@ -635,15 +604,15 @@ namespace SatellaWave
                         byte _flag = 0;
                         for (int y = 0; y < 8; y++)
                         {
-                            if (_town.npc_flags[x * 8 + y] == true)
+                            if ((_Channel.Tag as TownStatus).npc_flags[x * 8 + y] == true)
                                 _flag |= (byte)(1 << y);
                         }
                         ChannelFile.Add(_flag);
                     }
 
                     ushort townsetup = 0;
-                    townsetup = (ushort)(1 << (_town.fountain - 1));
-                    townsetup |= (ushort)((1 << (_town.season - 1) << 12));
+                    townsetup = (ushort)(1 << ((_Channel.Tag as TownStatus).fountain - 1));
+                    townsetup |= (ushort)((1 << ((_Channel.Tag as TownStatus).season - 1) << 12));
 
                     ChannelFile.Add((byte)townsetup);
                     ChannelFile.Add((byte)(townsetup >> 8));
@@ -655,33 +624,13 @@ namespace SatellaWave
 
                     ChannelFile.Add(0); //Number of file IDs, 0 because no files implemented
 
-                    int filesize = ChannelFile.Count;
-                    if (filesize > 256)
+                    if (ChannelFile.Count > 256)
                     {
                         MessageBox.Show("Error: Town Status is more than 256 bytes.");
                         return;
                     }
 
-                    //Target Offset
-                    ChannelFile.Insert(0, 0);
-                    ChannelFile.Insert(0, 0);
-                    ChannelFile.Insert(0, 0);
-                    //Number of Fragments (1)
-                    ChannelFile.Insert(0, 1);
-                    //Fixed
-                    ChannelFile.Insert(0, 1);
-                    //Data Group Size
-                    ChannelFile.Insert(0, (byte)filesize);
-                    ChannelFile.Insert(0, (byte)(filesize >> 8));
-                    ChannelFile.Insert(0, (byte)(filesize >> 16));
-                    //Data Group Continuity
-                    ChannelFile.Insert(0, 0);
-                    //Data Group ID 1
-                    ChannelFile.Insert(0, 0);
-
-                    FileStream chnfile = new FileStream(folderPath + "\\BSX"+ _town.lci.ToString("X4") + "-0.bin", FileMode.Create);
-                    chnfile.Write(ChannelFile.ToArray(), 0, ChannelFile.Count);
-                    chnfile.Close();
+                    SaveChannelFile(ChannelFile.ToArray(), (_Channel.Tag as TownStatus).lci, folderPath);
                 }
             }
 
@@ -774,6 +723,53 @@ namespace SatellaWave
             mapfile.Close();
 
             MessageBox.Show("Export succeeded");
+        }
+
+        public static void SaveChannelFile(byte[] filedata, ushort lci, string folderPath)
+        {
+            //Max size per file = 2794 bytes (including 10 byte header)
+            int fileAmount = (int)Math.Ceiling(filedata.Length / 2784.0);
+
+            for (int i = 0; i < fileAmount; i++)
+            {
+                FileStream chnfile = new FileStream(folderPath + "\\BSX" + lci.ToString("X4") + "-" + i.ToString() + ".bin", FileMode.Create);
+
+                chnfile.WriteByte(0); //Data Group ID
+                chnfile.WriteByte((byte)i); //Data Group Continuity
+
+                if (i == fileAmount - 1)
+                {
+                    //Data Group Size
+                    chnfile.WriteByte((byte)((filedata.Length + 5) >> 16));
+                    chnfile.WriteByte((byte)((filedata.Length + 5) >> 8));
+                    chnfile.WriteByte((byte)(filedata.Length + 5));
+
+                    chnfile.WriteByte(1); //Fixed
+                    chnfile.WriteByte((byte)fileAmount);    //Amount of fragments
+
+                    chnfile.WriteByte((byte)((i * 2784) >> 16));
+                    chnfile.WriteByte((byte)((i * 2784) >> 8));
+                    chnfile.WriteByte((byte)(i * 2784));
+
+                    chnfile.Write(filedata, (i * 2784), filedata.Length);
+                }
+                else
+                {
+                    chnfile.WriteByte(0x00);
+                    chnfile.WriteByte(0x0A);
+                    chnfile.WriteByte(0xE5);
+
+                    chnfile.WriteByte(1); //Fixed
+                    chnfile.WriteByte((byte)fileAmount);    //Amount of fragments
+
+                    chnfile.WriteByte((byte)((i * 2784) >> 16));
+                    chnfile.WriteByte((byte)((i * 2784) >> 8));
+                    chnfile.WriteByte((byte)(i * 2784));
+
+                    chnfile.Write(filedata, (i * 2784), 2784);
+                }
+                chnfile.Close();
+            }
         }
     }
 }
