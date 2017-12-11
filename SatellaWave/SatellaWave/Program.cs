@@ -396,7 +396,7 @@ namespace SatellaWave
                                     }
 
                                     //One Use
-                                    ChannelFile.Add(Convert.ToByte((_File.Tag as DownloadFile).oneuse));
+                                    ChannelFile.Add(Convert.ToByte(!(_File.Tag as DownloadFile).oneuse));
 
                                     //Useless Bytes
                                     for (int i = 0; i < 26; i++)
