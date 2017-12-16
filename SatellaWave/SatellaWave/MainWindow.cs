@@ -68,6 +68,20 @@ namespace SatellaWave
             }
         }
 
+        private void ButtonFileItem_FileBrowse_Click(object sender, EventArgs e)
+        {
+            //Browse File for Download
+            OpenFileDialog fileloadDialog = new OpenFileDialog();
+            fileloadDialog.Filter = "Broadcast Satellite SNES Files (*.bs)|*.bs|All files|*.*";
+            fileloadDialog.Title = "Load Downloadable File...";
+            fileloadDialog.Multiselect = false;
+
+            if (fileloadDialog.ShowDialog() == DialogResult.OK)
+            {
+                textBoxFileItem_FilePath.Text = fileloadDialog.FileName;
+            }
+        }
+
         /* OTHER FUNCTIONS */
 
         private void SaveLast()

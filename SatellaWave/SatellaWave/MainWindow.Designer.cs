@@ -931,6 +931,7 @@
             this.ButtonFileItem_FileBrowse.TabIndex = 1;
             this.ButtonFileItem_FileBrowse.Text = "Browse...";
             this.ButtonFileItem_FileBrowse.UseVisualStyleBackColor = true;
+            this.ButtonFileItem_FileBrowse.Click += new System.EventHandler(this.ButtonFileItem_FileBrowse_Click);
             // 
             // groupBoxFileItem_Item
             // 

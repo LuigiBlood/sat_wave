@@ -404,6 +404,17 @@ namespace SatellaWave
                                 }
                                 else
                                 {
+                                    //Export Download File First
+                                    FileStream downloadFile = new FileStream((_File.Tag as DownloadFile).filepath, FileMode.Open);
+                                    (_File.Tag as DownloadFile).filesize = (int)downloadFile.Length;
+
+                                    byte[] downloadFileArray = new byte[(_File.Tag as DownloadFile).filesize];
+                                    downloadFile.Read(downloadFileArray, 0, (int)downloadFile.Length);
+
+                                    downloadFile.Close();
+
+                                    SaveChannelFile(downloadFileArray, (_File.Tag as DownloadFile).lci, folderPath);
+
                                     //File
                                     ChannelFile.Add((byte)((_File.Tag as DownloadFile).filedesc.Length + 1)); //Description Length
 
@@ -429,7 +440,7 @@ namespace SatellaWave
                                     ChannelFile.Add(0);
                                     ChannelFile.Add(0);
                                     //Flags
-                                    ChannelFile.Add((byte)(Convert.ToByte((_File.Tag as DownloadFile).alsoAtHome) << 2
+                                    ChannelFile.Add((byte)(Convert.ToByte(!(_File.Tag as DownloadFile).alsoAtHome) << 2
                                         | Convert.ToByte((_File.Tag as DownloadFile).streamed) << 3));
                                     //Unknown
                                     ChannelFile.Add(0);
@@ -471,6 +482,7 @@ namespace SatellaWave
                                     ChannelFile.Add(0);
                                     ChannelFile.Add(0);
 
+                                    //Include Files
                                     if (_File.Nodes.Count > 0)
                                     {
                                         for (int inclCount = 0; inclCount < _File.Nodes.Count; inclCount++)
@@ -513,7 +525,7 @@ namespace SatellaWave
                                             ChannelFile.Add(0);
                                             ChannelFile.Add(0);
                                             //Flags
-                                            ChannelFile.Add((byte)(Convert.ToByte((_File.Nodes[inclCount].Tag as DownloadFile).alsoAtHome) << 2
+                                            ChannelFile.Add((byte)(Convert.ToByte(!(_File.Nodes[inclCount].Tag as DownloadFile).alsoAtHome) << 2
                                                 | Convert.ToByte((_File.Nodes[inclCount].Tag as DownloadFile).streamed) << 3));
                                             //Unknown
                                             ChannelFile.Add(0);
@@ -622,7 +634,9 @@ namespace SatellaWave
                     ChannelFile.Add(0);
                     ChannelFile.Add(0);
 
-                    ChannelFile.Add(0); //Number of file IDs, 0 because no files implemented
+                    ChannelFile.Add(2); //Number of file IDs
+                    ChannelFile.Add(0);
+                    ChannelFile.Add(1);
 
                     if (ChannelFile.Count > 256)
                     {
@@ -634,15 +648,42 @@ namespace SatellaWave
                 }
             }
 
-            //Make the Service List
-            List<ushort> ServiceList = new List<ushort>();
+            //Make a Channel List (for easier sorting)
+            List<Channel> ChannelList = new List<Channel>();
             foreach (TreeNode _node in mainWindow.treeViewChn.Nodes)
             {
-                Channel _chan = _node.Tag as Channel;
-
-                if (ServiceList.Contains(_chan.service_broadcast) == false)
+                if (_node.Tag.GetType() == typeof(Directory))
                 {
-                    ServiceList.Add(_chan.service_broadcast);
+                    foreach (TreeNode _nodeFolder in _node.Nodes)
+                    {
+                        if (_nodeFolder.Tag.GetType() == typeof(Folder))
+                        {
+                            foreach (TreeNode _nodeFile in _nodeFolder.Nodes)
+                            {
+                                if (_nodeFile.Nodes.Count > 0)
+                                {
+                                    foreach (TreeNode _nodeFileInc in _nodeFile.Nodes)
+                                    {
+                                        ChannelList.Add(_nodeFileInc.Tag as Channel);
+                                    }
+                                }
+
+                                ChannelList.Add(_nodeFile.Tag as Channel);
+                            }
+                        }
+                    }
+                }
+
+                ChannelList.Add(_node.Tag as Channel);
+            }
+
+            //Make the Service List
+            List<ushort> ServiceList = new List<ushort>();
+            foreach (Channel _chn in ChannelList)
+            {
+                if (ServiceList.Contains(_chn.service_broadcast) == false)
+                {
+                    ServiceList.Add(_chn.service_broadcast);
                 }
             }
 
@@ -684,9 +725,8 @@ namespace SatellaWave
                 ChannelMapFile.Add(_count);
 
                 //Program List
-                foreach (TreeNode _node in mainWindow.treeViewChn.Nodes)
+                foreach (Channel _chan in ChannelList)
                 {
-                    Channel _chan = _node.Tag as Channel;
                     if (_chan.service_broadcast == _cur_service)
                     {
                         ChannelMapFile.Add(_chan.type);
@@ -702,7 +742,16 @@ namespace SatellaWave
                         ChannelMapFile.Add((byte)(_chan.timeout >> 8));
                         ChannelMapFile.Add((byte)_chan.timeout);
 
-                        ChannelMapFile.Add(0); //Autostart stuff
+
+                        if (_chan.GetType() == typeof(DownloadFile))
+                        {
+                            ChannelMapFile.Add((byte)((_chan as DownloadFile).autostart
+                                                    | ((_chan as DownloadFile).dest << 2)));
+                        }
+                        else
+                        {
+                            ChannelMapFile.Add(0); //Autostart stuff
+                        }
 
                         ChannelMapFile.Add((byte)_chan.lci);
                         ChannelMapFile.Add((byte)(_chan.lci >> 8));
@@ -727,8 +776,7 @@ namespace SatellaWave
 
         public static void SaveChannelFile(byte[] filedata, ushort lci, string folderPath)
         {
-            //Max size per file = 2794 bytes (including 10 byte header)
-            int fileAmount = (int)Math.Ceiling(filedata.Length / 2784.0);
+            int fileAmount = (int)Math.Ceiling(filedata.Length / 8192.0);
 
             for (int i = 0; i < fileAmount; i++)
             {
@@ -740,33 +788,34 @@ namespace SatellaWave
                 if (i == fileAmount - 1)
                 {
                     //Data Group Size
-                    chnfile.WriteByte((byte)((filedata.Length + 5) >> 16));
-                    chnfile.WriteByte((byte)((filedata.Length + 5) >> 8));
-                    chnfile.WriteByte((byte)(filedata.Length + 5));
+                    chnfile.WriteByte((byte)((filedata.Length - (i * 8192) + 5) >> 16));
+                    chnfile.WriteByte((byte)((filedata.Length - (i * 8192) + 5) >> 8));
+                    chnfile.WriteByte((byte)(filedata.Length - (i * 8192) + 5));
 
                     chnfile.WriteByte(1); //Fixed
                     chnfile.WriteByte((byte)fileAmount);    //Amount of fragments
 
-                    chnfile.WriteByte((byte)((i * 2784) >> 16));
-                    chnfile.WriteByte((byte)((i * 2784) >> 8));
-                    chnfile.WriteByte((byte)(i * 2784));
+                    chnfile.WriteByte((byte)((i * 8192) >> 16));
+                    chnfile.WriteByte((byte)((i * 8192) >> 8));
+                    chnfile.WriteByte((byte)(i * 8192));
 
-                    chnfile.Write(filedata, (i * 2784), filedata.Length);
+                    chnfile.Write(filedata, (i * 8192), filedata.Length - (i * 8192));
                 }
                 else
                 {
-                    chnfile.WriteByte(0x00);
-                    chnfile.WriteByte(0x0A);
-                    chnfile.WriteByte(0xE5);
+                    int sizetest = 8192 + 5;
+                    chnfile.WriteByte((byte)((sizetest) >> 16));
+                    chnfile.WriteByte((byte)((sizetest) >> 8));
+                    chnfile.WriteByte((byte)(sizetest));
 
                     chnfile.WriteByte(1); //Fixed
                     chnfile.WriteByte((byte)fileAmount);    //Amount of fragments
 
-                    chnfile.WriteByte((byte)((i * 2784) >> 16));
-                    chnfile.WriteByte((byte)((i * 2784) >> 8));
-                    chnfile.WriteByte((byte)(i * 2784));
+                    chnfile.WriteByte((byte)((i * 8192) >> 16));
+                    chnfile.WriteByte((byte)((i * 8192) >> 8));
+                    chnfile.WriteByte((byte)(i * 8192));
 
-                    chnfile.Write(filedata, (i * 2784), 2784);
+                    chnfile.Write(filedata, (i * 8192), 8192);
                 }
                 chnfile.Close();
             }
