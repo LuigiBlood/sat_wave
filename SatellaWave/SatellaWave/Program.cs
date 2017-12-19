@@ -366,15 +366,15 @@ namespace SatellaWave
                                 xmlWriter.WriteAttributeString("lci", (_filenode.Tag as DownloadFile).lci.ToString("X4"));
                                 xmlWriter.WriteAttributeString("timeout", (_filenode.Tag as DownloadFile).timeout.ToString());
                                 xmlWriter.WriteAttributeString("type", (_filenode.Tag as DownloadFile).type.ToString());
+                                xmlWriter.WriteAttributeString("description", (_filenode.Tag as DownloadFile).filedesc);
 
                                 //Item
-                                xmlWriter.WriteAttributeString("description", (_filenode.Tag as DownloadFile).filedesc);
                                 xmlWriter.WriteAttributeString("usage", (_filenode.Tag as DownloadFile).usage);
                                 xmlWriter.WriteAttributeString("price", (_filenode.Tag as DownloadFile).price.ToString("D12"));
                                 xmlWriter.WriteAttributeString("oneuse", (_filenode.Tag as DownloadFile).oneuse.ToString().ToLowerInvariant());
 
                                 //File
-                                xmlWriter.WriteAttributeString("path", (_filenode.Tag as DownloadFile).filepath); //TODO file at repository instead
+                                xmlWriter.WriteAttributeString("path", (_filenode.Tag as DownloadFile).filepath); //TODO copy file at repository instead
                                 xmlWriter.WriteAttributeString("autostart", (_filenode.Tag as DownloadFile).autostart.ToString());
                                 xmlWriter.WriteAttributeString("destination", (_filenode.Tag as DownloadFile).dest.ToString());
                                 xmlWriter.WriteAttributeString("home", (_filenode.Tag as DownloadFile).alsoAtHome.ToString().ToLowerInvariant());
@@ -396,8 +396,14 @@ namespace SatellaWave
                                     xmlWriter.WriteAttributeString("lci", (_fileinclnode.Tag as DownloadFile).lci.ToString("X4"));
                                     xmlWriter.WriteAttributeString("timeout", (_fileinclnode.Tag as DownloadFile).timeout.ToString());
                                     xmlWriter.WriteAttributeString("type", (_fileinclnode.Tag as DownloadFile).type.ToString());
-
                                     xmlWriter.WriteAttributeString("description", (_fileinclnode.Tag as DownloadFile).filedesc);
+
+                                    //Item (for compatibility)
+                                    xmlWriter.WriteAttributeString("usage", (_filenode.Tag as DownloadFile).usage);
+                                    xmlWriter.WriteAttributeString("price", (_filenode.Tag as DownloadFile).price.ToString("D12"));
+                                    xmlWriter.WriteAttributeString("oneuse", (_filenode.Tag as DownloadFile).oneuse.ToString().ToLowerInvariant());
+
+                                    //File
                                     xmlWriter.WriteAttributeString("path", (_fileinclnode.Tag as DownloadFile).filepath); //TODO copy file at repository instead
                                     xmlWriter.WriteAttributeString("autostart", (_fileinclnode.Tag as DownloadFile).autostart.ToString());
                                     xmlWriter.WriteAttributeString("destination", (_fileinclnode.Tag as DownloadFile).dest.ToString());
