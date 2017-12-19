@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Xml;
 
 namespace SatellaWave
 {
@@ -272,6 +273,164 @@ namespace SatellaWave
         {
             nextprgnumber += 0x0100;
             return nextprgnumber;
+        }
+
+        public static void LoadBSXRepository(string folderPath)
+        {
+
+        }
+
+        public static void SaveBSXRepository(string folderPath)
+        {
+            //Save XML file
+
+            XmlWriterSettings xmlWriterSettings = new XmlWriterSettings()
+            {
+                Indent = true,
+                IndentChars = "\t"
+            };
+
+            XmlWriter xmlWriter = XmlWriter.Create(folderPath + "\\bsx.xml", xmlWriterSettings);
+            xmlWriter.WriteStartDocument();
+
+            xmlWriter.WriteStartElement("bsx");
+            xmlWriter.WriteAttributeString("version", "0.1");
+
+            foreach (TreeNode _node in mainWindow.treeViewChn.Nodes)
+            {
+                //Channel
+                xmlWriter.WriteStartElement("channel");
+                xmlWriter.WriteAttributeString("name", (_node.Tag as Channel).name);
+                xmlWriter.WriteAttributeString("broadcast", (_node.Tag as Channel).GetChannelNumberString());
+                xmlWriter.WriteAttributeString("lci", (_node.Tag as Channel).lci.ToString("X4"));
+                xmlWriter.WriteAttributeString("timeout", (_node.Tag as Channel).timeout.ToString());
+                xmlWriter.WriteAttributeString("type", (_node.Tag as Channel).type.ToString());
+
+                //Channel Specific Type
+                if (_node.Tag.GetType() == typeof(MessageChannel))
+                {
+                    //Message
+                    xmlWriter.WriteStartElement("message");
+                    xmlWriter.WriteString((_node.Tag as MessageChannel).message);
+                    xmlWriter.WriteEndElement();
+                }
+                else if (_node.Tag.GetType() == typeof(TownStatus))
+                {
+                    //Town Status
+                    xmlWriter.WriteStartElement("town");
+                    xmlWriter.WriteAttributeString("apu", (_node.Tag as TownStatus).apu_setup.ToString());
+                    xmlWriter.WriteAttributeString("radio", (_node.Tag as TownStatus).radio_setup.ToString());
+
+                    string npc_list = "";
+                    foreach (bool _check in (_node.Tag as TownStatus).npc_flags)
+                    {
+                        if (_check == true)
+                            npc_list += "1";
+                        else
+                            npc_list += "0";
+                    }
+
+                    xmlWriter.WriteAttributeString("npc", npc_list);
+
+                    xmlWriter.WriteAttributeString("fountain", (_node.Tag as TownStatus).fountain.ToString());
+                    xmlWriter.WriteAttributeString("season", (_node.Tag as TownStatus).season.ToString());
+                    xmlWriter.WriteEndElement();
+                }
+                else if (_node.Tag.GetType() == typeof(Directory))
+                {
+                    //Directory
+                    xmlWriter.WriteStartElement("directory");
+
+                    //Folders
+                    foreach (TreeNode _foldernode in _node.Nodes)
+                    {
+                        if (_foldernode.Tag.GetType() == typeof(Folder))
+                        {
+                            //Making sure it's a folder, for future Expansion support
+                            xmlWriter.WriteStartElement("folder");
+
+                            xmlWriter.WriteAttributeString("name", (_foldernode.Tag as Folder).name);
+                            xmlWriter.WriteAttributeString("message", (_foldernode.Tag as Folder).message);
+                            xmlWriter.WriteAttributeString("purpose", (_foldernode.Tag as Folder).purpose.ToString());
+                            xmlWriter.WriteAttributeString("type", (_foldernode.Tag as Folder).type.ToString());
+                            xmlWriter.WriteAttributeString("id", (_foldernode.Tag as Folder).id.ToString());
+                            xmlWriter.WriteAttributeString("mugshot", (_foldernode.Tag as Folder).mugshot.ToString());
+
+                            //Files
+                            foreach (TreeNode _filenode in _foldernode.Nodes)
+                            {
+                                xmlWriter.WriteStartElement("file");
+
+                                xmlWriter.WriteAttributeString("name", (_filenode.Tag as DownloadFile).name);
+                                xmlWriter.WriteAttributeString("broadcast", (_filenode.Tag as DownloadFile).GetChannelNumberString());
+                                xmlWriter.WriteAttributeString("lci", (_filenode.Tag as DownloadFile).lci.ToString("X4"));
+                                xmlWriter.WriteAttributeString("timeout", (_filenode.Tag as DownloadFile).timeout.ToString());
+                                xmlWriter.WriteAttributeString("type", (_filenode.Tag as DownloadFile).type.ToString());
+
+                                //Item
+                                xmlWriter.WriteAttributeString("description", (_filenode.Tag as DownloadFile).filedesc);
+                                xmlWriter.WriteAttributeString("usage", (_filenode.Tag as DownloadFile).usage);
+                                xmlWriter.WriteAttributeString("price", (_filenode.Tag as DownloadFile).price.ToString("D12"));
+                                xmlWriter.WriteAttributeString("oneuse", (_filenode.Tag as DownloadFile).oneuse.ToString().ToLowerInvariant());
+
+                                //File
+                                xmlWriter.WriteAttributeString("path", (_filenode.Tag as DownloadFile).filepath); //TODO file at repository instead
+                                xmlWriter.WriteAttributeString("autostart", (_filenode.Tag as DownloadFile).autostart.ToString());
+                                xmlWriter.WriteAttributeString("destination", (_filenode.Tag as DownloadFile).dest.ToString());
+                                xmlWriter.WriteAttributeString("home", (_filenode.Tag as DownloadFile).alsoAtHome.ToString().ToLowerInvariant());
+                                xmlWriter.WriteAttributeString("streamed", (_filenode.Tag as DownloadFile).streamed.ToString().ToLowerInvariant());
+
+                                xmlWriter.WriteAttributeString("month", (_filenode.Tag as DownloadFile).month.ToString());
+                                xmlWriter.WriteAttributeString("day", (_filenode.Tag as DownloadFile).day.ToString());
+
+                                xmlWriter.WriteAttributeString("starttime", (_filenode.Tag as DownloadFile).hour_start.ToString("D2") + ":" + (_filenode.Tag as DownloadFile).min_start.ToString("D2"));
+                                xmlWriter.WriteAttributeString("endtime", (_filenode.Tag as DownloadFile).hour_end.ToString("D2") + ":" + (_filenode.Tag as DownloadFile).min_end.ToString("D2"));
+
+                                foreach (TreeNode _fileinclnode in _filenode.Nodes)
+                                {
+                                    //INCLUDE FILES (can only be files)
+                                    xmlWriter.WriteStartElement("file");
+
+                                    xmlWriter.WriteAttributeString("name", (_fileinclnode.Tag as DownloadFile).name);
+                                    xmlWriter.WriteAttributeString("broadcast", (_fileinclnode.Tag as DownloadFile).GetChannelNumberString());
+                                    xmlWriter.WriteAttributeString("lci", (_fileinclnode.Tag as DownloadFile).lci.ToString("X4"));
+                                    xmlWriter.WriteAttributeString("timeout", (_fileinclnode.Tag as DownloadFile).timeout.ToString());
+                                    xmlWriter.WriteAttributeString("type", (_fileinclnode.Tag as DownloadFile).type.ToString());
+
+                                    xmlWriter.WriteAttributeString("description", (_fileinclnode.Tag as DownloadFile).filedesc);
+                                    xmlWriter.WriteAttributeString("path", (_fileinclnode.Tag as DownloadFile).filepath); //TODO copy file at repository instead
+                                    xmlWriter.WriteAttributeString("autostart", (_fileinclnode.Tag as DownloadFile).autostart.ToString());
+                                    xmlWriter.WriteAttributeString("destination", (_fileinclnode.Tag as DownloadFile).dest.ToString());
+                                    xmlWriter.WriteAttributeString("home", (_fileinclnode.Tag as DownloadFile).alsoAtHome.ToString().ToLowerInvariant());
+                                    xmlWriter.WriteAttributeString("streamed", (_fileinclnode.Tag as DownloadFile).streamed.ToString().ToLowerInvariant());
+
+                                    xmlWriter.WriteAttributeString("month", (_fileinclnode.Tag as DownloadFile).month.ToString());
+                                    xmlWriter.WriteAttributeString("day", (_fileinclnode.Tag as DownloadFile).day.ToString());
+
+                                    xmlWriter.WriteAttributeString("starttime", (_fileinclnode.Tag as DownloadFile).GetTimeStart());
+                                    xmlWriter.WriteAttributeString("endtime", (_fileinclnode.Tag as DownloadFile).GetTimeEnd());
+
+                                    xmlWriter.WriteEndElement();
+                                }
+
+                                xmlWriter.WriteEndElement();
+                            }
+
+                            xmlWriter.WriteEndElement();
+                        }
+                    }
+
+                    xmlWriter.WriteEndElement();
+                }
+
+                //End Channel
+                xmlWriter.WriteEndElement();
+            }
+
+            xmlWriter.WriteEndElement();
+
+            xmlWriter.WriteEndDocument();
+            xmlWriter.Close();
         }
 
         public static void ExportBSX(string folderPath)

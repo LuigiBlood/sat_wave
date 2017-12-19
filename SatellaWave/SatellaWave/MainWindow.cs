@@ -41,7 +41,15 @@ namespace SatellaWave
 
         private void saveAsRepositoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            SaveLast();
 
+            FolderSelect.FolderSelectDialog fsd = new FolderSelect.FolderSelectDialog();
+            fsd.Title = "Select BS-X Repository Folder...";
+            if (fsd.ShowDialog())
+            {
+                //No \ at the end
+                Program.SaveBSXRepository(fsd.FileName);
+            }
         }
 
         private void exportToolStripMenuItem_Click(object sender, EventArgs e)

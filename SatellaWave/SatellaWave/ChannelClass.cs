@@ -249,5 +249,15 @@ namespace SatellaWave
             hour_end = 23;
             min_end = 59;
         }
+
+        public string GetTimeStart()
+        {
+            return hour_start.ToString("D2") + ":" + min_start.ToString("D2");
+        }
+
+        public string GetTimeEnd()
+        {
+            return hour_end.ToString("D2") + ":" + min_end.ToString("D2");
+        }
     }
 }
