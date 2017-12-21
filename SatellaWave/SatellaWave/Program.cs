@@ -423,7 +423,7 @@ namespace SatellaWave
                     else
                     {
                         //error
-                        MessageBox.Show("Error", "Invalid Channel Node.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Invalid Channel Node.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
                 }
@@ -431,7 +431,7 @@ namespace SatellaWave
             else
             {
                 //not proper XML
-                MessageBox.Show("Error", "This is not a SatellaWave XML file.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("This is not a SatellaWave XML file.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
