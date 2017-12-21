@@ -145,6 +145,16 @@ namespace SatellaWave
             fountain = 0;
             season = 0;
         }
+
+        public TownStatus(ushort _pv, ushort _pr, string _name, ushort _lci, ushort _timeout) : base(_pv, _pr, _name, _lci, _timeout)
+        {
+            type = (byte)ChannelType.Town;
+            apu_setup = 3;
+            radio_setup = 0;
+            npc_flags = new bool[64];
+            fountain = 0;
+            season = 0;
+        }
     }
 
     class Directory : Channel
@@ -155,6 +165,11 @@ namespace SatellaWave
         }
 
         public Directory(ushort _pv, ushort _pr, string _name, ushort _lci) : base(_pv, _pr, _name, _lci)
+        {
+            type = (byte)ChannelType.Directory;
+        }
+
+        public Directory(ushort _pv, ushort _pr, string _name, ushort _lci, ushort _timeout) : base(_pv, _pr, _name, _lci, _timeout)
         {
             type = (byte)ChannelType.Directory;
         }
@@ -177,6 +192,16 @@ namespace SatellaWave
             purpose = 1;
             id = 0;
             mugshot = 0;
+        }
+
+        public Folder(string _name, string _message, int _type, int _purpose, int _id, int _mugshot)
+        {
+            name = _name;
+            message = _message;
+            type = _type;
+            purpose = _purpose;
+            id = _id;
+            mugshot = _mugshot;
         }
     }
 

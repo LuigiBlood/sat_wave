@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Xml;
+using System.Globalization;
 
 namespace SatellaWave
 {
@@ -275,9 +276,172 @@ namespace SatellaWave
             return nextprgnumber;
         }
 
-        public static void LoadBSXRepository(string folderPath)
+        public static void LoadBSXRepository(string xmlPath)
         {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(xmlPath);
+            List<TreeNode> nodelist = new List<TreeNode>();
 
+            if (xmlDoc.DocumentElement.Name == "bsx")
+            {
+                foreach (XmlNode nodeChannel in xmlDoc.DocumentElement.ChildNodes)
+                {
+                    if (nodeChannel.Name == "channel")
+                    {
+                        ushort _pv = (ushort)((Convert.ToByte(nodeChannel.Attributes["broadcast"].Value.Split('.')[0]) << 8) | Convert.ToByte(nodeChannel.Attributes["broadcast"].Value.Split('.')[1]));
+                        ushort _pr = (ushort)((Convert.ToByte(nodeChannel.Attributes["broadcast"].Value.Split('.')[2]) << 8) | Convert.ToByte(nodeChannel.Attributes["broadcast"].Value.Split('.')[3]));
+                        string _name = nodeChannel.Attributes["name"].Value;
+
+                        ushort _lci;
+                        ushort.TryParse(nodeChannel.Attributes["lci"].Value, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out _lci);
+
+                        ushort _timeout = Convert.ToUInt16(nodeChannel.Attributes["timeout"].Value);
+
+                        if (nodeChannel.ChildNodes.Count > 0)
+                        {
+                            if (nodeChannel.ChildNodes[0].Name == "message")
+                            {
+                                //Message Channel
+                                MessageChannel msgchn = new MessageChannel(_pv, _pr, _name, _lci, _timeout, nodeChannel.ChildNodes[0].InnerText);
+
+                                TreeNode msgnode = new TreeNode(msgchn.name + " (" + msgchn.GetChannelNumberString() + ")");
+                                msgnode.Tag = msgchn;
+
+                                nodelist.Add(msgnode);
+                            }
+                            else if (nodeChannel.ChildNodes[0].Name == "town")
+                            {
+                                //Town Status
+                                TownStatus townchn = new TownStatus(_pv, _pr, _name, _lci, _timeout);
+                                townchn.apu_setup = Convert.ToByte(nodeChannel.ChildNodes[0].Attributes["apu"].Value);
+                                townchn.radio_setup = Convert.ToByte(nodeChannel.ChildNodes[0].Attributes["radio"].Value);
+                                townchn.fountain = Convert.ToByte(nodeChannel.ChildNodes[0].Attributes["fountain"].Value);
+                                townchn.season = Convert.ToByte(nodeChannel.ChildNodes[0].Attributes["season"].Value);
+
+                                for (int i = 0; i < townchn.npc_flags.Length; i++)
+                                {
+                                    townchn.npc_flags[i] = (nodeChannel.ChildNodes[0].Attributes["npc"].Value[i] == '1');
+                                }
+
+                                TreeNode townnode = new TreeNode(townchn.name + " (" + townchn.GetChannelNumberString() + ")");
+                                townnode.Tag = townchn;
+
+                                nodelist.Add(townnode);
+                            }
+                            else if (nodeChannel.ChildNodes[0].Name == "directory")
+                            {
+                                Directory dirchn = new Directory(_pv, _pr, _name, _lci, _timeout);
+                                TreeNode dirnode = new TreeNode(dirchn.name + " (" + dirchn.GetChannelNumberString() + ")");
+                                dirnode.Tag = dirchn;
+
+                                foreach (XmlNode folderData in nodeChannel.ChildNodes[0].ChildNodes)
+                                {
+                                    if (folderData.Name == "folder")
+                                    {
+                                        Folder folder = new Folder(folderData.Attributes["name"].Value, folderData.Attributes["message"].Value, Convert.ToInt32(folderData.Attributes["type"].Value), Convert.ToInt32(folderData.Attributes["purpose"].Value), Convert.ToInt32(folderData.Attributes["id"].Value), Convert.ToInt32(folderData.Attributes["mugshot"].Value));
+                                        TreeNode foldernode = new TreeNode(folder.name);
+                                        foldernode.Tag = folder;
+
+                                        //File
+                                        foreach (XmlNode fileData in folderData.ChildNodes)
+                                        {
+                                            DownloadFile file = new DownloadFile(folder.purpose == 1);
+
+                                            file.name = fileData.Attributes["name"].Value;
+                                            file.service_broadcast = (ushort)((Convert.ToByte(fileData.Attributes["broadcast"].Value.Split('.')[0]) << 8) | Convert.ToByte(fileData.Attributes["broadcast"].Value.Split('.')[1]));
+                                            file.program_number = (ushort)((Convert.ToByte(fileData.Attributes["broadcast"].Value.Split('.')[2]) << 8) | Convert.ToByte(fileData.Attributes["broadcast"].Value.Split('.')[3]));
+                                            ushort.TryParse(fileData.Attributes["lci"].Value, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out file.lci);
+                                            file.timeout = Convert.ToUInt16(fileData.Attributes["timeout"].Value);
+
+                                            file.filedesc = fileData.Attributes["description"].Value;
+
+                                            file.usage = fileData.Attributes["usage"].Value;
+                                            file.price = Convert.ToUInt64(fileData.Attributes["price"].Value);
+                                            file.oneuse = Convert.ToBoolean(fileData.Attributes["oneuse"].Value);
+
+                                            file.filepath = fileData.Attributes["path"].Value;
+                                            file.autostart = Convert.ToByte(fileData.Attributes["autostart"].Value);
+                                            file.dest = Convert.ToByte(fileData.Attributes["destination"].Value);
+                                            file.alsoAtHome = Convert.ToBoolean(fileData.Attributes["home"].Value);
+                                            file.streamed = Convert.ToBoolean(fileData.Attributes["streamed"].Value);
+                                            file.month = Convert.ToByte(fileData.Attributes["month"].Value);
+                                            file.day = Convert.ToByte(fileData.Attributes["day"].Value);
+                                            file.hour_start = Convert.ToByte(fileData.Attributes["starttime"].Value.Split(':')[0]);
+                                            file.min_start = Convert.ToByte(fileData.Attributes["starttime"].Value.Split(':')[1]);
+                                            file.hour_end = Convert.ToByte(fileData.Attributes["endtime"].Value.Split(':')[0]);
+                                            file.min_end = Convert.ToByte(fileData.Attributes["endtime"].Value.Split(':')[1]);
+
+                                            TreeNode filenode = new TreeNode(file.name);
+                                            filenode.Tag = file;
+
+                                            foreach (XmlNode fileInclData in fileData.ChildNodes)
+                                            {
+                                                //Include Files
+                                                DownloadFile fileIncl = new DownloadFile(folder.purpose == 1);
+
+                                                fileIncl.name = fileInclData.Attributes["name"].Value;
+                                                fileIncl.service_broadcast = (ushort)((Convert.ToByte(fileInclData.Attributes["broadcast"].Value.Split('.')[0]) << 8) | Convert.ToByte(fileInclData.Attributes["broadcast"].Value.Split('.')[1]));
+                                                fileIncl.program_number = (ushort)((Convert.ToByte(fileInclData.Attributes["broadcast"].Value.Split('.')[2]) << 8) | Convert.ToByte(fileInclData.Attributes["broadcast"].Value.Split('.')[3]));
+                                                ushort.TryParse(fileInclData.Attributes["lci"].Value, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out fileIncl.lci);
+                                                fileIncl.timeout = Convert.ToUInt16(fileInclData.Attributes["timeout"].Value);
+
+                                                fileIncl.filedesc = fileInclData.Attributes["description"].Value;
+
+                                                fileIncl.usage = fileInclData.Attributes["usage"].Value;
+                                                fileIncl.price = Convert.ToUInt64(fileInclData.Attributes["price"].Value);
+                                                fileIncl.oneuse = Convert.ToBoolean(fileInclData.Attributes["oneuse"].Value);
+
+                                                fileIncl.filepath = fileInclData.Attributes["path"].Value;
+                                                fileIncl.autostart = Convert.ToByte(fileInclData.Attributes["autostart"].Value);
+                                                fileIncl.dest = Convert.ToByte(fileInclData.Attributes["destination"].Value);
+                                                fileIncl.alsoAtHome = Convert.ToBoolean(fileInclData.Attributes["home"].Value);
+                                                fileIncl.streamed = Convert.ToBoolean(fileInclData.Attributes["streamed"].Value);
+                                                fileIncl.month = Convert.ToByte(fileInclData.Attributes["month"].Value);
+                                                fileIncl.day = Convert.ToByte(fileInclData.Attributes["day"].Value);
+                                                fileIncl.hour_start = Convert.ToByte(fileInclData.Attributes["starttime"].Value.Split(':')[0]);
+                                                fileIncl.min_start = Convert.ToByte(fileInclData.Attributes["starttime"].Value.Split(':')[1]);
+                                                fileIncl.hour_end = Convert.ToByte(fileInclData.Attributes["endtime"].Value.Split(':')[0]);
+                                                fileIncl.min_end = Convert.ToByte(fileInclData.Attributes["endtime"].Value.Split(':')[1]);
+
+                                                TreeNode fileinclnode = new TreeNode(fileIncl.name);
+                                                fileinclnode.Tag = fileIncl;
+
+                                                filenode.Nodes.Add(fileinclnode);
+                                            }
+
+                                            foldernode.Nodes.Add(filenode);
+                                        }
+
+                                        dirnode.Nodes.Add(foldernode);
+                                    }
+                                }
+
+                                nodelist.Add(dirnode);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        //error
+                        MessageBox.Show("Error", "Invalid Channel Node.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                //not proper XML
+                MessageBox.Show("Error", "This is not a SatellaWave XML file.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            //add to window
+            mainWindow.treeViewChn.Nodes.Clear();
+            foreach (TreeNode _node in nodelist)
+            {
+                Console.WriteLine(_node.Name);
+                mainWindow.treeViewChn.Nodes.Add(_node);
+            }
         }
 
         public static void SaveBSXRepository(string folderPath)

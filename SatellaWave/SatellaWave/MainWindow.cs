@@ -31,7 +31,15 @@ namespace SatellaWave
 
         private void openServerRepositoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            OpenFileDialog fileloadDialog = new OpenFileDialog();
+            fileloadDialog.Filter = "XML File (*.xml)|*.xml|All files|*.*";
+            fileloadDialog.Title = "Load Repository XML File...";
+            fileloadDialog.Multiselect = false;
 
+            if (fileloadDialog.ShowDialog() == DialogResult.OK)
+            {
+                Program.LoadBSXRepository(fileloadDialog.FileName);
+            }
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
