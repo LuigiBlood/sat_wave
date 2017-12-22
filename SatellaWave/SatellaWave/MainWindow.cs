@@ -51,12 +51,13 @@ namespace SatellaWave
         {
             SaveLast();
 
-            FolderSelect.FolderSelectDialog fsd = new FolderSelect.FolderSelectDialog();
-            fsd.Title = "Select BS-X Repository Folder...";
-            if (fsd.ShowDialog())
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "XML File (*.xml)|*.xml|All files|*.*";
+            saveFileDialog.Title = "Save Repository XML File...";
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                //No \ at the end
-                Program.SaveBSXRepository(fsd.FileName);
+                Program.SaveBSXRepository(saveFileDialog.FileName);
             }
         }
 

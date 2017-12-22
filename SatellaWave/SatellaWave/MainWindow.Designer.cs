@@ -106,6 +106,13 @@
             this.label14 = new System.Windows.Forms.Label();
             this.textBoxFileItemDesc = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
+            this.contextMenuStripFolderMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItemAddFile = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStripFileMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemAddIncludeFile = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip1.SuspendLayout();
             this.groupBoxTown.SuspendLayout();
             this.contextMenuStripChannelMenu.SuspendLayout();
@@ -117,6 +124,8 @@
             this.groupBoxFileItem_File.SuspendLayout();
             this.groupBoxFileItem_Item.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFileItemPrice)).BeginInit();
+            this.contextMenuStripFolderMenu.SuspendLayout();
+            this.contextMenuStripFileMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // fileToolStripMenuItem
@@ -1030,6 +1039,53 @@
             this.label11.TabIndex = 0;
             this.label11.Text = "Description:";
             // 
+            // contextMenuStripFolderMenu
+            // 
+            this.contextMenuStripFolderMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemAddFile});
+            this.contextMenuStripFolderMenu.Name = "contextMenuStripChannelMenu";
+            this.contextMenuStripFolderMenu.Size = new System.Drawing.Size(186, 26);
+            // 
+            // toolStripMenuItemAddFile
+            // 
+            this.toolStripMenuItemAddFile.Name = "toolStripMenuItemAddFile";
+            this.toolStripMenuItemAddFile.Size = new System.Drawing.Size(185, 22);
+            this.toolStripMenuItemAddFile.Text = "Create New File/Item";
+            // 
+            // contextMenuStripFileMenu
+            // 
+            this.contextMenuStripFileMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemAddIncludeFile,
+            this.toolStripSeparator5,
+            this.toolStripMenuItem3,
+            this.toolStripMenuItem4});
+            this.contextMenuStripFileMenu.Name = "contextMenuStripChannelMenu";
+            this.contextMenuStripFileMenu.Size = new System.Drawing.Size(208, 98);
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(207, 22);
+            this.toolStripMenuItem3.Text = "Edit Channel Information";
+            // 
+            // toolStripMenuItem4
+            // 
+            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(207, 22);
+            this.toolStripMenuItem4.Text = "Delete Channel";
+            this.toolStripMenuItem4.Click += new System.EventHandler(this.toolStripMenuItemChannel_Delete_Click);
+            // 
+            // toolStripMenuItemAddIncludeFile
+            // 
+            this.toolStripMenuItemAddIncludeFile.Name = "toolStripMenuItemAddIncludeFile";
+            this.toolStripMenuItemAddIncludeFile.Size = new System.Drawing.Size(207, 22);
+            this.toolStripMenuItemAddIncludeFile.Text = "Create Include File";
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(204, 6);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1063,6 +1119,8 @@
             this.groupBoxFileItem_Item.ResumeLayout(false);
             this.groupBoxFileItem_Item.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFileItemPrice)).EndInit();
+            this.contextMenuStripFolderMenu.ResumeLayout(false);
+            this.contextMenuStripFileMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1147,6 +1205,13 @@
         private System.Windows.Forms.DateTimePicker dateTimePickerFileItem_TimeEnd;
         private System.Windows.Forms.DateTimePicker dateTimePickerFileItem_TimeStart;
         private System.Windows.Forms.Label label18;
+        public System.Windows.Forms.ContextMenuStrip contextMenuStripFolderMenu;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemAddFile;
+        public System.Windows.Forms.ContextMenuStrip contextMenuStripFileMenu;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemAddIncludeFile;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
     }
 }
 

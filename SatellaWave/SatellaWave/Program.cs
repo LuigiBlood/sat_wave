@@ -306,6 +306,7 @@ namespace SatellaWave
 
                                 TreeNode msgnode = new TreeNode(msgchn.name + " (" + msgchn.GetChannelNumberString() + ")");
                                 msgnode.Tag = msgchn;
+                                msgnode.ContextMenuStrip = mainWindow.contextMenuStripChannelMenu;
 
                                 nodelist.Add(msgnode);
                             }
@@ -325,6 +326,7 @@ namespace SatellaWave
 
                                 TreeNode townnode = new TreeNode(townchn.name + " (" + townchn.GetChannelNumberString() + ")");
                                 townnode.Tag = townchn;
+                                townnode.ContextMenuStrip = mainWindow.contextMenuStripChannelMenu;
 
                                 nodelist.Add(townnode);
                             }
@@ -391,7 +393,10 @@ namespace SatellaWave
                                                 fileIncl.price = Convert.ToUInt64(fileInclData.Attributes["price"].Value);
                                                 fileIncl.oneuse = Convert.ToBoolean(fileInclData.Attributes["oneuse"].Value);
 
-                                                fileIncl.filepath = fileInclData.Attributes["path"].Value;
+                                                if (fileInclData.Attributes["path"].Value.Length > 0 && fileInclData.Attributes["path"].Value[0] == '.')
+                                                    fileIncl.filepath = Path.GetFullPath(Path.GetDirectoryName(xmlPath) + fileInclData.Attributes["path"].Value);
+                                                else
+                                                    fileIncl.filepath = fileInclData.Attributes["path"].Value;
                                                 fileIncl.autostart = Convert.ToByte(fileInclData.Attributes["autostart"].Value);
                                                 fileIncl.dest = Convert.ToByte(fileInclData.Attributes["destination"].Value);
                                                 fileIncl.alsoAtHome = Convert.ToBoolean(fileInclData.Attributes["home"].Value);
@@ -405,17 +410,17 @@ namespace SatellaWave
 
                                                 TreeNode fileinclnode = new TreeNode(fileIncl.name);
                                                 fileinclnode.Tag = fileIncl;
-
+                                                fileinclnode.ContextMenuStrip = mainWindow.contextMenuStripFileMenu;
                                                 filenode.Nodes.Add(fileinclnode);
                                             }
-
+                                            filenode.ContextMenuStrip = mainWindow.contextMenuStripFileMenu;
                                             foldernode.Nodes.Add(filenode);
                                         }
-
+                                        foldernode.ContextMenuStrip = mainWindow.contextMenuStripFolderMenu;
                                         dirnode.Nodes.Add(foldernode);
                                     }
                                 }
-
+                                dirnode.ContextMenuStrip = mainWindow.contextMenuStripDirectoryMenu;
                                 nodelist.Add(dirnode);
                             }
                         }
@@ -444,7 +449,7 @@ namespace SatellaWave
             }
         }
 
-        public static void SaveBSXRepository(string folderPath)
+        public static void SaveBSXRepository(string filepath)
         {
             //Save XML file
 
@@ -454,9 +459,8 @@ namespace SatellaWave
                 IndentChars = "\t"
             };
 
-            XmlWriter xmlWriter = XmlWriter.Create(folderPath + "\\bsx.xml", xmlWriterSettings);
+            XmlWriter xmlWriter = XmlWriter.Create(filepath, xmlWriterSettings);
             xmlWriter.WriteStartDocument();
-
             xmlWriter.WriteStartElement("bsx");
             xmlWriter.WriteAttributeString("version", "0.1");
 
@@ -538,7 +542,7 @@ namespace SatellaWave
                                 xmlWriter.WriteAttributeString("oneuse", (_filenode.Tag as DownloadFile).oneuse.ToString().ToLowerInvariant());
 
                                 //File
-                                xmlWriter.WriteAttributeString("path", (_filenode.Tag as DownloadFile).filepath); //TODO copy file at repository instead
+                                xmlWriter.WriteAttributeString("path", (_filenode.Tag as DownloadFile).filepath);
                                 xmlWriter.WriteAttributeString("autostart", (_filenode.Tag as DownloadFile).autostart.ToString());
                                 xmlWriter.WriteAttributeString("destination", (_filenode.Tag as DownloadFile).dest.ToString());
                                 xmlWriter.WriteAttributeString("home", (_filenode.Tag as DownloadFile).alsoAtHome.ToString().ToLowerInvariant());
@@ -568,7 +572,7 @@ namespace SatellaWave
                                     xmlWriter.WriteAttributeString("oneuse", (_filenode.Tag as DownloadFile).oneuse.ToString().ToLowerInvariant());
 
                                     //File
-                                    xmlWriter.WriteAttributeString("path", (_fileinclnode.Tag as DownloadFile).filepath); //TODO copy file at repository instead
+                                    xmlWriter.WriteAttributeString("path", (_fileinclnode.Tag as DownloadFile).filepath);
                                     xmlWriter.WriteAttributeString("autostart", (_fileinclnode.Tag as DownloadFile).autostart.ToString());
                                     xmlWriter.WriteAttributeString("destination", (_fileinclnode.Tag as DownloadFile).dest.ToString());
                                     xmlWriter.WriteAttributeString("home", (_fileinclnode.Tag as DownloadFile).alsoAtHome.ToString().ToLowerInvariant());
