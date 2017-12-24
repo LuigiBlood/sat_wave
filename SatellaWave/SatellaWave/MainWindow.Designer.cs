@@ -109,10 +109,11 @@
             this.contextMenuStripFolderMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemAddFile = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripFileMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemAddIncludeFile = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.groupBoxTown.SuspendLayout();
             this.contextMenuStripChannelMenu.SuspendLayout();
@@ -459,6 +460,7 @@
             this.toolStripMenuItemChannel_Edit.Name = "toolStripMenuItemChannel_Edit";
             this.toolStripMenuItemChannel_Edit.Size = new System.Drawing.Size(207, 22);
             this.toolStripMenuItemChannel_Edit.Text = "Edit Channel Information";
+            this.toolStripMenuItemChannel_Edit.Click += new System.EventHandler(this.toolStripMenuItemChannel_Edit_Click);
             // 
             // toolStripMenuItemChannel_Delete
             // 
@@ -531,6 +533,7 @@
             this.toolStripMenuItemDirectory_Edit.Name = "toolStripMenuItemDirectory_Edit";
             this.toolStripMenuItemDirectory_Edit.Size = new System.Drawing.Size(207, 22);
             this.toolStripMenuItemDirectory_Edit.Text = "Edit Channel Information";
+            this.toolStripMenuItemDirectory_Edit.Click += new System.EventHandler(this.toolStripMenuItemChannel_Edit_Click);
             // 
             // toolStripMenuItemDirectory_Delete
             // 
@@ -1042,15 +1045,17 @@
             // contextMenuStripFolderMenu
             // 
             this.contextMenuStripFolderMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItemAddFile});
+            this.toolStripMenuItemAddFile,
+            this.deleteFolderToolStripMenuItem});
             this.contextMenuStripFolderMenu.Name = "contextMenuStripChannelMenu";
-            this.contextMenuStripFolderMenu.Size = new System.Drawing.Size(186, 26);
+            this.contextMenuStripFolderMenu.Size = new System.Drawing.Size(186, 70);
             // 
             // toolStripMenuItemAddFile
             // 
             this.toolStripMenuItemAddFile.Name = "toolStripMenuItemAddFile";
             this.toolStripMenuItemAddFile.Size = new System.Drawing.Size(185, 22);
             this.toolStripMenuItemAddFile.Text = "Create New File/Item";
+            this.toolStripMenuItemAddFile.Click += new System.EventHandler(this.createFile);
             // 
             // contextMenuStripFileMenu
             // 
@@ -1060,20 +1065,7 @@
             this.toolStripMenuItem3,
             this.toolStripMenuItem4});
             this.contextMenuStripFileMenu.Name = "contextMenuStripChannelMenu";
-            this.contextMenuStripFileMenu.Size = new System.Drawing.Size(208, 98);
-            // 
-            // toolStripMenuItem3
-            // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(207, 22);
-            this.toolStripMenuItem3.Text = "Edit Channel Information";
-            // 
-            // toolStripMenuItem4
-            // 
-            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(207, 22);
-            this.toolStripMenuItem4.Text = "Delete Channel";
-            this.toolStripMenuItem4.Click += new System.EventHandler(this.toolStripMenuItemChannel_Delete_Click);
+            this.contextMenuStripFileMenu.Size = new System.Drawing.Size(208, 76);
             // 
             // toolStripMenuItemAddIncludeFile
             // 
@@ -1085,6 +1077,27 @@
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
             this.toolStripSeparator5.Size = new System.Drawing.Size(204, 6);
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(207, 22);
+            this.toolStripMenuItem3.Text = "Edit Channel Information";
+            this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItemChannel_Edit_Click);
+            // 
+            // toolStripMenuItem4
+            // 
+            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(207, 22);
+            this.toolStripMenuItem4.Text = "Delete Channel";
+            this.toolStripMenuItem4.Click += new System.EventHandler(this.toolStripMenuItemChannel_Delete_Click);
+            // 
+            // deleteFolderToolStripMenuItem
+            // 
+            this.deleteFolderToolStripMenuItem.Name = "deleteFolderToolStripMenuItem";
+            this.deleteFolderToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.deleteFolderToolStripMenuItem.Text = "Delete Folder";
+            this.deleteFolderToolStripMenuItem.Click += new System.EventHandler(this.toolStripMenuItemChannel_Delete_Click);
             // 
             // MainWindow
             // 
@@ -1212,6 +1225,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
+        private System.Windows.Forms.ToolStripMenuItem deleteFolderToolStripMenuItem;
     }
 }
 

@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Xml;
 using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace SatellaWave
 {
@@ -118,7 +119,7 @@ namespace SatellaWave
             TreeNode _node = new TreeNode(_chn.name + " (" + _chn.GetChannelNumberString() + ")");
             _node.Tag = _chn;
 
-            if (_chn.type != (byte)ChannelType.Directory)
+            if (_chn.GetType() != typeof(Directory))
                 _node.ContextMenuStrip = mainWindow.contextMenuStripChannelMenu;
             else
                 _node.ContextMenuStrip = mainWindow.contextMenuStripDirectoryMenu;
@@ -131,7 +132,7 @@ namespace SatellaWave
         {
             if (type == 0)
             {
-                //BS-X Welcome Message
+                //BS-X - Welcome Message (1.1.0.4)
                 //Check if already present
                 foreach (TreeNode _chn in mainWindow.treeViewChn.Nodes)
                 {
@@ -147,7 +148,7 @@ namespace SatellaWave
             }
             else if(type == 1)
             {
-                //BS-X Town Status
+                //BS-X - Town Status (1.1.0.5)
                 //Check if already present
                 foreach (TreeNode _chn in mainWindow.treeViewChn.Nodes)
                 {
@@ -163,7 +164,7 @@ namespace SatellaWave
             }
             else if (type == 2)
             {
-                //BS-X Directory
+                //BS-X - Directory (1.1.0.6)
                 //Check if already present
                 foreach (TreeNode _chn in mainWindow.treeViewChn.Nodes)
                 {
@@ -177,6 +178,42 @@ namespace SatellaWave
                 Directory _dir = new Directory(0x0101, 0x0006, "Directory", 0x0122);
                 AddChannel(_dir);
             }
+            else if (type == 3)
+            {
+                //BS-X - Time Channel (1.1.0.8)
+                Channel _time = new Channel(0x0101, 0x0008, "Time Channel [BS-X]", 0x0000);
+                AddChannel(_time);
+            }
+            else if (type == 4)
+            {
+                //Game - Time Channel (1.2.0.48)
+                Channel _time = new Channel(0x0102, 0x0030, "Time Channel [Game]", 0x0000);
+                AddChannel(_time);
+            }
+            else if (type == 5)
+            {
+                //Itoi Shigesato no Bass Tsuri No. 1 - Contest 1 (1.2.130.0)
+                Channel _contest = new Channel(0x0102, 0x8200, "Itoi Shigesato no Bass Tsuri No. 1 - Contest 1", 0x0000);
+                AddChannel(_contest);
+            }
+            else if (type == 6)
+            {
+                //Itoi Shigesato no Bass Tsuri No. 1 - Contest 2 (1.2.130.16)
+                Channel _contest = new Channel(0x0102, 0x8210, "Itoi Shigesato no Bass Tsuri No. 1 - Contest 2", 0x0000);
+                AddChannel(_contest);
+            }
+            else if (type == 7)
+            {
+                //Itoi Shigesato no Bass Tsuri No. 1 - Contest 3 (1.2.130.32)
+                Channel _contest = new Channel(0x0102, 0x8220, "Itoi Shigesato no Bass Tsuri No. 1 - Contest 3", 0x0000);
+                AddChannel(_contest);
+            }
+            else if (type == 8)
+            {
+                //Itoi Shigesato no Bass Tsuri No. 1 - Contest 4 (1.2.130.48)
+                Channel _contest = new Channel(0x0102, 0x8230, "Itoi Shigesato no Bass Tsuri No. 1 - Contest 4", 0x0000);
+                AddChannel(_contest);
+            }
         }
 
         public static void AddFolder(TreeNode _node)
@@ -186,6 +223,7 @@ namespace SatellaWave
                 Folder _folder = new Folder();
                 TreeNode _tnode = new TreeNode(_folder.name);
                 _tnode.Tag = _folder;
+                _tnode.ContextMenuStrip = mainWindow.contextMenuStripFolderMenu;
                 _node.Nodes.Add(_tnode);
                 mainWindow.treeViewChn.SelectedNode = _tnode;
             }
@@ -203,6 +241,7 @@ namespace SatellaWave
 
                 TreeNode _tnode = new TreeNode(_file.name);
                 _tnode.Tag = _file;
+                _tnode.ContextMenuStrip = mainWindow.contextMenuStripFileMenu;
                 _node.Nodes.Add(_tnode);
                 mainWindow.treeViewChn.SelectedNode = _tnode;
             }
@@ -288,6 +327,28 @@ namespace SatellaWave
                 {
                     if (nodeChannel.Name == "channel")
                     {
+                        //Verify Channel Integrity
+                        if (!(new Regex(@"^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$").Match(nodeChannel.Attributes["broadcast"].Value).Success))
+                        {
+                            //Software Channel
+                            MessageBox.Show("Software Channel is invalid in channel " + nodeChannel.BaseURI + " (" + nodeChannel.Attributes["name"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+
+                        if (!(new Regex(@"^[0-9a-fA-F]{4}$").Match(nodeChannel.Attributes["lci"].Value).Success))
+                        {
+                            //LCI
+                            MessageBox.Show("Logical Channel LCI is invalid in channel " + nodeChannel.BaseURI + " (" + nodeChannel.Attributes["name"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+
+                        if (!(new Regex(@"^[0-9]+$").Match(nodeChannel.Attributes["timeout"].Value).Success))
+                        {
+                            //Timeout
+                            MessageBox.Show("Timeout is invalid in channel " + nodeChannel.BaseURI + " (" + nodeChannel.Attributes["name"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+
                         ushort _pv = (ushort)((Convert.ToByte(nodeChannel.Attributes["broadcast"].Value.Split('.')[0]) << 8) | Convert.ToByte(nodeChannel.Attributes["broadcast"].Value.Split('.')[1]));
                         ushort _pr = (ushort)((Convert.ToByte(nodeChannel.Attributes["broadcast"].Value.Split('.')[2]) << 8) | Convert.ToByte(nodeChannel.Attributes["broadcast"].Value.Split('.')[3]));
                         string _name = nodeChannel.Attributes["name"].Value;
@@ -313,6 +374,41 @@ namespace SatellaWave
                             else if (nodeChannel.ChildNodes[0].Name == "town")
                             {
                                 //Town Status
+                                if (!(new Regex(@"^[0-3]$").Match(nodeChannel.ChildNodes[0].Attributes["apu"].Value).Success))
+                                {
+                                    //apu
+                                    MessageBox.Show("APU Setup is invalid in town channel " + nodeChannel.BaseURI + " (" + nodeChannel.Attributes["name"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    return;
+                                }
+
+                                if (!(new Regex(@"^[0-3]$").Match(nodeChannel.ChildNodes[0].Attributes["radio"].Value).Success))
+                                {
+                                    //radio
+                                    MessageBox.Show("Radio Setup is invalid in town channel " + nodeChannel.BaseURI + " (" + nodeChannel.Attributes["name"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    return;
+                                }
+
+                                if (!(new Regex(@"^(?:1[0-2]|[0-9]?)$").Match(nodeChannel.ChildNodes[0].Attributes["fountain"].Value).Success))
+                                {
+                                    //fountain
+                                    MessageBox.Show("Fountain Setup is invalid in town channel " + nodeChannel.BaseURI + " (" + nodeChannel.Attributes["name"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    return;
+                                }
+
+                                if (!(new Regex(@"^[0-4]$").Match(nodeChannel.ChildNodes[0].Attributes["season"].Value).Success))
+                                {
+                                    //season
+                                    MessageBox.Show("Season Setup is invalid in town channel " + nodeChannel.BaseURI + " (" + nodeChannel.Attributes["name"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    return;
+                                }
+
+                                if (!(new Regex(@"^[0-1]{64}$").Match(nodeChannel.ChildNodes[0].Attributes["npc"].Value).Success))
+                                {
+                                    //npc
+                                    MessageBox.Show("NPC Setup is invalid in town channel " + nodeChannel.BaseURI + " (" + nodeChannel.Attributes["name"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    return;
+                                }
+
                                 TownStatus townchn = new TownStatus(_pv, _pr, _name, _lci, _timeout);
                                 townchn.apu_setup = Convert.ToByte(nodeChannel.ChildNodes[0].Attributes["apu"].Value);
                                 townchn.radio_setup = Convert.ToByte(nodeChannel.ChildNodes[0].Attributes["radio"].Value);

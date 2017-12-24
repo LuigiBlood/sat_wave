@@ -61,6 +61,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChannelClass.cs" />
+    <Compile Include="EditChannel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditChannel.Designer.cs">
+      <DependentUpon>EditChannel.cs</DependentUpon>
+    </Compile>
     <Compile Include="FolderSelectDialog\FolderSelectDialog.cs" />
     <Compile Include="FolderSelectDialog\Reflector.cs" />
     <Compile Include="MainWindow.cs">
@@ -79,6 +85,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AddChannel.resx">
       <DependentUpon>AddChannel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditChannel.resx">
+      <DependentUpon>EditChannel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>

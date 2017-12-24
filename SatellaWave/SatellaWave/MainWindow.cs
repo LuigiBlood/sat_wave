@@ -101,6 +101,88 @@ namespace SatellaWave
 
         /* OTHER FUNCTIONS */
 
+        private void UpdateWindow()
+        {
+            groupBoxTown.Visible = false;
+            groupBoxMessage.Visible = false;
+            groupBoxDirectory.Visible = false;
+            groupBoxFolder.Visible = false;
+            groupBoxFileItem.Visible = false;
+
+            if (treeViewChn.SelectedNode.Tag.GetType() == typeof(MessageChannel))
+            {
+                textBoxMessage.Text = (treeViewChn.SelectedNode.Tag as MessageChannel).message;
+
+                groupBoxMessage.Visible = true;
+            }
+            else if (treeViewChn.SelectedNode.Tag.GetType() == typeof(TownStatus))
+            {
+                //Set stuff
+                comboBoxAudio.SelectedIndex = (treeViewChn.SelectedNode.Tag as TownStatus).apu_setup ^ 3;
+                comboBoxRadio.SelectedIndex = (treeViewChn.SelectedNode.Tag as TownStatus).radio_setup;
+                comboBoxMonth.SelectedIndex = (treeViewChn.SelectedNode.Tag as TownStatus).fountain;
+                comboBoxSeason.SelectedIndex = (treeViewChn.SelectedNode.Tag as TownStatus).season;
+
+                //0-58
+                for (int i = 0; i <= 58; i++)
+                    checkedListBoxNPCs.SetItemChecked(i, (treeViewChn.SelectedNode.Tag as TownStatus).npc_flags[i]);
+
+                //Make it appear
+                groupBoxTown.Visible = true;
+            }
+            else if (treeViewChn.SelectedNode.Tag.GetType() == typeof(Directory))
+            {
+                groupBoxDirectory.Visible = true;
+            }
+            else if (treeViewChn.SelectedNode.Tag.GetType() == typeof(Folder))
+            {
+                groupBoxFolder.Visible = true;
+
+                textBoxFolderName.Text = (treeViewChn.SelectedNode.Tag as Folder).name;
+                textBoxFolderMessage.Text = (treeViewChn.SelectedNode.Tag as Folder).message;
+
+                comboBoxFolderPurpose.SelectedIndex = (treeViewChn.SelectedNode.Tag as Folder).purpose;
+                comboBoxFolderType.SelectedIndex = (treeViewChn.SelectedNode.Tag as Folder).type;
+
+                comboBoxFolderID.SelectedIndex = (treeViewChn.SelectedNode.Tag as Folder).id;
+
+                comboBoxFolderMugshot.SelectedIndex = (treeViewChn.SelectedNode.Tag as Folder).mugshot;
+            }
+            else if (treeViewChn.SelectedNode.Tag.GetType() == typeof(DownloadFile))
+            {
+                groupBoxFileItem.Visible = true;
+
+                groupBoxFileItem_Item.Visible = false;
+                groupBoxFileItem_File.Visible = false;
+
+                textBoxFileItem_Name.Text = (treeViewChn.SelectedNode.Tag as DownloadFile).name;
+                textBoxFileItemDesc.Text = (treeViewChn.SelectedNode.Tag as DownloadFile).filedesc;
+
+                textBoxFileItemUsage.Text = (treeViewChn.SelectedNode.Tag as DownloadFile).usage;
+                numericUpDownFileItemPrice.Value = (treeViewChn.SelectedNode.Tag as DownloadFile).price;
+                checkBoxFileItemOneUse.Checked = (treeViewChn.SelectedNode.Tag as DownloadFile).oneuse;
+
+                textBoxFileItem_FilePath.Text = (treeViewChn.SelectedNode.Tag as DownloadFile).filepath;
+                checkBoxFileItem_AtHome.Checked = (treeViewChn.SelectedNode.Tag as DownloadFile).alsoAtHome;
+                checkBoxFileItem_Streaming.Checked = (treeViewChn.SelectedNode.Tag as DownloadFile).streamed;
+                comboBoxFileItem_AutoStart.SelectedIndex = (treeViewChn.SelectedNode.Tag as DownloadFile).autostart;
+                comboBoxFileItem_Destination.SelectedIndex = (treeViewChn.SelectedNode.Tag as DownloadFile).dest;
+
+                dateTimePickerFileItem_Date.Value = new DateTime(1995, (treeViewChn.SelectedNode.Tag as DownloadFile).month, (treeViewChn.SelectedNode.Tag as DownloadFile).day);
+                dateTimePickerFileItem_TimeStart.Value = new DateTime(1995, 04, 23, (treeViewChn.SelectedNode.Tag as DownloadFile).hour_start, (treeViewChn.SelectedNode.Tag as DownloadFile).min_start, 0);
+                dateTimePickerFileItem_TimeEnd.Value = new DateTime(1995, 04, 23, (treeViewChn.SelectedNode.Tag as DownloadFile).hour_end, (treeViewChn.SelectedNode.Tag as DownloadFile).min_end, 0);
+
+                if ((treeViewChn.SelectedNode.Tag as DownloadFile).isItem == true)
+                {
+                    groupBoxFileItem_Item.Visible = true;
+                }
+                else
+                {
+                    groupBoxFileItem_File.Visible = true;
+                }
+            }
+        }
+
         private void SaveLast()
         {
             if (treeViewChn.SelectedNode != null)
@@ -192,6 +274,20 @@ namespace SatellaWave
             _node.Text = (_node.Tag as DownloadFile).name;
         }
 
+        private string UpdateNodeName(TreeNode _node)
+        {
+            if (_node.Tag.GetType() == typeof(MessageChannel))
+                return (_node.Tag as MessageChannel).name + " (" + (_node.Tag as MessageChannel).GetChannelNumberString() + ")";
+            else if (_node.Tag.GetType() == typeof(TownStatus))
+                return (_node.Tag as TownStatus).name + " (" + (_node.Tag as TownStatus).GetChannelNumberString() + ")";
+            else if (_node.Tag.GetType() == typeof(Directory))
+                return (_node.Tag as Directory).name + " (" + (_node.Tag as Directory).GetChannelNumberString() + ")";
+            else if (_node.Tag.GetType() == typeof(DownloadFile))
+                return (_node.Tag as DownloadFile).name;
+
+            return _node.Text;
+        }
+
         /* OTHER EVENTS */
 
         private void treeViewChn_BeforeSelect(object sender, TreeViewCancelEventArgs e)
@@ -201,84 +297,7 @@ namespace SatellaWave
 
         private void treeViewChn_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            groupBoxTown.Visible = false;
-            groupBoxMessage.Visible = false;
-            groupBoxDirectory.Visible = false;
-            groupBoxFolder.Visible = false;
-            groupBoxFileItem.Visible = false;
-
-            if (treeViewChn.SelectedNode.Tag.GetType() == typeof(MessageChannel))
-            {
-                textBoxMessage.Text = (treeViewChn.SelectedNode.Tag as MessageChannel).message;
-
-                groupBoxMessage.Visible = true;
-            }
-            else if (treeViewChn.SelectedNode.Tag.GetType() == typeof(TownStatus))
-            {
-                //Set stuff
-                comboBoxAudio.SelectedIndex = (treeViewChn.SelectedNode.Tag as TownStatus).apu_setup ^ 3;
-                comboBoxRadio.SelectedIndex = (treeViewChn.SelectedNode.Tag as TownStatus).radio_setup;
-                comboBoxMonth.SelectedIndex = (treeViewChn.SelectedNode.Tag as TownStatus).fountain;
-                comboBoxSeason.SelectedIndex = (treeViewChn.SelectedNode.Tag as TownStatus).season;
-
-                //0-58
-                for (int i = 0; i <= 58; i++)
-                    checkedListBoxNPCs.SetItemChecked(i, (treeViewChn.SelectedNode.Tag as TownStatus).npc_flags[i]);
-
-                //Make it appear
-                groupBoxTown.Visible = true;
-            }
-            else if (treeViewChn.SelectedNode.Tag.GetType() == typeof(Directory))
-            {
-                groupBoxDirectory.Visible = true;
-            }
-            else if (treeViewChn.SelectedNode.Tag.GetType() == typeof(Folder))
-            {
-                groupBoxFolder.Visible = true;
-
-                textBoxFolderName.Text = (treeViewChn.SelectedNode.Tag as Folder).name;
-                textBoxFolderMessage.Text = (treeViewChn.SelectedNode.Tag as Folder).message;
-
-                comboBoxFolderPurpose.SelectedIndex = (treeViewChn.SelectedNode.Tag as Folder).purpose;
-                comboBoxFolderType.SelectedIndex = (treeViewChn.SelectedNode.Tag as Folder).type;
-
-                comboBoxFolderID.SelectedIndex = (treeViewChn.SelectedNode.Tag as Folder).id;
-
-                comboBoxFolderMugshot.SelectedIndex = (treeViewChn.SelectedNode.Tag as Folder).mugshot;
-            }
-            else if (treeViewChn.SelectedNode.Tag.GetType() == typeof(DownloadFile))
-            {
-                groupBoxFileItem.Visible = true;
-
-                groupBoxFileItem_Item.Visible = false;
-                groupBoxFileItem_File.Visible = false;
-
-                textBoxFileItem_Name.Text = (treeViewChn.SelectedNode.Tag as DownloadFile).name;
-                textBoxFileItemDesc.Text = (treeViewChn.SelectedNode.Tag as DownloadFile).filedesc;
-
-                textBoxFileItemUsage.Text = (treeViewChn.SelectedNode.Tag as DownloadFile).usage;
-                numericUpDownFileItemPrice.Value = (treeViewChn.SelectedNode.Tag as DownloadFile).price;
-                checkBoxFileItemOneUse.Checked = (treeViewChn.SelectedNode.Tag as DownloadFile).oneuse;
-
-                textBoxFileItem_FilePath.Text = (treeViewChn.SelectedNode.Tag as DownloadFile).filepath;
-                checkBoxFileItem_AtHome.Checked = (treeViewChn.SelectedNode.Tag as DownloadFile).alsoAtHome;
-                checkBoxFileItem_Streaming.Checked = (treeViewChn.SelectedNode.Tag as DownloadFile).streamed;
-                comboBoxFileItem_AutoStart.SelectedIndex = (treeViewChn.SelectedNode.Tag as DownloadFile).autostart;
-                comboBoxFileItem_Destination.SelectedIndex = (treeViewChn.SelectedNode.Tag as DownloadFile).dest;
-
-                dateTimePickerFileItem_Date.Value = new DateTime(1995, (treeViewChn.SelectedNode.Tag as DownloadFile).month, (treeViewChn.SelectedNode.Tag as DownloadFile).day);
-                dateTimePickerFileItem_TimeStart.Value = new DateTime(1995, 04, 23, (treeViewChn.SelectedNode.Tag as DownloadFile).hour_start, (treeViewChn.SelectedNode.Tag as DownloadFile).min_start, 0);
-                dateTimePickerFileItem_TimeEnd.Value = new DateTime(1995, 04, 23, (treeViewChn.SelectedNode.Tag as DownloadFile).hour_end, (treeViewChn.SelectedNode.Tag as DownloadFile).min_end, 0);
-
-                if ((treeViewChn.SelectedNode.Tag as DownloadFile).isItem == true)
-                {
-                    groupBoxFileItem_Item.Visible = true;
-                }
-                else
-                {
-                    groupBoxFileItem_File.Visible = true;
-                }
-            }
+            UpdateWindow();
         }
 
         private void textBoxMessage_TextChanged(object sender, EventArgs e)
@@ -297,6 +316,28 @@ namespace SatellaWave
                 groupBoxMessage.Visible = false;
                 groupBoxDirectory.Visible = false;
                 groupBoxFolder.Visible = false;
+                groupBoxFileItem.Visible = false;
+            }
+        }
+
+        private void toolStripMenuItemChannel_Edit_Click(object sender, EventArgs e)
+        {
+            if (treeViewChn.SelectedNode.Tag.GetType() == typeof(Folder))
+                return;
+
+            EditChannel editform = new EditChannel((treeViewChn.SelectedNode.Tag as Channel).name, (treeViewChn.SelectedNode.Tag as Channel).GetChannelNumberString(), (treeViewChn.SelectedNode.Tag as Channel).lci, (treeViewChn.SelectedNode.Tag as Channel).timeout);
+
+            if (editform.ShowDialog() == DialogResult.OK)
+            {
+                (treeViewChn.SelectedNode.Tag as Channel).name = editform._ret_name;
+                (treeViewChn.SelectedNode.Tag as Channel).service_broadcast = editform._ret_service;
+                (treeViewChn.SelectedNode.Tag as Channel).program_number = editform._ret_program;
+                (treeViewChn.SelectedNode.Tag as Channel).lci = editform._ret_lci;
+                (treeViewChn.SelectedNode.Tag as Channel).timeout = editform._ret_timeout;
+
+                treeViewChn.SelectedNode.Text = UpdateNodeName(treeViewChn.SelectedNode);
+
+                UpdateWindow();
             }
         }
 
