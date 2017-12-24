@@ -108,12 +108,12 @@
             this.label11 = new System.Windows.Forms.Label();
             this.contextMenuStripFolderMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemAddFile = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripFileMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemAddIncludeFile = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
-            this.deleteFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.groupBoxTown.SuspendLayout();
             this.contextMenuStripChannelMenu.SuspendLayout();
@@ -1057,6 +1057,13 @@
             this.toolStripMenuItemAddFile.Text = "Create New File/Item";
             this.toolStripMenuItemAddFile.Click += new System.EventHandler(this.createFile);
             // 
+            // deleteFolderToolStripMenuItem
+            // 
+            this.deleteFolderToolStripMenuItem.Name = "deleteFolderToolStripMenuItem";
+            this.deleteFolderToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.deleteFolderToolStripMenuItem.Text = "Delete Folder";
+            this.deleteFolderToolStripMenuItem.Click += new System.EventHandler(this.toolStripMenuItemChannel_Delete_Click);
+            // 
             // contextMenuStripFileMenu
             // 
             this.contextMenuStripFileMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1066,6 +1073,7 @@
             this.toolStripMenuItem4});
             this.contextMenuStripFileMenu.Name = "contextMenuStripChannelMenu";
             this.contextMenuStripFileMenu.Size = new System.Drawing.Size(208, 98);
+            this.contextMenuStripFileMenu.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripFileMenu_Opening);
             // 
             // toolStripMenuItemAddIncludeFile
             // 
@@ -1092,13 +1100,6 @@
             this.toolStripMenuItem4.Size = new System.Drawing.Size(207, 22);
             this.toolStripMenuItem4.Text = "Delete Channel";
             this.toolStripMenuItem4.Click += new System.EventHandler(this.toolStripMenuItemChannel_Delete_Click);
-            // 
-            // deleteFolderToolStripMenuItem
-            // 
-            this.deleteFolderToolStripMenuItem.Name = "deleteFolderToolStripMenuItem";
-            this.deleteFolderToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
-            this.deleteFolderToolStripMenuItem.Text = "Delete Folder";
-            this.deleteFolderToolStripMenuItem.Click += new System.EventHandler(this.toolStripMenuItemChannel_Delete_Click);
             // 
             // MainWindow
             // 

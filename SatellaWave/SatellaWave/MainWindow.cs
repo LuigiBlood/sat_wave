@@ -226,12 +226,17 @@ namespace SatellaWave
             }
             else if ((_node.Tag as Folder).purpose != comboBoxFolderPurpose.SelectedIndex)
             {
-                if (MessageBox.Show("This will change all the files created into the other type. Are you sure?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                string MessageString = "This will change all the files created into the other type. Are you sure?";
+                if (comboBoxFolderPurpose.SelectedIndex == 1)
+                    MessageString = "This will change all the files created into the other type.\nIt will also remove all include files in each file.\nYou will not be able to recover them.\nAre you sure?";
+
+                if (MessageBox.Show(MessageString, "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 {
                     (_node.Tag as Folder).purpose = comboBoxFolderPurpose.SelectedIndex;
                     foreach (TreeNode __node in _node.Nodes)
                     {
                         (__node.Tag as DownloadFile).isItem = (_node.Tag as Folder).purpose == 1;
+                        __node.Nodes.Clear();
                     }
                 }
                 else
@@ -377,6 +382,14 @@ namespace SatellaWave
             }
 
             comboBoxFolderID.SelectedIndex = 0;
+        }
+
+        private void contextMenuStripFileMenu_Opening(object sender, CancelEventArgs e)
+        {
+            if (treeViewChn.SelectedNode.Tag.GetType() == typeof(DownloadFile))
+            {
+                toolStripMenuItemAddIncludeFile.Enabled = !(treeViewChn.SelectedNode.Tag as DownloadFile).isItem;
+            }
         }
     }
 }
