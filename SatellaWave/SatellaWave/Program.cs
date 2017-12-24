@@ -134,13 +134,10 @@ namespace SatellaWave
             {
                 //BS-X - Welcome Message (1.1.0.4)
                 //Check if already present
-                foreach (TreeNode _chn in mainWindow.treeViewChn.Nodes)
+                if (CheckUsedChannel("1.1.0.4"))
                 {
-                    if ((_chn.Tag as Channel).service_broadcast == 0x0101 && (_chn.Tag as Channel).program_number == 0x0004)
-                    {
-                        MessageBox.Show("There is already a BS-X Message Channel.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
+                    MessageBox.Show("There is already a BS-X Message Channel.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
 
                 MessageChannel _msg = new MessageChannel(0x0101, 0x0004, "Welcome Message", 0x0121, "");
@@ -150,13 +147,10 @@ namespace SatellaWave
             {
                 //BS-X - Town Status (1.1.0.5)
                 //Check if already present
-                foreach (TreeNode _chn in mainWindow.treeViewChn.Nodes)
+                if (CheckUsedChannel("1.1.0.5"))
                 {
-                    if ((_chn.Tag as Channel).service_broadcast == 0x0101 && (_chn.Tag as Channel).program_number == 0x0005)
-                    {
-                        MessageBox.Show("There is already a BS-X Town Status Channel.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
+                    MessageBox.Show("There is already a BS-X Town Status Channel.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
 
                 TownStatus _town = new TownStatus(0x0101, 0x0005, "Town Status", 0x0123);
@@ -166,13 +160,10 @@ namespace SatellaWave
             {
                 //BS-X - Directory (1.1.0.6)
                 //Check if already present
-                foreach (TreeNode _chn in mainWindow.treeViewChn.Nodes)
+                if (CheckUsedChannel("1.1.0.6"))
                 {
-                    if ((_chn.Tag as Channel).service_broadcast == 0x0101 && (_chn.Tag as Channel).program_number == 0x0006)
-                    {
-                        MessageBox.Show("There is already a BS-X Directory Channel.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
+                    MessageBox.Show("There is already a BS-X Directory Channel.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
 
                 Directory _dir = new Directory(0x0101, 0x0006, "Directory", 0x0122);
@@ -181,36 +172,72 @@ namespace SatellaWave
             else if (type == 3)
             {
                 //BS-X - Time Channel (1.1.0.8)
+                if (CheckUsedChannel("1.1.0.8"))
+                {
+                    MessageBox.Show("There is already a BS-X Time Channel.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
                 Channel _time = new Channel(0x0101, 0x0008, "Time Channel [BS-X]", 0x0000);
                 AddChannel(_time);
             }
             else if (type == 4)
             {
                 //Game - Time Channel (1.2.0.48)
+                if (CheckUsedChannel("1.2.0.48"))
+                {
+                    MessageBox.Show("There is already a Game Time Channel.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
                 Channel _time = new Channel(0x0102, 0x0030, "Time Channel [Game]", 0x0000);
                 AddChannel(_time);
             }
             else if (type == 5)
             {
                 //Itoi Shigesato no Bass Tsuri No. 1 - Contest 1 (1.2.130.0)
+                if (CheckUsedChannel("1.2.130.0"))
+                {
+                    MessageBox.Show("There is already a Itoi Shigesato no Bass Tsuri No. 1 - Contest 1 Channel.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
                 Channel _contest = new Channel(0x0102, 0x8200, "Itoi Shigesato no Bass Tsuri No. 1 - Contest 1", 0x0000);
                 AddChannel(_contest);
             }
             else if (type == 6)
             {
                 //Itoi Shigesato no Bass Tsuri No. 1 - Contest 2 (1.2.130.16)
+                if (CheckUsedChannel("1.2.130.16"))
+                {
+                    MessageBox.Show("There is already a Itoi Shigesato no Bass Tsuri No. 1 - Contest 2 Channel.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
                 Channel _contest = new Channel(0x0102, 0x8210, "Itoi Shigesato no Bass Tsuri No. 1 - Contest 2", 0x0000);
                 AddChannel(_contest);
             }
             else if (type == 7)
             {
                 //Itoi Shigesato no Bass Tsuri No. 1 - Contest 3 (1.2.130.32)
+                if (CheckUsedChannel("1.2.130.32"))
+                {
+                    MessageBox.Show("There is already a Itoi Shigesato no Bass Tsuri No. 1 - Contest 3 Channel.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
                 Channel _contest = new Channel(0x0102, 0x8220, "Itoi Shigesato no Bass Tsuri No. 1 - Contest 3", 0x0000);
                 AddChannel(_contest);
             }
             else if (type == 8)
             {
                 //Itoi Shigesato no Bass Tsuri No. 1 - Contest 4 (1.2.130.48)
+                if (CheckUsedChannel("1.2.130.48"))
+                {
+                    MessageBox.Show("There is already a Itoi Shigesato no Bass Tsuri No. 1 - Contest 4 Channel.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
                 Channel _contest = new Channel(0x0102, 0x8230, "Itoi Shigesato no Bass Tsuri No. 1 - Contest 4", 0x0000);
                 AddChannel(_contest);
             }
@@ -245,6 +272,20 @@ namespace SatellaWave
                 _node.Nodes.Add(_tnode);
                 mainWindow.treeViewChn.SelectedNode = _tnode;
             }
+            else if (_node.Tag.GetType() == typeof(DownloadFile))
+            {
+                DownloadFile _file = new DownloadFile((_node.Tag as DownloadFile).isItem);
+
+                _file.lci = GetNextLCI();
+                _file.program_number = (ushort)((_node.Tag as DownloadFile).program_number + (_node.Nodes.Count + 1));
+                _file.service_broadcast = (_node.Tag as DownloadFile).service_broadcast; //Dedicated to content, more than enough
+
+                TreeNode _tnode = new TreeNode(_file.name);
+                _tnode.Tag = _file;
+                _tnode.ContextMenuStrip = mainWindow.contextMenuStripFileMenu;
+                _node.Nodes.Add(_tnode);
+                mainWindow.treeViewChn.SelectedNode = _tnode;
+            }
         }
 
         public static ushort GetNextLCI()
@@ -257,6 +298,51 @@ namespace SatellaWave
             } while (CheckUsedLCI(nextlci));
 
             return nextlci;
+        }
+
+        public static bool CheckUsedChannel(string _chnNumber)
+        {
+            foreach (TreeNode _node in mainWindow.treeViewChn.Nodes)
+            {
+                if (_node.Tag.GetType() == typeof(Directory))
+                {
+                    //Check Folders
+                    foreach (TreeNode _nodeChildFolder in _node.Nodes)
+                    {
+                        if (_nodeChildFolder.Tag.GetType() == typeof(Folder))
+                        {
+                            //Check Files
+                            foreach (TreeNode _nodeFile in _nodeChildFolder.Nodes)
+                            {
+                                if ((_nodeFile.Tag as DownloadFile).GetChannelNumberString() == _chnNumber)
+                                {
+                                    return true;
+                                }
+
+                                if (_nodeFile.Nodes.Count > 0)
+                                {
+                                    //Check Include Files if they exist
+                                    foreach (TreeNode _nodeIncFile in _nodeFile.Nodes)
+                                    {
+                                        if ((_nodeIncFile.Tag as DownloadFile).GetChannelNumberString() == _chnNumber)
+                                        {
+                                            return true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    if ((_node.Tag as Channel).GetChannelNumberString() == _chnNumber)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         public static bool CheckUsedLCI(ushort _lci)
