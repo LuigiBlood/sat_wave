@@ -1048,7 +1048,7 @@
             this.toolStripMenuItemAddFile,
             this.deleteFolderToolStripMenuItem});
             this.contextMenuStripFolderMenu.Name = "contextMenuStripChannelMenu";
-            this.contextMenuStripFolderMenu.Size = new System.Drawing.Size(186, 70);
+            this.contextMenuStripFolderMenu.Size = new System.Drawing.Size(186, 48);
             // 
             // toolStripMenuItemAddFile
             // 
@@ -1065,13 +1065,14 @@
             this.toolStripMenuItem3,
             this.toolStripMenuItem4});
             this.contextMenuStripFileMenu.Name = "contextMenuStripChannelMenu";
-            this.contextMenuStripFileMenu.Size = new System.Drawing.Size(208, 76);
+            this.contextMenuStripFileMenu.Size = new System.Drawing.Size(208, 98);
             // 
             // toolStripMenuItemAddIncludeFile
             // 
             this.toolStripMenuItemAddIncludeFile.Name = "toolStripMenuItemAddIncludeFile";
             this.toolStripMenuItemAddIncludeFile.Size = new System.Drawing.Size(207, 22);
             this.toolStripMenuItemAddIncludeFile.Text = "Create Include File";
+            this.toolStripMenuItemAddIncludeFile.Click += new System.EventHandler(this.createFile);
             // 
             // toolStripSeparator5
             // 
