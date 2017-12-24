@@ -44,7 +44,23 @@ namespace SatellaWave
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            SaveLast();
 
+            if (Program.lastSavedXMLFile != "")
+            {
+                Program.SaveBSXRepository();
+            }
+            else
+            {
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = "XML File (*.xml)|*.xml|All files|*.*";
+                saveFileDialog.Title = "Save Repository XML File...";
+
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    Program.SaveBSXRepository(saveFileDialog.FileName);
+                }
+            }
         }
 
         private void saveAsRepositoryToolStripMenuItem_Click(object sender, EventArgs e)

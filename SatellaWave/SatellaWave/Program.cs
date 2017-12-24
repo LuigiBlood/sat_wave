@@ -19,6 +19,7 @@ namespace SatellaWave
         public static MainWindow mainWindow;
         public static ushort nextlci = 0x0120;
         public static ushort nextprgnumber = 0x0000;
+        public static string lastSavedXMLFile = "";
 
         public static readonly string[] buildingList = {
             "Robot Tower",
@@ -112,6 +113,8 @@ namespace SatellaWave
 
             mainWindow.treeViewChn.Nodes.Clear();
             AddChannel(_town);
+
+            lastSavedXMLFile = "";
         }
 
         public static void AddChannel(Channel _chn)
@@ -635,6 +638,14 @@ namespace SatellaWave
                 Console.WriteLine(_node.Name);
                 mainWindow.treeViewChn.Nodes.Add(_node);
             }
+
+            lastSavedXMLFile = xmlPath;
+        }
+
+        public static void SaveBSXRepository()
+        {
+            //Fast save
+            SaveBSXRepository(lastSavedXMLFile);
         }
 
         public static void SaveBSXRepository(string filepath)
@@ -793,6 +804,8 @@ namespace SatellaWave
 
             xmlWriter.WriteEndDocument();
             xmlWriter.Close();
+
+            lastSavedXMLFile = filepath;
         }
 
         public static void ExportBSX(string folderPath)
