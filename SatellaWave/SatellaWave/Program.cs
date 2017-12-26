@@ -1491,6 +1491,7 @@ namespace SatellaWave
         public static byte[] ConvertToBSXStringBytes(string _string)
         {
             string _convstring = _string.Replace("\r\n", "\r");
+            _convstring = _convstring.Replace("\n", "\r");
 
             return Encoding.Convert(Encoding.UTF8, Encoding.GetEncoding(932), Encoding.UTF8.GetBytes(_convstring));
         }
