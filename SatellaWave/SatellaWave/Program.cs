@@ -1366,18 +1366,21 @@ namespace SatellaWave
                     {
                         foreach (TreeNode _folder in _node.Nodes)
                         {
-                            foreach (TreeNode _file in _folder.Nodes)
+                            if (_folder.Tag.GetType() == typeof(Folder))
                             {
-                                if ((_file.Tag as DownloadFile).service_broadcast == _cur_service)
+                                foreach (TreeNode _file in _folder.Nodes)
                                 {
-                                    _count++;
-                                }
-
-                                foreach (TreeNode _fileInc in _file.Nodes)
-                                {
-                                    if ((_fileInc.Tag as DownloadFile).service_broadcast == _cur_service)
+                                    if ((_file.Tag as DownloadFile).service_broadcast == _cur_service)
                                     {
                                         _count++;
+                                    }
+
+                                    foreach (TreeNode _fileInc in _file.Nodes)
+                                    {
+                                        if ((_fileInc.Tag as DownloadFile).service_broadcast == _cur_service)
+                                        {
+                                            _count++;
+                                        }
                                     }
                                 }
                             }
