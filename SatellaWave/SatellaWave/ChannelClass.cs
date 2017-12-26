@@ -208,6 +208,7 @@ namespace SatellaWave
     class DownloadFile : Channel
     {
         public bool isItem;    //Is this file an item?
+        public byte fileID;     //File ID for Town Status
 
         public string filedesc;    //Description of the File/Item
 
@@ -248,11 +249,12 @@ namespace SatellaWave
         public byte min_end;
         //HH:MM End
 
-        public DownloadFile(bool _isItem) : base()
+        public DownloadFile(bool _isItem, byte _id) : base()
         {
             type = (byte)ChannelType.DownloadFile;
 
             isItem = _isItem;
+            fileID = _id;
 
             name = "File";
             filedesc = "This is a file.";

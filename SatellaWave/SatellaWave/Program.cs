@@ -17,8 +17,6 @@ namespace SatellaWave
         /// </summary>
 
         public static MainWindow mainWindow;
-        public static ushort nextlci = 0x0120;
-        public static ushort nextprgnumber = 0x0000;
         public static string lastSavedXMLFile = "";
 
         public static readonly string[] buildingList = {
@@ -263,7 +261,7 @@ namespace SatellaWave
         {
             if (_node.Tag.GetType() == typeof(Folder))
             {
-                DownloadFile _file = new DownloadFile((_node.Tag as Folder).purpose == 1);
+                DownloadFile _file = new DownloadFile((_node.Tag as Folder).purpose == 1, GetNextFileID());
 
                 _file.lci = GetNextLCI();
                 _file.program_number = GetNextProgramNumber();
@@ -277,7 +275,7 @@ namespace SatellaWave
             }
             else if (_node.Tag.GetType() == typeof(DownloadFile))
             {
-                DownloadFile _file = new DownloadFile((_node.Tag as DownloadFile).isItem);
+                DownloadFile _file = new DownloadFile((_node.Tag as DownloadFile).isItem, (_node.Tag as DownloadFile).fileID);
 
                 _file.lci = GetNextLCI();
 
@@ -295,18 +293,6 @@ namespace SatellaWave
                 _node.Nodes.Add(_tnode);
                 mainWindow.treeViewChn.SelectedNode = _tnode;
             }
-        }
-
-        public static ushort GetNextLCI()
-        {
-            do
-            {
-                nextlci = (ushort)(nextlci & 0x1F | (nextlci >> 3));
-                nextlci++;
-                nextlci = (ushort)(nextlci | ((nextlci & 0x3E0) << 3) | 0x0020);
-            } while (CheckUsedLCI(nextlci));
-
-            return nextlci;
         }
 
         public static bool CheckUsedChannel(string _chnNumber)
@@ -352,6 +338,14 @@ namespace SatellaWave
                 }
             }
             return false;
+        }
+
+        public static bool CheckUsedChannel(ushort _service, ushort _program)
+        {
+            return CheckUsedChannel((_service >> 8).ToString()
+                + "." + (_service & 0xFF).ToString()
+                + "." + (_program >> 8).ToString()
+                + "." + (_program & 0xFF).ToString());
         }
 
         public static bool CheckUsedLCI(ushort _lci)
@@ -404,9 +398,63 @@ namespace SatellaWave
             return false;
         }
 
+        public static bool CheckUsedFileID(byte _fileID)
+        {
+            foreach (TreeNode _node in mainWindow.treeViewChn.Nodes)
+            {
+                if (_node.Tag.GetType() == typeof(Directory))
+                {
+                    //Check Folders
+                    foreach (TreeNode _nodeChildFolder in _node.Nodes)
+                    {
+                        if (_nodeChildFolder.Tag.GetType() == typeof(Folder))
+                        {
+                            //Check Files (don't need to check include files, it shares the same file ID)
+                            foreach (TreeNode _nodeFile in _nodeChildFolder.Nodes)
+                            {
+                                if ((_nodeFile.Tag as DownloadFile).fileID == _fileID)
+                                {
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            //not found
+            return false;
+        }
+
+        public static byte GetNextFileID()
+        {
+            byte nextfileid = 0;
+            while (CheckUsedFileID(nextfileid))
+            {
+                nextfileid++;
+            }
+
+            return nextfileid;
+        }
+
+        public static ushort GetNextLCI()
+        {
+            ushort nextlci = 0x0120;
+            while (CheckUsedLCI(nextlci))
+            {
+                nextlci = (ushort)(nextlci & 0x1F | (nextlci >> 3));
+                nextlci++;
+                nextlci = (ushort)(nextlci | ((nextlci & 0x3E0) << 3) | 0x0020);
+            }
+
+            return nextlci;
+        }
+
         public static ushort GetNextProgramNumber()
         {
-            nextprgnumber += 0x0100;
+            ushort nextprgnumber = 0;
+            while (CheckUsedChannel(0x0103, nextprgnumber))
+                nextprgnumber += 0x0100;
             return nextprgnumber;
         }
 
@@ -538,7 +586,7 @@ namespace SatellaWave
                                         //File
                                         foreach (XmlNode fileData in folderData.ChildNodes)
                                         {
-                                            DownloadFile file = new DownloadFile(folder.purpose == 1);
+                                            DownloadFile file = new DownloadFile(folder.purpose == 1, Convert.ToByte(fileData.Attributes["id"].Value));
 
                                             file.name = fileData.Attributes["name"].Value;
                                             file.service_broadcast = (ushort)((Convert.ToByte(fileData.Attributes["broadcast"].Value.Split('.')[0]) << 8) | Convert.ToByte(fileData.Attributes["broadcast"].Value.Split('.')[1]));
@@ -570,7 +618,7 @@ namespace SatellaWave
                                             foreach (XmlNode fileInclData in fileData.ChildNodes)
                                             {
                                                 //Include Files
-                                                DownloadFile fileIncl = new DownloadFile(folder.purpose == 1);
+                                                DownloadFile fileIncl = new DownloadFile(folder.purpose == 1, Convert.ToByte(fileInclData.Attributes["id"].Value));
 
                                                 fileIncl.name = fileInclData.Attributes["name"].Value;
                                                 fileIncl.service_broadcast = (ushort)((Convert.ToByte(fileInclData.Attributes["broadcast"].Value.Split('.')[0]) << 8) | Convert.ToByte(fileInclData.Attributes["broadcast"].Value.Split('.')[1]));
@@ -729,6 +777,7 @@ namespace SatellaWave
                                 xmlWriter.WriteStartElement("file");
 
                                 xmlWriter.WriteAttributeString("name", (_filenode.Tag as DownloadFile).name);
+                                xmlWriter.WriteAttributeString("id", (_filenode.Tag as DownloadFile).fileID.ToString());
                                 xmlWriter.WriteAttributeString("broadcast", (_filenode.Tag as DownloadFile).GetChannelNumberString());
                                 xmlWriter.WriteAttributeString("lci", (_filenode.Tag as DownloadFile).lci.ToString("X4"));
                                 xmlWriter.WriteAttributeString("timeout", (_filenode.Tag as DownloadFile).timeout.ToString());
@@ -759,6 +808,7 @@ namespace SatellaWave
                                     xmlWriter.WriteStartElement("file");
 
                                     xmlWriter.WriteAttributeString("name", (_fileinclnode.Tag as DownloadFile).name);
+                                    xmlWriter.WriteAttributeString("id", (_fileinclnode.Tag as DownloadFile).fileID.ToString());
                                     xmlWriter.WriteAttributeString("broadcast", (_fileinclnode.Tag as DownloadFile).GetChannelNumberString());
                                     xmlWriter.WriteAttributeString("lci", (_fileinclnode.Tag as DownloadFile).lci.ToString("X4"));
                                     xmlWriter.WriteAttributeString("timeout", (_fileinclnode.Tag as DownloadFile).timeout.ToString());
@@ -812,6 +862,7 @@ namespace SatellaWave
         {
             //2794 bytes max per file
             List<byte> ChannelFile = new List<byte>();
+            List<byte> FileIDs = new List<byte>();
 
             //Find, make the Directory First
             foreach (TreeNode _DirectoryCheck in mainWindow.treeViewChn.Nodes)
@@ -888,7 +939,7 @@ namespace SatellaWave
                             //Files
                             foreach (TreeNode _File in _Folder.Nodes)
                             {
-                                ChannelFile.Add(1); //File ID
+                                ChannelFile.Add((_File.Tag as DownloadFile).fileID); //File ID
                                 ChannelFile.Add(0); //Check
 
                                 //File Name
@@ -942,6 +993,8 @@ namespace SatellaWave
                                 else
                                 {
                                     //Export Download File First
+                                    FileIDs.Add((_File.Tag as DownloadFile).fileID);
+
                                     FileStream downloadFile = new FileStream((_File.Tag as DownloadFile).filepath, FileMode.Open);
                                     (_File.Tag as DownloadFile).filesize = (int)downloadFile.Length;
 
@@ -1223,9 +1276,9 @@ namespace SatellaWave
                     ChannelFile.Add(0);
                     ChannelFile.Add(0);
 
-                    ChannelFile.Add(2); //Number of file IDs
-                    ChannelFile.Add(0);
-                    ChannelFile.Add(1);
+                    ChannelFile.Add((byte)FileIDs.Count); //Number of file IDs
+                    foreach (byte _id in FileIDs)
+                        ChannelFile.Add(_id);
 
                     if (ChannelFile.Count > 256)
                     {
@@ -1304,10 +1357,31 @@ namespace SatellaWave
                 byte _count = 0;
                 foreach (TreeNode _node in mainWindow.treeViewChn.Nodes)
                 {
-                    Channel _chan = _node.Tag as Channel;
-                    if (_chan.service_broadcast == _cur_service)
+                    if ((_node.Tag as Channel).service_broadcast == _cur_service)
                     {
                         _count++;
+                    }
+
+                    if (_node.Tag.GetType() == typeof(Directory))
+                    {
+                        foreach (TreeNode _folder in _node.Nodes)
+                        {
+                            foreach (TreeNode _file in _folder.Nodes)
+                            {
+                                if ((_file.Tag as DownloadFile).service_broadcast == _cur_service)
+                                {
+                                    _count++;
+                                }
+
+                                foreach (TreeNode _fileInc in _file.Nodes)
+                                {
+                                    if ((_fileInc.Tag as DownloadFile).service_broadcast == _cur_service)
+                                    {
+                                        _count++;
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
 
