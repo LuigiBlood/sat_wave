@@ -7,6 +7,7 @@ using System.IO;
 using System.Xml;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using System.Text;
 
 namespace SatellaWave
 {
@@ -141,7 +142,7 @@ namespace SatellaWave
                     return;
                 }
 
-                MessageChannel _msg = new MessageChannel(0x0101, 0x0004, "Welcome Message", 0x0121, "");
+                MessageChannel _msg = new MessageChannel(0x0101, 0x0004, "Welcome Message", GetNextLCI(), "");
                 AddChannel(_msg);
             }
             else if(type == 1)
@@ -154,7 +155,7 @@ namespace SatellaWave
                     return;
                 }
 
-                TownStatus _town = new TownStatus(0x0101, 0x0005, "Town Status", 0x0123);
+                TownStatus _town = new TownStatus(0x0101, 0x0005, "Town Status", GetNextLCI());
                 AddChannel(_town);
             }
             else if (type == 2)
@@ -167,7 +168,7 @@ namespace SatellaWave
                     return;
                 }
 
-                Directory _dir = new Directory(0x0101, 0x0006, "Directory", 0x0122);
+                Directory _dir = new Directory(0x0101, 0x0006, "Directory", GetNextLCI());
                 AddChannel(_dir);
             }
             else if (type == 3)
@@ -910,18 +911,18 @@ namespace SatellaWave
                             //Folder Name
                             for (int i = 0; i < 20; i++)
                             {
-                                if ((_Folder.Tag as Folder).name.Length > i)
-                                    ChannelFile.Add((byte)(_Folder.Tag as Folder).name[i]);
+                                if (ConvertToBSXStringBytes((_Folder.Tag as Folder).name).Length > i)
+                                    ChannelFile.Add(ConvertToBSXStringBytes((_Folder.Tag as Folder).name)[i]);
                                 else
                                     ChannelFile.Add(0);
                             }
 
                             ChannelFile.Add(0); //Name Terminator
 
-                            ChannelFile.Add((byte)((_Folder.Tag as Folder).message.Length + 1)); //Length Message
-                            foreach (char _chr in (_Folder.Tag as Folder).message)
+                            ChannelFile.Add((byte)(ConvertToBSXStringBytes((_Folder.Tag as Folder).message).Length + 1)); //Length Message
+                            foreach (byte _chr in ConvertToBSXStringBytes((_Folder.Tag as Folder).message))
                             {
-                                ChannelFile.Add((byte)_chr);
+                                ChannelFile.Add(_chr);
                             }
                             ChannelFile.Add(0); //Message Terminator
 
@@ -945,8 +946,8 @@ namespace SatellaWave
                                 //File Name
                                 for (int i = 0; i < 20; i++)
                                 {
-                                    if ((_File.Tag as DownloadFile).name.Length > i)
-                                        ChannelFile.Add((byte)(_File.Tag as DownloadFile).name[i]);
+                                    if (ConvertToBSXStringBytes((_File.Tag as DownloadFile).name).Length > i)
+                                        ChannelFile.Add(ConvertToBSXStringBytes((_File.Tag as DownloadFile).name)[i]);
                                     else
                                         ChannelFile.Add(0);
                                 }
@@ -960,8 +961,8 @@ namespace SatellaWave
                                     //Description
                                     for (int i = 0; i < 36; i++)
                                     {
-                                        if ((_File.Tag as DownloadFile).filedesc.Length > i)
-                                            ChannelFile.Add((byte)(_File.Tag as DownloadFile).filedesc[i]);
+                                        if (ConvertToBSXStringBytes((_File.Tag as DownloadFile).filedesc).Length > i)
+                                            ChannelFile.Add(ConvertToBSXStringBytes((_File.Tag as DownloadFile).filedesc)[i]);
                                         else
                                             ChannelFile.Add(0);
                                     }
@@ -970,8 +971,8 @@ namespace SatellaWave
                                     //Activation Message
                                     for (int i = 0; i < 70; i++)
                                     {
-                                        if ((_File.Tag as DownloadFile).usage.Length > i)
-                                            ChannelFile.Add((byte)(_File.Tag as DownloadFile).usage[i]);
+                                        if (ConvertToBSXStringBytes((_File.Tag as DownloadFile).usage).Length > i)
+                                            ChannelFile.Add(ConvertToBSXStringBytes((_File.Tag as DownloadFile).usage)[i]);
                                         else
                                             ChannelFile.Add(0);
                                     }
@@ -1006,12 +1007,12 @@ namespace SatellaWave
                                     SaveChannelFile(downloadFileArray, (_File.Tag as DownloadFile).lci, folderPath);
 
                                     //File
-                                    ChannelFile.Add((byte)((_File.Tag as DownloadFile).filedesc.Length + 1)); //Description Length
+                                    ChannelFile.Add((byte)(ConvertToBSXStringBytes((_File.Tag as DownloadFile).filedesc).Length + 1)); //Description Length
 
                                     //Description
-                                    foreach (char _chr in (_File.Tag as DownloadFile).filedesc)
+                                    foreach (byte _chr in ConvertToBSXStringBytes((_File.Tag as DownloadFile).filedesc))
                                     {
-                                        ChannelFile.Add((byte)_chr);
+                                        ChannelFile.Add(_chr);
                                     }
                                     ChannelFile.Add(0);
 
@@ -1135,8 +1136,8 @@ namespace SatellaWave
                                         //File Name
                                         for (int i = 0; i < 20; i++)
                                         {
-                                            if ((_File.Nodes[inclCount].Tag as DownloadFile).name.Length > i)
-                                                ChannelFile.Add((byte)(_File.Nodes[inclCount].Tag as DownloadFile).name[i]);
+                                            if (ConvertToBSXStringBytes((_File.Nodes[inclCount].Tag as DownloadFile).name).Length > i)
+                                                ChannelFile.Add(ConvertToBSXStringBytes((_File.Nodes[inclCount].Tag as DownloadFile).name)[i]);
                                             else
                                                 ChannelFile.Add(0);
                                         }
@@ -1146,9 +1147,9 @@ namespace SatellaWave
                                         ChannelFile.Add((byte)((_File.Nodes[inclCount].Tag as DownloadFile).filedesc.Length + 1)); //Description Length
 
                                         //Description
-                                        foreach (char _chr in (_File.Nodes[inclCount].Tag as DownloadFile).filedesc)
+                                        foreach (byte _chr in ConvertToBSXStringBytes((_File.Nodes[inclCount].Tag as DownloadFile).filedesc))
                                         {
-                                            ChannelFile.Add((byte)_chr);
+                                            ChannelFile.Add(_chr);
                                         }
                                         ChannelFile.Add(0);
 
@@ -1227,9 +1228,9 @@ namespace SatellaWave
                     //Message
                     ChannelFile.Clear();
 
-                    foreach (char _chr in (_Channel.Tag as MessageChannel).message.ToCharArray())
+                    foreach (byte _chr in ConvertToBSXStringBytes((_Channel.Tag as MessageChannel).message))
                     {
-                        ChannelFile.Add((byte)_chr);
+                        ChannelFile.Add(_chr);
                     }
                     ChannelFile.Add(0);
 
@@ -1485,6 +1486,13 @@ namespace SatellaWave
                 }
                 chnfile.Close();
             }
+        }
+
+        public static byte[] ConvertToBSXStringBytes(string _string)
+        {
+            string _convstring = _string.Replace("\r\n", "\r");
+
+            return Encoding.Convert(Encoding.UTF8, Encoding.GetEncoding(932), Encoding.UTF8.GetBytes(_convstring));
         }
     }
 }

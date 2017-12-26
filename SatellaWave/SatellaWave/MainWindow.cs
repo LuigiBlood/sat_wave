@@ -323,7 +323,7 @@ namespace SatellaWave
 
         private void textBoxMessage_TextChanged(object sender, EventArgs e)
         {
-            labelMessageCharLeft.Text = (99 - textBoxMessage.Text.Length).ToString() + " characters left";
+            labelMessageCharLeft.Text = (99 - Program.ConvertToBSXStringBytes(textBoxMessage.Text).Length).ToString() + " characters left";
         }
 
         private void toolStripMenuItemChannel_Delete_Click(object sender, EventArgs e)
