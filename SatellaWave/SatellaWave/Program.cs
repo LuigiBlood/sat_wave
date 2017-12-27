@@ -580,6 +580,34 @@ namespace SatellaWave
                                 {
                                     if (folderData.Name == "folder")
                                     {
+                                        if (!(new Regex(@"^[0-1]$").Match(folderData.Attributes["purpose"].Value).Success))
+                                        {
+                                            //Timeout
+                                            MessageBox.Show("Purpose is invalid in folder " + folderData.BaseURI + " (" + folderData.Attributes["name"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                            return;
+                                        }
+
+                                        if (!(new Regex(@"^[0-1]$").Match(folderData.Attributes["type"].Value).Success))
+                                        {
+                                            //Timeout
+                                            MessageBox.Show("Type is invalid in folder " + folderData.BaseURI + " (" + folderData.Attributes["name"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                            return;
+                                        }
+
+                                        if (!(new Regex(@"^[0-9]+$").Match(folderData.Attributes["id"].Value).Success))
+                                        {
+                                            //Timeout
+                                            MessageBox.Show("ID is invalid in folder " + folderData.BaseURI + " (" + folderData.Attributes["name"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                            return;
+                                        }
+
+                                        if (!(new Regex(@"^[0-9]+$").Match(folderData.Attributes["mugshot"].Value).Success))
+                                        {
+                                            //Timeout
+                                            MessageBox.Show("Mugshot is invalid in folder " + folderData.BaseURI + " (" + folderData.Attributes["name"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                            return;
+                                        }
+
                                         Folder folder = new Folder(folderData.Attributes["name"].Value, folderData.Attributes["message"].Value, Convert.ToInt32(folderData.Attributes["type"].Value), Convert.ToInt32(folderData.Attributes["purpose"].Value), Convert.ToInt32(folderData.Attributes["id"].Value), Convert.ToInt32(folderData.Attributes["mugshot"].Value));
                                         TreeNode foldernode = new TreeNode(folder.name);
                                         foldernode.Tag = folder;
@@ -587,6 +615,97 @@ namespace SatellaWave
                                         //File
                                         foreach (XmlNode fileData in folderData.ChildNodes)
                                         {
+                                            if (!(new Regex(@"^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$").Match(fileData.Attributes["broadcast"].Value).Success))
+                                            {
+                                                //Software Channel
+                                                MessageBox.Show("Software Channel is invalid in file channel " + fileData.BaseURI + " (" + fileData.Attributes["name"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                return;
+                                            }
+
+                                            if (!(new Regex(@"^[0-9a-fA-F]{4}$").Match(fileData.Attributes["lci"].Value).Success))
+                                            {
+                                                //LCI
+                                                MessageBox.Show("Logical Channel LCI is invalid in file channel " + fileData.BaseURI + " (" + fileData.Attributes["name"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                return;
+                                            }
+
+                                            if (!(new Regex(@"^[0-9]+$").Match(fileData.Attributes["timeout"].Value).Success))
+                                            {
+                                                //Timeout
+                                                MessageBox.Show("Timeout is invalid in file channel " + fileData.BaseURI + " (" + fileData.Attributes["name"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                return;
+                                            }
+
+                                            if (!(new Regex(@"^[0-9]{12}$").Match(fileData.Attributes["price"].Value).Success))
+                                            {
+                                                //fountain
+                                                MessageBox.Show("Price is invalid in file channel " + fileData.BaseURI + " (" + fileData.Attributes["name"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                return;
+                                            }
+
+                                            if (!(new Regex(@"^(true|false)$").Match(fileData.Attributes["oneuse"].Value).Success))
+                                            {
+                                                //Timeout
+                                                MessageBox.Show("One Use is invalid in file channel " + fileData.BaseURI + " (" + fileData.Attributes["name"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                return;
+                                            }
+
+                                            if (!(new Regex(@"^[0-3]+$").Match(fileData.Attributes["autostart"].Value).Success))
+                                            {
+                                                //Timeout
+                                                MessageBox.Show("Autostart is invalid in file channel " + fileData.BaseURI + " (" + fileData.Attributes["name"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                return;
+                                            }
+
+                                            if (!(new Regex(@"^[0-3]+$").Match(fileData.Attributes["destination"].Value).Success))
+                                            {
+                                                //Timeout
+                                                MessageBox.Show("Destination is invalid in file channel " + fileData.BaseURI + " (" + fileData.Attributes["name"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                return;
+                                            }
+
+                                            if (!(new Regex(@"^(true|false)$").Match(fileData.Attributes["home"].Value).Success))
+                                            {
+                                                //Timeout
+                                                MessageBox.Show("Home is invalid in file channel " + fileData.BaseURI + " (" + fileData.Attributes["name"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                return;
+                                            }
+
+                                            if (!(new Regex(@"^(true|false)$").Match(fileData.Attributes["streamed"].Value).Success))
+                                            {
+                                                //Timeout
+                                                MessageBox.Show("Streamed is invalid in file channel " + fileData.BaseURI + " (" + fileData.Attributes["name"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                return;
+                                            }
+
+                                            if (!(new Regex(@"^(?:1[0-2]|[1-9]?)$").Match(fileData.Attributes["month"].Value).Success))
+                                            {
+                                                //fountain
+                                                MessageBox.Show("Month is invalid in file channel " + fileData.BaseURI + " (" + fileData.Attributes["name"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                return;
+                                            }
+
+                                            if (!(new Regex(@"^(?:3[0-1]|[1-2][0-9]|[1-9]?)$").Match(fileData.Attributes["day"].Value).Success))
+                                            {
+                                                //fountain
+                                                MessageBox.Show("Day is invalid in file channel " + fileData.BaseURI + " (" + fileData.Attributes["name"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                return;
+                                            }
+
+                                            if (!(new Regex(@"^(2[0-3]|[0-1][0-9]):[0-5][0-9]$").Match(fileData.Attributes["starttime"].Value).Success))
+                                            {
+                                                //fountain
+                                                MessageBox.Show("Time Start is invalid in file channel " + fileData.BaseURI + " (" + fileData.Attributes["name"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                return;
+                                            }
+
+                                            if (!(new Regex(@"^(2[0-3]|[0-1][0-9]):[0-5][0-9]$").Match(fileData.Attributes["endtime"].Value).Success))
+                                            {
+                                                //fountain
+                                                MessageBox.Show("Time End is invalid in file channel " + fileData.BaseURI + " (" + fileData.Attributes["name"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                return;
+                                            }
+
                                             DownloadFile file = new DownloadFile(folder.purpose == 1, Convert.ToByte(fileData.Attributes["id"].Value));
 
                                             file.name = fileData.Attributes["name"].Value;
@@ -619,6 +738,97 @@ namespace SatellaWave
                                             foreach (XmlNode fileInclData in fileData.ChildNodes)
                                             {
                                                 //Include Files
+                                                if (!(new Regex(@"^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$").Match(fileInclData.Attributes["broadcast"].Value).Success))
+                                                {
+                                                    //Software Channel
+                                                    MessageBox.Show("Software Channel is invalid in include file channel " + fileInclData.BaseURI + " (" + fileInclData.Attributes["name"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                    return;
+                                                }
+
+                                                if (!(new Regex(@"^[0-9a-fA-F]{4}$").Match(fileInclData.Attributes["lci"].Value).Success))
+                                                {
+                                                    //LCI
+                                                    MessageBox.Show("Logical Channel LCI is invalid in include file channel " + fileInclData.BaseURI + " (" + fileInclData.Attributes["name"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                    return;
+                                                }
+
+                                                if (!(new Regex(@"^[0-9]+$").Match(fileInclData.Attributes["timeout"].Value).Success))
+                                                {
+                                                    //Timeout
+                                                    MessageBox.Show("Timeout is invalid in include file channel " + fileInclData.BaseURI + " (" + fileInclData.Attributes["name"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                    return;
+                                                }
+
+                                                if (!(new Regex(@"^[0-9]{12}$").Match(fileInclData.Attributes["price"].Value).Success))
+                                                {
+                                                    //fountain
+                                                    MessageBox.Show("Price is invalid in include file channel " + fileInclData.BaseURI + " (" + fileInclData.Attributes["name"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                    return;
+                                                }
+
+                                                if (!(new Regex(@"^(true|false)$").Match(fileInclData.Attributes["oneuse"].Value).Success))
+                                                {
+                                                    //Timeout
+                                                    MessageBox.Show("One Use is invalid in include file channel " + fileInclData.BaseURI + " (" + fileInclData.Attributes["name"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                    return;
+                                                }
+
+                                                if (!(new Regex(@"^[0-3]+$").Match(fileInclData.Attributes["autostart"].Value).Success))
+                                                {
+                                                    //Timeout
+                                                    MessageBox.Show("Autostart is invalid in include file channel " + fileInclData.BaseURI + " (" + fileInclData.Attributes["name"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                    return;
+                                                }
+
+                                                if (!(new Regex(@"^[0-3]+$").Match(fileInclData.Attributes["destination"].Value).Success))
+                                                {
+                                                    //Timeout
+                                                    MessageBox.Show("Destination is invalid in include file channel " + fileInclData.BaseURI + " (" + fileInclData.Attributes["name"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                    return;
+                                                }
+
+                                                if (!(new Regex(@"^(true|false)$").Match(fileInclData.Attributes["home"].Value).Success))
+                                                {
+                                                    //Timeout
+                                                    MessageBox.Show("Home is invalid in include file channel " + fileInclData.BaseURI + " (" + fileInclData.Attributes["name"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                    return;
+                                                }
+
+                                                if (!(new Regex(@"^(true|false)$").Match(fileInclData.Attributes["streamed"].Value).Success))
+                                                {
+                                                    //Timeout
+                                                    MessageBox.Show("Streamed is invalid in include file channel " + fileInclData.BaseURI + " (" + fileInclData.Attributes["name"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                    return;
+                                                }
+
+                                                if (!(new Regex(@"^(?:1[0-2]|[1-9]?)$").Match(fileInclData.Attributes["month"].Value).Success))
+                                                {
+                                                    //fountain
+                                                    MessageBox.Show("Month is invalid in include file channel " + fileInclData.BaseURI + " (" + fileInclData.Attributes["name"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                    return;
+                                                }
+
+                                                if (!(new Regex(@"^(?:3[0-1]|[1-2][0-9]|[1-9]?)$").Match(fileInclData.Attributes["day"].Value).Success))
+                                                {
+                                                    //fountain
+                                                    MessageBox.Show("Day is invalid in include file channel " + fileInclData.BaseURI + " (" + fileInclData.Attributes["name"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                    return;
+                                                }
+
+                                                if (!(new Regex(@"^(2[0-3]|[0-1][0-9]):[0-5][0-9]$").Match(fileInclData.Attributes["starttime"].Value).Success))
+                                                {
+                                                    //fountain
+                                                    MessageBox.Show("Time Start is invalid in include file channel " + fileInclData.BaseURI + " (" + fileInclData.Attributes["name"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                    return;
+                                                }
+
+                                                if (!(new Regex(@"^(2[0-3]|[0-1][0-9]):[0-5][0-9]$").Match(fileInclData.Attributes["endtime"].Value).Success))
+                                                {
+                                                    //fountain
+                                                    MessageBox.Show("Time End is invalid in include file channel " + fileInclData.BaseURI + " (" + fileInclData.Attributes["name"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                    return;
+                                                }
+
                                                 DownloadFile fileIncl = new DownloadFile(folder.purpose == 1, Convert.ToByte(fileInclData.Attributes["id"].Value));
 
                                                 fileIncl.name = fileInclData.Attributes["name"].Value;
