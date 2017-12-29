@@ -69,6 +69,7 @@
     </Compile>
     <Compile Include="FolderSelectDialog\FolderSelectDialog.cs" />
     <Compile Include="FolderSelectDialog\Reflector.cs" />
+    <Compile Include="Images\ResourceAccess.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -100,6 +101,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -125,6 +127,25 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\Mugshot\00.png" />
+    <Content Include="Images\Mugshot\01.png" />
+    <Content Include="Images\Mugshot\02.png" />
+    <Content Include="Images\Mugshot\03.png" />
+    <Content Include="Images\Mugshot\04.png" />
+    <Content Include="Images\Mugshot\05.png" />
+    <Content Include="Images\Mugshot\06.png" />
+    <Content Include="Images\Mugshot\07.png" />
+    <Content Include="Images\Mugshot\08.png" />
+    <Content Include="Images\Mugshot\09.png" />
+    <Content Include="Images\Mugshot\10.png" />
+    <Content Include="Images\Mugshot\11.png" />
+    <Content Include="Images\Mugshot\12.png" />
+    <Content Include="Images\Mugshot\13.png" />
+    <Content Include="Images\Mugshot\14.png" />
+    <Content Include="Images\Mugshot\15.png" />
+    <Content Include="Images\Mugshot\16.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

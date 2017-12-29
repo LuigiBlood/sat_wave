@@ -114,6 +114,7 @@
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
+            this.pictureBox_FolderMugshot = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
             this.groupBoxTown.SuspendLayout();
             this.contextMenuStripChannelMenu.SuspendLayout();
@@ -127,6 +128,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFileItemPrice)).BeginInit();
             this.contextMenuStripFolderMenu.SuspendLayout();
             this.contextMenuStripFileMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_FolderMugshot)).BeginInit();
             this.SuspendLayout();
             // 
             // fileToolStripMenuItem
@@ -571,6 +573,7 @@
             this.groupBoxFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxFolder.Controls.Add(this.pictureBox_FolderMugshot);
             this.groupBoxFolder.Controls.Add(this.buttonFolderAddFile);
             this.groupBoxFolder.Controls.Add(this.comboBoxFolderMugshot);
             this.groupBoxFolder.Controls.Add(this.label10);
@@ -607,27 +610,28 @@
             this.comboBoxFolderMugshot.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxFolderMugshot.FormattingEnabled = true;
             this.comboBoxFolderMugshot.Items.AddRange(new object[] {
-            "00",
-            "01",
-            "02",
-            "03",
-            "04",
-            "05",
-            "06",
-            "07",
-            "08",
-            "09",
-            "0A",
-            "0B",
-            "0C",
-            "0D",
-            "0E",
-            "0F",
-            "10 (BS-X Logo)"});
+            "00 - Kimono Girl",
+            "01 - Sleepy Elder Temple",
+            "02 - Grinning Elder Temple",
+            "03 - Bald Elder",
+            "04 - Guardian",
+            "05 - Geisha",
+            "06 - Elder Sage",
+            "07 - Elder Wizard",
+            "08 - Radio Guy",
+            "09 - Bald Man",
+            "0A - Ms. Sera",
+            "0B - School Girl",
+            "0C - Green Haired Man",
+            "0D - Handsome Man",
+            "0E - Robot",
+            "0F - Blonde Girl",
+            "10 - BS-X Logo"});
             this.comboBoxFolderMugshot.Location = new System.Drawing.Point(74, 233);
             this.comboBoxFolderMugshot.Name = "comboBoxFolderMugshot";
             this.comboBoxFolderMugshot.Size = new System.Drawing.Size(175, 21);
             this.comboBoxFolderMugshot.TabIndex = 11;
+            this.comboBoxFolderMugshot.SelectedIndexChanged += new System.EventHandler(this.comboBoxFolderMugshot_SelectedIndexChanged);
             // 
             // label10
             // 
@@ -1072,7 +1076,7 @@
             this.toolStripMenuItem3,
             this.toolStripMenuItem4});
             this.contextMenuStripFileMenu.Name = "contextMenuStripChannelMenu";
-            this.contextMenuStripFileMenu.Size = new System.Drawing.Size(208, 98);
+            this.contextMenuStripFileMenu.Size = new System.Drawing.Size(208, 76);
             this.contextMenuStripFileMenu.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripFileMenu_Opening);
             // 
             // toolStripMenuItemAddIncludeFile
@@ -1101,13 +1105,21 @@
             this.toolStripMenuItem4.Text = "Delete Channel";
             this.toolStripMenuItem4.Click += new System.EventHandler(this.toolStripMenuItemChannel_Delete_Click);
             // 
+            // pictureBox_FolderMugshot
+            // 
+            this.pictureBox_FolderMugshot.Location = new System.Drawing.Point(185, 260);
+            this.pictureBox_FolderMugshot.Name = "pictureBox_FolderMugshot";
+            this.pictureBox_FolderMugshot.Size = new System.Drawing.Size(64, 64);
+            this.pictureBox_FolderMugshot.TabIndex = 13;
+            this.pictureBox_FolderMugshot.TabStop = false;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(609, 372);
-            this.Controls.Add(this.groupBoxFileItem);
             this.Controls.Add(this.groupBoxFolder);
+            this.Controls.Add(this.groupBoxFileItem);
             this.Controls.Add(this.groupBoxDirectory);
             this.Controls.Add(this.groupBoxMessage);
             this.Controls.Add(this.groupBoxTown);
@@ -1136,6 +1148,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFileItemPrice)).EndInit();
             this.contextMenuStripFolderMenu.ResumeLayout(false);
             this.contextMenuStripFileMenu.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_FolderMugshot)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1228,6 +1241,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
         private System.Windows.Forms.ToolStripMenuItem deleteFolderToolStripMenuItem;
+        private System.Windows.Forms.PictureBox pictureBox_FolderMugshot;
     }
 }
 

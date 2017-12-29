@@ -407,5 +407,10 @@ namespace SatellaWave
                 toolStripMenuItemAddIncludeFile.Enabled = !(treeViewChn.SelectedNode.Tag as DownloadFile).isItem;
             }
         }
+
+        private void comboBoxFolderMugshot_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            pictureBox_FolderMugshot.Image = ResourceAccess.mugshotImageList[comboBoxFolderMugshot.SelectedIndex];
+        }
     }
 }
