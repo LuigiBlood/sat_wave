@@ -4,7 +4,7 @@ SatellaWave
 Satellaview Server Manager
 Features:
 - Export as BSX*-*.bin (bsnes-plus and snes9x)
-- Online Server Management
+- Online Server Management (not yet)
 
 TODO:
 - Set up BS-X Channels
