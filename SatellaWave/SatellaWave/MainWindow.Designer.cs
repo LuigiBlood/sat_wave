@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newServerRepositoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openServerRepositoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -67,6 +68,7 @@
             this.groupBoxDirectory = new System.Windows.Forms.GroupBox();
             this.buttonAddFolder = new System.Windows.Forms.Button();
             this.groupBoxFolder = new System.Windows.Forms.GroupBox();
+            this.pictureBox_FolderMugshot = new System.Windows.Forms.PictureBox();
             this.buttonFolderAddFile = new System.Windows.Forms.Button();
             this.comboBoxFolderMugshot = new System.Windows.Forms.ComboBox();
             this.label10 = new System.Windows.Forms.Label();
@@ -114,7 +116,6 @@
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
-            this.pictureBox_FolderMugshot = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
             this.groupBoxTown.SuspendLayout();
             this.contextMenuStripChannelMenu.SuspendLayout();
@@ -122,13 +123,13 @@
             this.contextMenuStripDirectoryMenu.SuspendLayout();
             this.groupBoxDirectory.SuspendLayout();
             this.groupBoxFolder.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_FolderMugshot)).BeginInit();
             this.groupBoxFileItem.SuspendLayout();
             this.groupBoxFileItem_File.SuspendLayout();
             this.groupBoxFileItem_Item.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFileItemPrice)).BeginInit();
             this.contextMenuStripFolderMenu.SuspendLayout();
             this.contextMenuStripFileMenu.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_FolderMugshot)).BeginInit();
             this.SuspendLayout();
             // 
             // fileToolStripMenuItem
@@ -594,6 +595,14 @@
             this.groupBoxFolder.TabStop = false;
             this.groupBoxFolder.Text = "Folder";
             this.groupBoxFolder.Visible = false;
+            // 
+            // pictureBox_FolderMugshot
+            // 
+            this.pictureBox_FolderMugshot.Location = new System.Drawing.Point(185, 260);
+            this.pictureBox_FolderMugshot.Name = "pictureBox_FolderMugshot";
+            this.pictureBox_FolderMugshot.Size = new System.Drawing.Size(64, 64);
+            this.pictureBox_FolderMugshot.TabIndex = 13;
+            this.pictureBox_FolderMugshot.TabStop = false;
             // 
             // buttonFolderAddFile
             // 
@@ -1105,14 +1114,6 @@
             this.toolStripMenuItem4.Text = "Delete Channel";
             this.toolStripMenuItem4.Click += new System.EventHandler(this.toolStripMenuItemChannel_Delete_Click);
             // 
-            // pictureBox_FolderMugshot
-            // 
-            this.pictureBox_FolderMugshot.Location = new System.Drawing.Point(185, 260);
-            this.pictureBox_FolderMugshot.Name = "pictureBox_FolderMugshot";
-            this.pictureBox_FolderMugshot.Size = new System.Drawing.Size(64, 64);
-            this.pictureBox_FolderMugshot.TabIndex = 13;
-            this.pictureBox_FolderMugshot.TabStop = false;
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1125,9 +1126,10 @@
             this.Controls.Add(this.groupBoxTown);
             this.Controls.Add(this.treeViewChn);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainWindow";
-            this.Text = "SatellaWave";
+            this.Text = "SatellaWave 0.1";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.groupBoxTown.ResumeLayout(false);
@@ -1139,6 +1141,7 @@
             this.groupBoxDirectory.ResumeLayout(false);
             this.groupBoxFolder.ResumeLayout(false);
             this.groupBoxFolder.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_FolderMugshot)).EndInit();
             this.groupBoxFileItem.ResumeLayout(false);
             this.groupBoxFileItem.PerformLayout();
             this.groupBoxFileItem_File.ResumeLayout(false);
@@ -1148,7 +1151,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFileItemPrice)).EndInit();
             this.contextMenuStripFolderMenu.ResumeLayout(false);
             this.contextMenuStripFileMenu.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_FolderMugshot)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
