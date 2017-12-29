@@ -151,6 +151,9 @@
     <Content Include="Images\Mugshot\14.png" />
     <Content Include="Images\Mugshot\15.png" />
     <Content Include="Images\Mugshot\16.png" />
+    <Content Include="readme.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
