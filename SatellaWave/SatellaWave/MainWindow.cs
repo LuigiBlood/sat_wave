@@ -15,6 +15,7 @@ namespace SatellaWave
         public MainWindow()
         {
             InitializeComponent();
+            this.Text = "SatellaWave " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
 
         /* MENU */
