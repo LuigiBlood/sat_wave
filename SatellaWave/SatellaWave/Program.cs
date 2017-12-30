@@ -428,6 +428,20 @@ namespace SatellaWave
             return false;
         }
 
+        public static bool CheckUsedChannelType(System.Type _type)
+        {
+            foreach (TreeNode _node in mainWindow.treeViewChn.Nodes)
+            {
+                if (_node.Tag.GetType() == _type)
+                {
+                    return true;
+                }
+            }
+
+            //not found
+            return false;
+        }
+
         public static byte GetNextFileID()
         {
             byte nextfileid = 0;
@@ -1072,7 +1086,16 @@ namespace SatellaWave
 
         public static void ExportBSX(string folderPath)
         {
-            //2794 bytes max per file
+            //Check the BS-X requirements
+            if (!CheckUsedChannelType(typeof(Directory)) || !CheckUsedChannelType(typeof(TownStatus)))
+            {
+                if (MessageBox.Show("There are no Town Status and/or Directory Channels. BS-X will not detect signal properly.\nDo you want to continue?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                {
+                    return;
+                }
+            }
+
+
             List<byte> ChannelFile = new List<byte>();
             List<byte> FileIDs = new List<byte>();
 
