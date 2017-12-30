@@ -171,6 +171,17 @@ namespace SatellaWave
                 groupBoxFileItem_Item.Visible = false;
                 groupBoxFileItem_File.Visible = false;
 
+                if ((treeViewChn.SelectedNode.Tag as DownloadFile).isItem == true)
+                {
+                    textBoxFileItemDesc.Multiline = false;
+                    groupBoxFileItem_Item.Visible = true;
+                }
+                else
+                {
+                    textBoxFileItemDesc.Multiline = true;
+                    groupBoxFileItem_File.Visible = true;
+                }
+
                 textBoxFileItem_Name.Text = (treeViewChn.SelectedNode.Tag as DownloadFile).name;
                 textBoxFileItemDesc.Text = (treeViewChn.SelectedNode.Tag as DownloadFile).filedesc;
 
@@ -187,17 +198,6 @@ namespace SatellaWave
                 dateTimePickerFileItem_Date.Value = new DateTime(1995, (treeViewChn.SelectedNode.Tag as DownloadFile).month, (treeViewChn.SelectedNode.Tag as DownloadFile).day);
                 dateTimePickerFileItem_TimeStart.Value = new DateTime(1995, 04, 23, (treeViewChn.SelectedNode.Tag as DownloadFile).hour_start, (treeViewChn.SelectedNode.Tag as DownloadFile).min_start, 0);
                 dateTimePickerFileItem_TimeEnd.Value = new DateTime(1995, 04, 23, (treeViewChn.SelectedNode.Tag as DownloadFile).hour_end, (treeViewChn.SelectedNode.Tag as DownloadFile).min_end, 0);
-
-                if ((treeViewChn.SelectedNode.Tag as DownloadFile).isItem == true)
-                {
-                    textBoxFileItemDesc.Multiline = false;
-                    groupBoxFileItem_Item.Visible = true;
-                }
-                else
-                {
-                    textBoxFileItemDesc.Multiline = true;
-                    groupBoxFileItem_File.Visible = true;
-                }
             }
         }
 
