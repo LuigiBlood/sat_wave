@@ -878,11 +878,12 @@
             // checkBoxFileItem_Streaming
             // 
             this.checkBoxFileItem_Streaming.AutoSize = true;
+            this.checkBoxFileItem_Streaming.Enabled = false;
             this.checkBoxFileItem_Streaming.Location = new System.Drawing.Point(141, 61);
             this.checkBoxFileItem_Streaming.Name = "checkBoxFileItem_Streaming";
-            this.checkBoxFileItem_Streaming.Size = new System.Drawing.Size(90, 17);
+            this.checkBoxFileItem_Streaming.Size = new System.Drawing.Size(199, 17);
             this.checkBoxFileItem_Streaming.TabIndex = 7;
-            this.checkBoxFileItem_Streaming.Text = "Streamed File";
+            this.checkBoxFileItem_Streaming.Text = "Real Time Streamed File (Advanced)";
             this.checkBoxFileItem_Streaming.UseVisualStyleBackColor = true;
             // 
             // checkBoxFileItem_AtHome
