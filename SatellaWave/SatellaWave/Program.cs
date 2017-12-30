@@ -1113,7 +1113,7 @@ namespace SatellaWave
 
                             if (fileCount >= 256)
                             {
-                                MessageBox.Show("Folder has more than 255 files.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                MessageBox.Show("Folder has more than 255 files.\nExport cancelled.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 return;
                             }
 
@@ -1213,14 +1213,17 @@ namespace SatellaWave
                                     if ((_File.Tag as DownloadFile).dest == 1 && (_File.Tag as DownloadFile).filesize > 0x80000)
                                     {
                                         MessageBox.Show("File is bigger than 512KB. The PSRAM cannot hold it on BS-X.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        return;
                                     }
                                     else if ((_File.Tag as DownloadFile).dest == 2 && (_File.Tag as DownloadFile).filesize > 0x100000)
                                     {
                                         MessageBox.Show("File is bigger than 1MB. The Memory Pack cannot hold it.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        return;
                                     }
                                     else if ((_File.Tag as DownloadFile).dest == 3 && (_File.Tag as DownloadFile).filesize > 0x80000)
                                     {
                                         MessageBox.Show("File is bigger than 512KB. The Memory Pack cannot hold it. Set the file destination to Memory Pack (Full).", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        return;
                                     }
 
                                     byte[] downloadFileArray = new byte[(_File.Tag as DownloadFile).filesize];
@@ -1355,14 +1358,17 @@ namespace SatellaWave
                                         if ((_File.Nodes[inclCount].Tag as DownloadFile).dest == 1 && (_File.Nodes[inclCount].Tag as DownloadFile).filesize > 0x80000)
                                         {
                                             MessageBox.Show("File is bigger than 512KB. The PSRAM cannot hold it on BS-X.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                            return;
                                         }
                                         else if ((_File.Nodes[inclCount].Tag as DownloadFile).dest == 2 && (_File.Nodes[inclCount].Tag as DownloadFile).filesize > 0x100000)
                                         {
                                             MessageBox.Show("File is bigger than 1MB. The Memory Pack cannot hold it.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                            return;
                                         }
                                         else if ((_File.Nodes[inclCount].Tag as DownloadFile).dest == 3 && (_File.Nodes[inclCount].Tag as DownloadFile).filesize > 0x80000)
                                         {
                                             MessageBox.Show("File is bigger than 512KB. The Memory Pack cannot hold it. Set the file destination to Memory Pack (Full).", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                            return;
                                         }
 
                                         SaveChannelFile(downloadInclFileArray, (_File.Nodes[inclCount].Tag as DownloadFile).lci, folderPath);
@@ -1453,6 +1459,12 @@ namespace SatellaWave
                     //Expansion Packet (TODO)
                     ChannelFile.Add(0); //No Expansion Packet (yet)
 
+                    if (ChannelFile.Count > 0x4000)
+                    {
+                        MessageBox.Show("Directory is too big. Please remove some content from the directory.\nExport cancelled.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
                     //Write File
                     SaveChannelFile(ChannelFile.ToArray(), (_DirectoryCheck.Tag as Directory).lci, folderPath);
                 }
@@ -1520,7 +1532,7 @@ namespace SatellaWave
 
                     if (ChannelFile.Count > 256)
                     {
-                        MessageBox.Show("Error: Town Status is more than 256 bytes.");
+                        MessageBox.Show("Town Status is more than 256 bytes. There may be too much files.\nExport cancelled.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
 
@@ -1663,6 +1675,12 @@ namespace SatellaWave
                 }
             }
 
+            if (ChannelMapFile.Count > 1485)
+            {
+                MessageBox.Show("There are too much channels.\nExport cancelled.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             //Finalize Channel Map File
             int size = ChannelMapFile.Count;
             ChannelMapFile.Insert(0, (byte)size);
@@ -1675,7 +1693,7 @@ namespace SatellaWave
             mapfile.Write(ChannelMapFile.ToArray(), 0, ChannelMapFile.Count);
             mapfile.Close();
 
-            MessageBox.Show("Export succeeded");
+            MessageBox.Show("Export is a success.", "Export", MessageBoxButtons.OK);
         }
 
         public static void SaveChannelFile(byte[] filedata, ushort lci, string folderPath)
