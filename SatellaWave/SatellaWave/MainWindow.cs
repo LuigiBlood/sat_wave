@@ -18,6 +18,15 @@ namespace SatellaWave
             this.Text = "SatellaWave " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
 
+        public void setTitle(string fileName)
+        {
+            this.Text = "SatellaWave " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            if (fileName != "")
+            {
+                this.Text += " [" + fileName + "]";
+            }
+        }
+
         /* MENU */
 
         private void quitToolStripMenuItem_Click(object sender, EventArgs e)
