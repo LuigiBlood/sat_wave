@@ -1122,7 +1122,7 @@ namespace SatellaWave
                             //Folder Name
                             for (int i = 0; i < 20; i++)
                             {
-                                if (ConvertToBSXStringBytes((_Folder.Tag as Folder).name).Length >= i)
+                                if (ConvertToBSXStringBytes((_Folder.Tag as Folder).name).Length > i)
                                     ChannelFile.Add(ConvertToBSXStringBytes((_Folder.Tag as Folder).name)[i]);
                                 else
                                     ChannelFile.Add(0);
@@ -1157,7 +1157,7 @@ namespace SatellaWave
                                 //File Name
                                 for (int i = 0; i < 20; i++)
                                 {
-                                    if (ConvertToBSXStringBytes((_File.Tag as DownloadFile).name).Length >= i)
+                                    if (ConvertToBSXStringBytes((_File.Tag as DownloadFile).name).Length > i)
                                         ChannelFile.Add(ConvertToBSXStringBytes((_File.Tag as DownloadFile).name)[i]);
                                     else
                                         ChannelFile.Add(0);
@@ -1172,8 +1172,8 @@ namespace SatellaWave
                                     //Description
                                     for (int i = 0; i < 36; i++)
                                     {
-                                        if (ConvertToBSXStringBytes((_File.Tag as DownloadFile).filedesc).Length > i)
-                                            ChannelFile.Add(ConvertToBSXStringBytes((_File.Tag as DownloadFile).filedesc)[i]);
+                                        if (ConvertToBSXStringNoNewLineBytes((_File.Tag as DownloadFile).filedesc).Length > i)
+                                            ChannelFile.Add(ConvertToBSXStringNoNewLineBytes((_File.Tag as DownloadFile).filedesc)[i]);
                                         else
                                             ChannelFile.Add(0);
                                     }
@@ -1747,6 +1747,15 @@ namespace SatellaWave
         {
             string _convstring = _string.Replace("\r\n", "\r");
             _convstring = _convstring.Replace("\n", "\r");
+
+            return Encoding.Convert(Encoding.UTF8, Encoding.GetEncoding(932), Encoding.UTF8.GetBytes(_convstring));
+        }
+
+        public static byte[] ConvertToBSXStringNoNewLineBytes(string _string)
+        {
+            string _convstring = _string.Replace("\r\n", "\r");
+            _convstring = _convstring.Replace("\n", "\r");
+            _convstring = _convstring.Replace("\r", " ");
 
             return Encoding.Convert(Encoding.UTF8, Encoding.GetEncoding(932), Encoding.UTF8.GetBytes(_convstring));
         }

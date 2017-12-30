@@ -173,12 +173,10 @@ namespace SatellaWave
 
                 if ((treeViewChn.SelectedNode.Tag as DownloadFile).isItem == true)
                 {
-                    textBoxFileItemDesc.Multiline = false;
                     groupBoxFileItem_Item.Visible = true;
                 }
                 else
                 {
-                    textBoxFileItemDesc.Multiline = true;
                     groupBoxFileItem_File.Visible = true;
                 }
 
