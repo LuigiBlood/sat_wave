@@ -765,8 +765,9 @@
             // 
             this.textBoxFolderName.Location = new System.Drawing.Point(74, 26);
             this.textBoxFolderName.Name = "textBoxFolderName";
-            this.textBoxFolderName.Size = new System.Drawing.Size(100, 20);
+            this.textBoxFolderName.Size = new System.Drawing.Size(175, 20);
             this.textBoxFolderName.TabIndex = 0;
+            this.textBoxFolderName.TextChanged += new System.EventHandler(this.textBoxFolderName_TextChanged);
             // 
             // groupBoxFileItem
             // 
@@ -1028,6 +1029,7 @@
             this.textBoxFileItem_Name.Name = "textBoxFileItem_Name";
             this.textBoxFileItem_Name.Size = new System.Drawing.Size(168, 20);
             this.textBoxFileItem_Name.TabIndex = 5;
+            this.textBoxFileItem_Name.TextChanged += new System.EventHandler(this.textBoxFileItem_Name_TextChanged);
             // 
             // label14
             // 
@@ -1120,9 +1122,9 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(609, 372);
-            this.Controls.Add(this.groupBoxTown);
-            this.Controls.Add(this.groupBoxFolder);
             this.Controls.Add(this.groupBoxFileItem);
+            this.Controls.Add(this.groupBoxFolder);
+            this.Controls.Add(this.groupBoxTown);
             this.Controls.Add(this.groupBoxDirectory);
             this.Controls.Add(this.groupBoxMessage);
             this.Controls.Add(this.treeViewChn);

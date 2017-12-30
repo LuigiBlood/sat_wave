@@ -1122,7 +1122,7 @@ namespace SatellaWave
                             //Folder Name
                             for (int i = 0; i < 20; i++)
                             {
-                                if (ConvertToBSXStringBytes((_Folder.Tag as Folder).name).Length > i)
+                                if (ConvertToBSXStringBytes((_Folder.Tag as Folder).name).Length >= i)
                                     ChannelFile.Add(ConvertToBSXStringBytes((_Folder.Tag as Folder).name)[i]);
                                 else
                                     ChannelFile.Add(0);
@@ -1157,7 +1157,7 @@ namespace SatellaWave
                                 //File Name
                                 for (int i = 0; i < 20; i++)
                                 {
-                                    if (ConvertToBSXStringBytes((_File.Tag as DownloadFile).name).Length > i)
+                                    if (ConvertToBSXStringBytes((_File.Tag as DownloadFile).name).Length >= i)
                                         ChannelFile.Add(ConvertToBSXStringBytes((_File.Tag as DownloadFile).name)[i]);
                                     else
                                         ChannelFile.Add(0);

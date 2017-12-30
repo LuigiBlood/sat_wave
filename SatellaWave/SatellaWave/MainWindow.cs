@@ -435,5 +435,31 @@ namespace SatellaWave
                 e.NewValue = CheckState.Unchecked;
             }
         }
+
+        private void textBoxFolderName_TextChanged(object sender, EventArgs e)
+        {
+            //Limit Characters dynamically
+            textBoxFolderName.MaxLength = 20;
+            byte[] stringbytes = Encoding.Convert(Encoding.GetEncoding(932), Encoding.UTF8, Program.ConvertToBSXStringBytes(textBoxFolderName.Text).Take<byte>(20).ToArray<byte>());
+
+            if (Program.ConvertToBSXStringBytes(textBoxFolderName.Text).Length >= 20)
+            {
+                textBoxFolderName.Text = Encoding.UTF8.GetString(stringbytes);
+                textBoxFolderName.MaxLength = Encoding.UTF8.GetString(stringbytes).Length;
+            }
+        }
+
+        private void textBoxFileItem_Name_TextChanged(object sender, EventArgs e)
+        {
+            //Limit Characters dynamically
+            textBoxFileItem_Name.MaxLength = 20;
+            byte[] stringbytes = Encoding.Convert(Encoding.GetEncoding(932), Encoding.UTF8, Program.ConvertToBSXStringBytes(textBoxFileItem_Name.Text).Take<byte>(20).ToArray<byte>());
+
+            if (Program.ConvertToBSXStringBytes(textBoxFileItem_Name.Text).Length >= 20)
+            {
+                textBoxFileItem_Name.Text = Encoding.UTF8.GetString(stringbytes);
+                textBoxFileItem_Name.MaxLength = Encoding.UTF8.GetString(stringbytes).Length;
+            }
+        }
     }
 }
