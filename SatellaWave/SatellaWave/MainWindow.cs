@@ -412,5 +412,28 @@ namespace SatellaWave
         {
             pictureBox_FolderMugshot.Image = ResourceAccess.mugshotImageList[comboBoxFolderMugshot.SelectedIndex];
         }
+
+        private void checkedListBoxNPCs_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            //Prevent user from selecting more than 5 NPCs/Events (BS-X would not make them appear)
+            int checkAmount = 0;
+            for (int i = 0; i < 47; i++)
+            {
+                if (checkedListBoxNPCs.GetItemCheckState(i) == CheckState.Checked)
+                    checkAmount++;
+            }
+
+            for (int i = 56; i < 59; i++)
+            {
+                if (checkedListBoxNPCs.GetItemCheckState(i) == CheckState.Checked)
+                    checkAmount++;
+            }
+
+            if ((checkAmount >= 5) && (e.Index < 47 | e.Index >= 56) && (e.NewValue == CheckState.Checked))
+            {
+                MessageBox.Show("You cannot check more than 5 NPCs/Events by the exception of the ones ending with (!).", "NPC Limitation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                e.NewValue = CheckState.Unchecked;
+            }
+        }
     }
 }

@@ -245,7 +245,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.checkedListBoxNPCs.FormattingEnabled = true;
             this.checkedListBoxNPCs.Items.AddRange(new object[] {
-            "[Red Ball at Beach]",
+            "[Coconut at the Beach]",
             "Dr. Hiroshi",
             "Dororin",
             "Temple Guardian Left",
@@ -292,15 +292,15 @@
             "[Custom Script 1]",
             "[Custom Script 2]",
             "Fisher Take",
-            "[Allow Fountain Ride]",
-            "[Allow Train Station Ride]",
-            "[Special Event]",
-            "Name Frog",
-            "Frame Frog",
-            "Color Frog",
-            "Arrow Frog",
-            "[Allow baits at the Beach]",
-            "[Ship]",
+            "[Allow Fountain Ride] (!)",
+            "[Allow Train Station Ride] (!)",
+            "[Special Event] (!)",
+            "Name Frog (!)",
+            "Frame Frog (!)",
+            "Color Frog (!)",
+            "Arrow Frog (!)",
+            "[Allow baits at the Beach] (!)",
+            "[Ship] (!)",
             "Mr. Money (500G)",
             "Mr. Money (1000G)",
             "Mr. Money (5000G)"});
@@ -308,6 +308,7 @@
             this.checkedListBoxNPCs.Name = "checkedListBoxNPCs";
             this.checkedListBoxNPCs.Size = new System.Drawing.Size(234, 289);
             this.checkedListBoxNPCs.TabIndex = 0;
+            this.checkedListBoxNPCs.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBoxNPCs_ItemCheck);
             // 
             // label1
             // 
@@ -1119,11 +1120,11 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(609, 372);
+            this.Controls.Add(this.groupBoxTown);
             this.Controls.Add(this.groupBoxFolder);
             this.Controls.Add(this.groupBoxFileItem);
             this.Controls.Add(this.groupBoxDirectory);
             this.Controls.Add(this.groupBoxMessage);
-            this.Controls.Add(this.groupBoxTown);
             this.Controls.Add(this.treeViewChn);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

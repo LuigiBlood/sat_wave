@@ -46,7 +46,7 @@ namespace SatellaWave
 
         public static readonly string[] peopleList =
         {
-            "[Red Ball at Beach]",
+            "[Coconut at the Beach]",
             "Dr. Hiroshi",
             "Dororin",
             "Temple Guardian Left",
@@ -107,11 +107,12 @@ namespace SatellaWave
 
         public static void NewRepository()
         {
-            //New repository needs Town Status and Directory (TODO) at least
-            TownStatus _town = new TownStatus(0x0101, 0x0005, "Town Status", 0x0123);
+            //New repository needs Town Status and Directory at least
 
             mainWindow.treeViewChn.Nodes.Clear();
-            AddChannel(_town);
+
+            AddChannel(1);
+            AddChannel(2);
 
             lastSavedXMLFile = "";
         }
