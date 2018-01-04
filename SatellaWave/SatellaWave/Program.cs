@@ -115,6 +115,7 @@ namespace SatellaWave
             AddChannel(2);
 
             lastSavedXMLFile = "";
+            mainWindow.setTitle("");
         }
 
         public static void AddChannel(Channel _chn)
@@ -914,6 +915,7 @@ namespace SatellaWave
             }
 
             lastSavedXMLFile = xmlPath;
+            mainWindow.setTitle(xmlPath);
         }
 
         public static void SaveBSXRepository()
@@ -1082,6 +1084,7 @@ namespace SatellaWave
             xmlWriter.Close();
 
             lastSavedXMLFile = filepath;
+            mainWindow.setTitle(filepath);
         }
 
         public static void ExportBSX(string folderPath)
