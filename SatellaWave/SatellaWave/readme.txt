@@ -1,4 +1,4 @@
-﻿SatellaWave 0.1 (2017-12-29)
+﻿SatellaWave 0.2 (2018-01-04)
 by LuigiBlood
 
 This software can make Satellaview compatible server binary files.
@@ -18,10 +18,18 @@ Currently supported channels:
 	- Folders
 		- Files (also Include Files)
 		- Items
-- Time Channel (BS-X)
+- Time Channel (BS-X - Global)
 - Time Channel (Game Specific)
 - Shigesato Itoi no Bass Fishing No. 1 Contest Channels
 
 Changelog:
+0.2 (2018-01-04)
+- Prevent User from choosing more than 5 NPCs/Events (with exceptions).
+- Streamed File signification a little clearer (and prevent use of it).
+- Added feedback when the folder/file name is too long.
+- Prevent new lines for item descriptions.
+- Warn user if BS-X will not react properly to the exported bin files.
+- Show Current XML filepath in window title [ToontownLittleCat]
+
 0.1 (2017-12-29)
 - Initial release
