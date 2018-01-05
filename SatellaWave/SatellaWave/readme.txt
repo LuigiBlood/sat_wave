@@ -1,4 +1,4 @@
-﻿SatellaWave 0.2 (2018-01-04)
+﻿SatellaWave 0.3 (2018-01-05)
 by LuigiBlood
 
 This software can make Satellaview compatible server binary files.
@@ -23,6 +23,12 @@ Currently supported channels:
 - Shigesato Itoi no Bass Fishing No. 1 Contest Channels
 
 Changelog:
+0.3 (2018-01-05)
+- Fix CheckUsedLCI() which didn't take into account directories themselves (fixes hang in BS-X).
+- [Special Event] is now [Hydrant Access].
+- Exporting now changes the Town ID and Directory ID. This allows to change the satellite data in real time as it is emulated if you directly export to the folder.
+NOTE: As said earlier in the readme, current stable versions of emulators do not support file downloads properly.
+
 0.2 (2018-01-04)
 - Prevent User from choosing more than 5 NPCs/Events (with exceptions).
 - Streamed File signification a little clearer (and prevent use of it).

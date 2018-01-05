@@ -294,7 +294,7 @@
             "Fisher Take",
             "[Allow Fountain Ride] (!)",
             "[Allow Train Station Ride] (!)",
-            "[Special Event] (!)",
+            "[Hydrant Access] (!)",
             "Name Frog (!)",
             "Frame Frog (!)",
             "Color Frog (!)",
@@ -952,7 +952,7 @@
             // 
             // ButtonFileItem_FileBrowse
             // 
-            this.ButtonFileItem_FileBrowse.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.ButtonFileItem_FileBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ButtonFileItem_FileBrowse.Location = new System.Drawing.Point(282, 19);
             this.ButtonFileItem_FileBrowse.Name = "ButtonFileItem_FileBrowse";
             this.ButtonFileItem_FileBrowse.Size = new System.Drawing.Size(75, 23);
@@ -1123,9 +1123,9 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(609, 372);
+            this.Controls.Add(this.groupBoxTown);
             this.Controls.Add(this.groupBoxFileItem);
             this.Controls.Add(this.groupBoxFolder);
-            this.Controls.Add(this.groupBoxTown);
             this.Controls.Add(this.groupBoxDirectory);
             this.Controls.Add(this.groupBoxMessage);
             this.Controls.Add(this.treeViewChn);

@@ -19,6 +19,7 @@ namespace SatellaWave
 
         public static MainWindow mainWindow;
         public static string lastSavedXMLFile = "";
+        public static byte lastExportID = 0;
 
         public static readonly string[] buildingList = {
             "Robot Tower",
@@ -115,6 +116,7 @@ namespace SatellaWave
             AddChannel(2);
 
             lastSavedXMLFile = "";
+            lastExportID = 0;
             mainWindow.setTitle("");
         }
 
@@ -360,6 +362,11 @@ namespace SatellaWave
             {
                 if (_node.Tag.GetType() == typeof(Directory))
                 {
+                    if ((_node.Tag as Directory).lci == _lci)
+                    {
+                        return true;
+                    }
+
                     //Check Folders
                     foreach (TreeNode _nodeChildFolder in _node.Nodes)
                     {
@@ -1098,7 +1105,6 @@ namespace SatellaWave
                 }
             }
 
-
             List<byte> ChannelFile = new List<byte>();
             List<byte> FileIDs = new List<byte>();
 
@@ -1121,7 +1127,7 @@ namespace SatellaWave
                     }
 
                     //Directory Header
-                    ChannelFile.Add(1); //Directory ID
+                    ChannelFile.Add(lastExportID); //Directory ID
                     ChannelFile.Add((byte)(_DirectoryCheck.Nodes.Count + Convert.ToByte(checkInclude))); //Folder Count
                     ChannelFile.Add(0); //Unknown
                     ChannelFile.Add(0);
@@ -1517,8 +1523,8 @@ namespace SatellaWave
                     ChannelFile.Clear();
 
                     ChannelFile.Add(0); //Flag
-                    ChannelFile.Add(1); //Town Status ID
-                    ChannelFile.Add(1); //Directory ID
+                    ChannelFile.Add(lastExportID); //Town Status ID
+                    ChannelFile.Add(lastExportID); //Directory ID
 
                     ChannelFile.Add(0);
                     ChannelFile.Add(0);
@@ -1719,6 +1725,7 @@ namespace SatellaWave
             mapfile.Write(ChannelMapFile.ToArray(), 0, ChannelMapFile.Count);
             mapfile.Close();
 
+            lastExportID++;
             MessageBox.Show("Export is a success.", "Export", MessageBoxButtons.OK);
         }
 
