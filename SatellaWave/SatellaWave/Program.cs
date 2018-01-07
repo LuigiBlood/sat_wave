@@ -177,6 +177,19 @@ namespace SatellaWave
             }
             else if (type == 3)
             {
+                //BS-X - Patch (1.1.0.7)
+                //Check if already present
+                if (CheckUsedChannel("1.1.0.7"))
+                {
+                    MessageBox.Show("There is already a BS-X Patch Channel.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                Patch _patch = new Patch(0x0101, 0x0007, "Patch", GetNextLCI());
+                AddChannel(_patch);
+            }
+            else if (type == 4)
+            {
                 //BS-X - Time Channel (1.1.0.8)
                 if (CheckUsedChannel("1.1.0.8"))
                 {
@@ -187,7 +200,7 @@ namespace SatellaWave
                 Channel _time = new Channel(0x0101, 0x0008, "Time Channel [BS-X]", 0x0000);
                 AddChannel(_time);
             }
-            else if (type == 4)
+            else if (type == 5)
             {
                 //Game - Time Channel (1.2.0.48)
                 if (CheckUsedChannel("1.2.0.48"))
@@ -199,7 +212,7 @@ namespace SatellaWave
                 Channel _time = new Channel(0x0102, 0x0030, "Time Channel [Game]", 0x0000);
                 AddChannel(_time);
             }
-            else if (type == 5)
+            else if (type == 6)
             {
                 //Itoi Shigesato no Bass Tsuri No. 1 - Contest 1 (1.2.130.0)
                 if (CheckUsedChannel("1.2.130.0"))
@@ -211,7 +224,7 @@ namespace SatellaWave
                 Channel _contest = new Channel(0x0102, 0x8200, "Itoi Shigesato no Bass Tsuri No. 1 - Contest 1", 0x0000);
                 AddChannel(_contest);
             }
-            else if (type == 6)
+            else if (type == 7)
             {
                 //Itoi Shigesato no Bass Tsuri No. 1 - Contest 2 (1.2.130.16)
                 if (CheckUsedChannel("1.2.130.16"))
@@ -223,7 +236,7 @@ namespace SatellaWave
                 Channel _contest = new Channel(0x0102, 0x8210, "Itoi Shigesato no Bass Tsuri No. 1 - Contest 2", 0x0000);
                 AddChannel(_contest);
             }
-            else if (type == 7)
+            else if (type == 8)
             {
                 //Itoi Shigesato no Bass Tsuri No. 1 - Contest 3 (1.2.130.32)
                 if (CheckUsedChannel("1.2.130.32"))
@@ -235,7 +248,7 @@ namespace SatellaWave
                 Channel _contest = new Channel(0x0102, 0x8220, "Itoi Shigesato no Bass Tsuri No. 1 - Contest 3", 0x0000);
                 AddChannel(_contest);
             }
-            else if (type == 8)
+            else if (type == 9)
             {
                 //Itoi Shigesato no Bass Tsuri No. 1 - Contest 4 (1.2.130.48)
                 if (CheckUsedChannel("1.2.130.48"))
@@ -896,6 +909,38 @@ namespace SatellaWave
                                 dirnode.ContextMenuStrip = mainWindow.contextMenuStripDirectoryMenu;
                                 nodelist.Add(dirnode);
                             }
+                            else if (nodeChannel.ChildNodes[0].Name == "patch")
+                            {
+                                //Patch Data
+                                if (!(new Regex(@"^[0-1]$").Match(nodeChannel.ChildNodes[0].Attributes["patchType"].Value).Success))
+                                {
+                                    //patchType
+                                    MessageBox.Show("Patch Type is invalid in patch channel " + nodeChannel.BaseURI + " (" + nodeChannel.Attributes["name"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    return;
+                                }
+
+                                Patch patchchn = new Patch(_pv, _pr, _name, _lci, _timeout);
+                                patchchn.patchType = Convert.ToInt32(nodeChannel.ChildNodes[0].Attributes["patchType"].Value);
+
+                                if (patchchn.patchType == 1)
+                                {
+                                    //Can only be 1
+                                    if (!(new Regex(@"^[1]$").Match(nodeChannel.ChildNodes[0].Attributes["fileType"].Value).Success))
+                                    {
+                                        //patchType
+                                        MessageBox.Show("File Type is invalid in patch channel " + nodeChannel.BaseURI + " (" + nodeChannel.Attributes["name"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        return;
+                                    }
+
+                                    patchchn.SetFilePath(nodeChannel.ChildNodes[0].Attributes["filePath"].Value);
+
+                                    TreeNode patchnode = new TreeNode(patchchn.name + " (" + patchchn.GetChannelNumberString() + ")");
+                                    patchnode.Tag = patchchn;
+                                    patchnode.ContextMenuStrip = mainWindow.contextMenuStripChannelMenu;
+
+                                    nodelist.Add(patchnode);
+                                }
+                            }
                         }
                     }
                     else
@@ -1075,6 +1120,22 @@ namespace SatellaWave
                             }
 
                             xmlWriter.WriteEndElement();
+                        }
+                    }
+
+                    xmlWriter.WriteEndElement();
+                }
+                else if (_node.Tag.GetType() == typeof(Patch))
+                {
+                    xmlWriter.WriteStartElement("patch");
+                    xmlWriter.WriteAttributeString("patchType", (_node.Tag as Patch).patchType.ToString());
+
+                    if ((_node.Tag as Patch).patchType == 1)
+                    {
+                        xmlWriter.WriteAttributeString("fileType", (_node.Tag as Patch).fileType.ToString());
+                        if ((_node.Tag as Patch).fileType == 1)
+                        {
+                            xmlWriter.WriteAttributeString("filePath", (_node.Tag as Patch).filePath);
                         }
                     }
 
@@ -1569,6 +1630,28 @@ namespace SatellaWave
                     }
 
                     SaveChannelFile(ChannelFile.ToArray(), (_Channel.Tag as TownStatus).lci, folderPath);
+                }
+                else if (_Channel.Tag.GetType() == typeof(Patch))
+                {
+                    //Patch
+                    ChannelFile.Clear();
+
+                    if ((_Channel.Tag as Patch).patchType == 0)
+                    {
+                        SaveChannelFile(ResourceAccess.latestBSXUpdatePatchData, (_Channel.Tag as Patch).lci, folderPath);
+                    }
+                    else
+                    {
+                        if ((_Channel.Tag as Patch).fileType == 1)
+                        {
+                            FileStream _patchFile = File.Open((_Channel.Tag as Patch).filePath, FileMode.Open);
+                            byte[] array = new byte[_patchFile.Length];
+                            _patchFile.Read(array, 0, (int)_patchFile.Length);
+                            _patchFile.Close();
+
+                            SaveChannelFile(array, (_Channel.Tag as Patch).lci, folderPath);
+                        }
+                    }
                 }
             }
 

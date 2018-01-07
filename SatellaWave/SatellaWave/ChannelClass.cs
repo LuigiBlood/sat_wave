@@ -9,13 +9,13 @@ namespace SatellaWave
     //All Channel Classes
     enum ServiceType : ushort
     {
-        BSX=0x0101,
-        Game=0x0102,
+        BSX = 0x0101,
+        Game = 0x0102,
     };
 
     enum ChannelType : byte
     {
-        None, Message, Town, Directory, Patch, DownloadFile
+        None, Message, Town, Directory, Patch, DownloadFile, Data
     };
 
     enum FolderType
@@ -33,15 +33,15 @@ namespace SatellaWave
         //Default Channel content
         public ushort service_broadcast;
         public ushort program_number;
-            //?.?.?.? format
+        //?.?.?.? format
         public byte type;
-            //Channel Type enum
+        //Channel Type enum
         public string name;
-            //Name
+        //Name
         public ushort lci;
-            //Logical Channel
+        //Logical Channel
         public ushort timeout;
-            //In Seconds
+        //In Seconds
 
         public Channel()
         {
@@ -87,7 +87,7 @@ namespace SatellaWave
     class MessageChannel : Channel
     {
         public string message;
-            //Message that appears at the start (99 chars + 0x00)
+        //Message that appears at the start (99 chars + 0x00)
 
         public MessageChannel() : base()
         {
@@ -111,20 +111,20 @@ namespace SatellaWave
     class TownStatus : Channel
     {
         public byte apu_setup;
-            //0 = Mute
-            //1 = SFX Only
-            //2 = Half Volume (Music + SFX)
-            //3 = Full Volume (Music + SFX)
+        //0 = Mute
+        //1 = SFX Only
+        //2 = Half Volume (Music + SFX)
+        //3 = Full Volume (Music + SFX)
         public byte radio_setup;
-            //0 = No Radio
-            //1 = Radio (0x00 sent to $2199)
-            //2 = Radio (0x88 sent to $2199)
+        //0 = No Radio
+        //1 = Radio (0x00 sent to $2199)
+        //2 = Radio (0x88 sent to $2199)
         public bool[] npc_flags;
-            //All NPC flags (0-63)
+        //All NPC flags (0-63)
         public byte fountain;
-            //Monthly Fountain
+        //Monthly Fountain
         public byte season;
-            //Season
+        //Season
 
         public TownStatus() : base()
         {
@@ -287,4 +287,62 @@ namespace SatellaWave
             return hour_end.ToString("D2") + ":" + min_end.ToString("D2");
         }
     }
+
+    class GenericData : Channel
+    {
+        public int fileType;    //0 = None, 1 = File Path, 2 = Array
+        public string filePath;
+        public byte[] array;
+
+        public GenericData(ushort _pv, ushort _pr, string _name, ushort _lci) : base(_pv, _pr, _name, _lci)
+        {
+            type = (byte)ChannelType.Data;
+            fileType = 0;
+        }
+
+        public GenericData(ushort _pv, ushort _pr, string _name, ushort _lci, ushort _timeout) : base(_pv, _pr, _name, _lci, _timeout)
+        {
+            type = (byte)ChannelType.Data;
+            fileType = 0;
+        }
+
+        public void SetFilePath(string _path)
+        {
+            fileType = 1;
+            filePath = _path;
+            array = null;
+        }
+
+        public void SetByteArray(byte[] _array)
+        {
+            fileType = 2;
+            filePath = null;
+            array = _array;
+        }
+
+        public void SetNone()
+        {
+            fileType = 0;
+            filePath = null;
+            array = null;
+        }
+    }
+
+    class Patch : GenericData
+    {
+        public int patchType;   //0 = Latest BS-X Update, 1 = File Path
+
+        public Patch(ushort _pv, ushort _pr, string _name, ushort _lci) : base(_pv, _pr, _name, _lci)
+        {
+            patchType = 0;
+            type = (byte)ChannelType.Patch;
+        }
+
+        public Patch(ushort _pv, ushort _pr, string _name, ushort _lci, ushort _timeout) : base(_pv, _pr, _name, _lci, _timeout)
+        {
+            patchType = 0;
+            type = (byte)ChannelType.Patch;
+        }
+    }
 }
+    

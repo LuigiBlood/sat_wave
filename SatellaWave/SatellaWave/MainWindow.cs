@@ -137,6 +137,20 @@ namespace SatellaWave
             }
         }
 
+        private void buttonPatchFileBrowse_Click(object sender, EventArgs e)
+        {
+            //Browse File for Download
+            OpenFileDialog fileloadDialog = new OpenFileDialog();
+            fileloadDialog.Filter = "BS-X Compatible Patch Files (*.bin)|*.bin|All files|*.*";
+            fileloadDialog.Title = "Load BS-X Patch File...";
+            fileloadDialog.Multiselect = false;
+
+            if (fileloadDialog.ShowDialog() == DialogResult.OK)
+            {
+                textBoxPatchFilePath.Text = fileloadDialog.FileName;
+            }
+        }
+
         /* OTHER FUNCTIONS */
 
         private void UpdateWindow()
@@ -146,6 +160,7 @@ namespace SatellaWave
             groupBoxDirectory.Visible = false;
             groupBoxFolder.Visible = false;
             groupBoxFileItem.Visible = false;
+            groupBoxPatch.Visible = false;
 
             if (treeViewChn.SelectedNode.Tag.GetType() == typeof(MessageChannel))
             {
@@ -219,6 +234,12 @@ namespace SatellaWave
                 dateTimePickerFileItem_TimeStart.Value = new DateTime(1995, 04, 23, (treeViewChn.SelectedNode.Tag as DownloadFile).hour_start, (treeViewChn.SelectedNode.Tag as DownloadFile).min_start, 0);
                 dateTimePickerFileItem_TimeEnd.Value = new DateTime(1995, 04, 23, (treeViewChn.SelectedNode.Tag as DownloadFile).hour_end, (treeViewChn.SelectedNode.Tag as DownloadFile).min_end, 0);
             }
+            else if (treeViewChn.SelectedNode.Tag.GetType() == typeof(Patch))
+            {
+                groupBoxPatch.Visible = true;
+                comboBoxPatchType.SelectedIndex = (treeViewChn.SelectedNode.Tag as Patch).patchType;
+                textBoxPatchFilePath.Text = (treeViewChn.SelectedNode.Tag as Patch).filePath;
+            }
         }
 
         private void SaveLast()
@@ -233,6 +254,8 @@ namespace SatellaWave
                     SaveFolder(treeViewChn.SelectedNode);
                 else if (treeViewChn.SelectedNode.Tag.GetType() == typeof(DownloadFile))
                     SaveFile(treeViewChn.SelectedNode);
+                else if (treeViewChn.SelectedNode.Tag.GetType() == typeof(Patch))
+                    SavePatch(treeViewChn.SelectedNode);
             }
         }
 
@@ -317,6 +340,20 @@ namespace SatellaWave
             _node.Text = (_node.Tag as DownloadFile).name;
         }
 
+        private void SavePatch(TreeNode _node)
+        {
+            (_node.Tag as Patch).patchType = comboBoxPatchType.SelectedIndex;
+
+            if ((_node.Tag as Patch).patchType == 0)
+            {
+                (_node.Tag as Patch).SetNone();
+            }
+            else
+            {
+                (_node.Tag as Patch).SetFilePath(textBoxPatchFilePath.Text);
+            }
+        }
+
         private string UpdateNodeName(TreeNode _node)
         {
             if (_node.Tag.GetType() == typeof(MessageChannel))
@@ -325,6 +362,8 @@ namespace SatellaWave
                 return (_node.Tag as TownStatus).name + " (" + (_node.Tag as TownStatus).GetChannelNumberString() + ")";
             else if (_node.Tag.GetType() == typeof(Directory))
                 return (_node.Tag as Directory).name + " (" + (_node.Tag as Directory).GetChannelNumberString() + ")";
+            else if (_node.Tag.GetType() == typeof(Patch))
+                return (_node.Tag as Patch).name + " (" + (_node.Tag as Patch).GetChannelNumberString() + ")";
             else if (_node.Tag.GetType() == typeof(DownloadFile))
                 return (_node.Tag as DownloadFile).name;
 
@@ -507,6 +546,20 @@ namespace SatellaWave
             {
                 textBoxFolderMessage.Text = Encoding.UTF8.GetString(stringbytes);
                 textBoxFolderMessage.MaxLength = Encoding.UTF8.GetString(stringbytes).Length;
+            }
+        }
+
+        private void comboBoxPatchType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBoxPatchType.SelectedIndex == 0)
+            {
+                textBoxPatchFilePath.Enabled = false;
+                buttonPatchFileBrowse.Enabled = false;
+            }
+            else
+            {
+                textBoxPatchFilePath.Enabled = true;
+                buttonPatchFileBrowse.Enabled = true;
             }
         }
     }

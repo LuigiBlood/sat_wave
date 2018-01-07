@@ -44,6 +44,7 @@
             "BS-X - Welcome Message (1.1.0.4)",
             "BS-X - Town Status (1.1.0.5)",
             "BS-X - Directory (1.1.0.6)",
+            "BS-X - Patch (1.1.0.7)",
             "BS-X - Time Channel (1.1.0.8)",
             "Game - Time Channel (1.2.0.48)",
             "Itoi Shigesato no Bass Tsuri No. 1 - Contest 1 (1.2.130.0)",

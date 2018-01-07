@@ -116,6 +116,11 @@
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
+            this.groupBoxPatch = new System.Windows.Forms.GroupBox();
+            this.comboBoxPatchType = new System.Windows.Forms.ComboBox();
+            this.label20 = new System.Windows.Forms.Label();
+            this.textBoxPatchFilePath = new System.Windows.Forms.TextBox();
+            this.buttonPatchFileBrowse = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.groupBoxTown.SuspendLayout();
             this.contextMenuStripChannelMenu.SuspendLayout();
@@ -130,6 +135,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFileItemPrice)).BeginInit();
             this.contextMenuStripFolderMenu.SuspendLayout();
             this.contextMenuStripFileMenu.SuspendLayout();
+            this.groupBoxPatch.SuspendLayout();
             this.SuspendLayout();
             // 
             // fileToolStripMenuItem
@@ -1120,11 +1126,71 @@
             this.toolStripMenuItem4.Text = "Delete Channel";
             this.toolStripMenuItem4.Click += new System.EventHandler(this.toolStripMenuItemChannel_Delete_Click);
             // 
+            // groupBoxPatch
+            // 
+            this.groupBoxPatch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxPatch.Controls.Add(this.buttonPatchFileBrowse);
+            this.groupBoxPatch.Controls.Add(this.textBoxPatchFilePath);
+            this.groupBoxPatch.Controls.Add(this.label20);
+            this.groupBoxPatch.Controls.Add(this.comboBoxPatchType);
+            this.groupBoxPatch.Location = new System.Drawing.Point(225, 27);
+            this.groupBoxPatch.Name = "groupBoxPatch";
+            this.groupBoxPatch.Size = new System.Drawing.Size(378, 341);
+            this.groupBoxPatch.TabIndex = 14;
+            this.groupBoxPatch.TabStop = false;
+            this.groupBoxPatch.Text = "Patch";
+            this.groupBoxPatch.Visible = false;
+            // 
+            // comboBoxPatchType
+            // 
+            this.comboBoxPatchType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxPatchType.FormattingEnabled = true;
+            this.comboBoxPatchType.Items.AddRange(new object[] {
+            "Latest BS-X Update",
+            "Binary Patch File"});
+            this.comboBoxPatchType.Location = new System.Drawing.Point(18, 42);
+            this.comboBoxPatchType.Name = "comboBoxPatchType";
+            this.comboBoxPatchType.Size = new System.Drawing.Size(173, 21);
+            this.comboBoxPatchType.TabIndex = 0;
+            this.comboBoxPatchType.SelectedIndexChanged += new System.EventHandler(this.comboBoxPatchType_SelectedIndexChanged);
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(15, 26);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(91, 13);
+            this.label20.TabIndex = 1;
+            this.label20.Text = "BS-X Patch Data:";
+            // 
+            // textBoxPatchFilePath
+            // 
+            this.textBoxPatchFilePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxPatchFilePath.Location = new System.Drawing.Point(18, 77);
+            this.textBoxPatchFilePath.Name = "textBoxPatchFilePath";
+            this.textBoxPatchFilePath.Size = new System.Drawing.Size(273, 20);
+            this.textBoxPatchFilePath.TabIndex = 2;
+            // 
+            // buttonPatchFileBrowse
+            // 
+            this.buttonPatchFileBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonPatchFileBrowse.Location = new System.Drawing.Point(297, 75);
+            this.buttonPatchFileBrowse.Name = "buttonPatchFileBrowse";
+            this.buttonPatchFileBrowse.Size = new System.Drawing.Size(75, 23);
+            this.buttonPatchFileBrowse.TabIndex = 3;
+            this.buttonPatchFileBrowse.Text = "Browse...";
+            this.buttonPatchFileBrowse.UseVisualStyleBackColor = true;
+            this.buttonPatchFileBrowse.Click += new System.EventHandler(this.buttonPatchFileBrowse_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(609, 372);
+            this.Controls.Add(this.groupBoxPatch);
             this.Controls.Add(this.groupBoxFolder);
             this.Controls.Add(this.groupBoxFileItem);
             this.Controls.Add(this.groupBoxTown);
@@ -1157,6 +1223,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFileItemPrice)).EndInit();
             this.contextMenuStripFolderMenu.ResumeLayout(false);
             this.contextMenuStripFileMenu.ResumeLayout(false);
+            this.groupBoxPatch.ResumeLayout(false);
+            this.groupBoxPatch.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1250,6 +1318,11 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
         private System.Windows.Forms.ToolStripMenuItem deleteFolderToolStripMenuItem;
         private System.Windows.Forms.PictureBox pictureBox_FolderMugshot;
+        private System.Windows.Forms.GroupBox groupBoxPatch;
+        private System.Windows.Forms.ComboBox comboBoxPatchType;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Button buttonPatchFileBrowse;
+        private System.Windows.Forms.TextBox textBoxPatchFilePath;
     }
 }
 
