@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -122,6 +123,17 @@ namespace SatellaWave
             if (fileloadDialog.ShowDialog() == DialogResult.OK)
             {
                 textBoxFileItem_FilePath.Text = fileloadDialog.FileName;
+                Stream _getFileData = fileloadDialog.OpenFile();
+                if (_getFileData.Length <= 0x80000)
+                {
+                    comboBoxFileItem_Destination.SelectedIndex = 3;
+                }
+                else
+                {
+                    comboBoxFileItem_Destination.SelectedIndex = 2;
+                }
+
+                _getFileData.Close();
             }
         }
 
