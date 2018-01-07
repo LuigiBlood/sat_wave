@@ -742,6 +742,7 @@
             this.textBoxFolderMessage.Name = "textBoxFolderMessage";
             this.textBoxFolderMessage.Size = new System.Drawing.Size(175, 66);
             this.textBoxFolderMessage.TabIndex = 3;
+            this.textBoxFolderMessage.TextChanged += new System.EventHandler(this.textBoxFolderMessage_TextChanged);
             // 
             // label7
             // 
@@ -1124,9 +1125,9 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(609, 372);
+            this.Controls.Add(this.groupBoxFolder);
             this.Controls.Add(this.groupBoxFileItem);
             this.Controls.Add(this.groupBoxTown);
-            this.Controls.Add(this.groupBoxFolder);
             this.Controls.Add(this.groupBoxDirectory);
             this.Controls.Add(this.groupBoxMessage);
             this.Controls.Add(this.treeViewChn);
