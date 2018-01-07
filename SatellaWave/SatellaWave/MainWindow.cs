@@ -471,5 +471,18 @@ namespace SatellaWave
                 textBoxFileItem_Name.MaxLength = Encoding.UTF8.GetString(stringbytes).Length;
             }
         }
+
+        private void textBoxFileItemDesc_TextChanged(object sender, EventArgs e)
+        {
+            //Limit Characters dynamically
+            textBoxFileItemDesc.MaxLength = 254;
+            byte[] stringbytes = Encoding.Convert(Encoding.GetEncoding(932), Encoding.UTF8, Program.ConvertToBSXStringBytes(textBoxFileItemDesc.Text).Take<byte>(254).ToArray<byte>());
+
+            if (Program.ConvertToBSXStringBytes(textBoxFileItemDesc.Text).Length >= 254)
+            {
+                textBoxFileItemDesc.Text = Encoding.UTF8.GetString(stringbytes);
+                textBoxFileItemDesc.MaxLength = Encoding.UTF8.GetString(stringbytes).Length;
+            }
+        }
     }
 }

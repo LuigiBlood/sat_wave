@@ -1049,6 +1049,7 @@
             this.textBoxFileItemDesc.Name = "textBoxFileItemDesc";
             this.textBoxFileItemDesc.Size = new System.Drawing.Size(168, 66);
             this.textBoxFileItemDesc.TabIndex = 1;
+            this.textBoxFileItemDesc.TextChanged += new System.EventHandler(this.textBoxFileItemDesc_TextChanged);
             // 
             // label11
             // 
@@ -1123,8 +1124,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(609, 372);
-            this.Controls.Add(this.groupBoxTown);
             this.Controls.Add(this.groupBoxFileItem);
+            this.Controls.Add(this.groupBoxTown);
             this.Controls.Add(this.groupBoxFolder);
             this.Controls.Add(this.groupBoxDirectory);
             this.Controls.Add(this.groupBoxMessage);
