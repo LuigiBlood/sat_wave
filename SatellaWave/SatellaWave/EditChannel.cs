@@ -15,6 +15,7 @@ namespace SatellaWave
     public partial class EditChannel : Form
     {
         public string _ret_name;
+        public string _ret_channel;
         public ushort _ret_service;
         public ushort _ret_program;
         public ushort _ret_lci;
@@ -43,6 +44,7 @@ namespace SatellaWave
                 return;
             }
 
+            _ret_channel = textBoxChannelService.Text;
             _ret_service = (ushort)((Convert.ToByte(textBoxChannelService.Text.Split('.')[0]) << 8) | Convert.ToByte(textBoxChannelService.Text.Split('.')[1]));
             _ret_program = (ushort)((Convert.ToByte(textBoxChannelService.Text.Split('.')[2]) << 8) | Convert.ToByte(textBoxChannelService.Text.Split('.')[3]));
 

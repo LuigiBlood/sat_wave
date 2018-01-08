@@ -411,6 +411,22 @@ namespace SatellaWave
 
             if (editform.ShowDialog() == DialogResult.OK)
             {
+                if (Program.CheckUsedChannel(editform._ret_channel, treeViewChn.SelectedNode))
+                {
+                    if (MessageBox.Show("Software Channel " + editform._ret_channel + " already exists in another channel.\nThis will create a conflict. Are you sure you want to save it?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                    {
+                        return;
+                    }
+                }
+
+                if (Program.CheckUsedLCI(editform._ret_lci, treeViewChn.SelectedNode))
+                {
+                    if (MessageBox.Show("Logical Channel " + editform._ret_lci.ToString("X4") + " already exists in another channel.\nThis will create a conflict. Are you sure you want to save it?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                    {
+                        return;
+                    }
+                }
+
                 (treeViewChn.SelectedNode.Tag as Channel).name = editform._ret_name;
                 (treeViewChn.SelectedNode.Tag as Channel).service_broadcast = editform._ret_service;
                 (treeViewChn.SelectedNode.Tag as Channel).program_number = editform._ret_program;

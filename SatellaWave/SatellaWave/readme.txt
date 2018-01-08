@@ -1,4 +1,4 @@
-﻿SatellaWave 0.3 (2018-01-05)
+﻿SatellaWave 0.3.1 (2018-01-??)
 by LuigiBlood
 
 This software can make Satellaview compatible server binary files.
@@ -23,6 +23,13 @@ Currently supported channels:
 - Shigesato Itoi no Bass Fishing No. 1 Contest Channels
 
 Changelog:
+0.3.1 (2018-01-??)
+- Prevent Folder and File Descriptions to be too long.
+- Automatically select the recommended file destination after browsing the file.
+- BS-X Patch Support (Official BS-X Update & Custom Patches)
+- Warn User if Software Channel and/or Logical Channel already exists after editing the channel.
+- Software Channel detection now detects Directory.
+
 0.3 (2018-01-05)
 - Fix CheckUsedLCI() which didn't take into account directories themselves (fixes hang in BS-X).
 - [Special Event] is now [Hydrant Access].

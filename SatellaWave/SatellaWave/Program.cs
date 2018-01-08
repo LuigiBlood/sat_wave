@@ -319,6 +319,11 @@ namespace SatellaWave
             {
                 if (_node.Tag.GetType() == typeof(Directory))
                 {
+                    if ((_node.Tag as Channel).GetChannelNumberString() == _chnNumber)
+                    {
+                        return true;
+                    }
+
                     //Check Folders
                     foreach (TreeNode _nodeChildFolder in _node.Nodes)
                     {
@@ -358,12 +363,74 @@ namespace SatellaWave
             return false;
         }
 
+        public static bool CheckUsedChannel(string _chnNumber, TreeNode _ignore)
+        {
+            foreach (TreeNode _node in mainWindow.treeViewChn.Nodes)
+            {
+                if (!_node.Equals(_ignore))
+                {
+                    if (_node.Tag.GetType() == typeof(Directory))
+                    {
+                        if ((_node.Tag as Channel).GetChannelNumberString() == _chnNumber)
+                        {
+                            return true;
+                        }
+
+                        //Check Folders
+                        foreach (TreeNode _nodeChildFolder in _node.Nodes)
+                        {
+                            if (_nodeChildFolder.Tag.GetType() == typeof(Folder))
+                            {
+                                //Check Files
+                                foreach (TreeNode _nodeFile in _nodeChildFolder.Nodes)
+                                {
+                                    if ((_nodeFile.Tag as DownloadFile).GetChannelNumberString() == _chnNumber)
+                                    {
+                                        return true;
+                                    }
+
+                                    if (_nodeFile.Nodes.Count > 0)
+                                    {
+                                        //Check Include Files if they exist
+                                        foreach (TreeNode _nodeIncFile in _nodeFile.Nodes)
+                                        {
+                                            if ((_nodeIncFile.Tag as DownloadFile).GetChannelNumberString() == _chnNumber)
+                                            {
+                                                return true;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if ((_node.Tag as Channel).GetChannelNumberString() == _chnNumber)
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
         public static bool CheckUsedChannel(ushort _service, ushort _program)
         {
             return CheckUsedChannel((_service >> 8).ToString()
                 + "." + (_service & 0xFF).ToString()
                 + "." + (_program >> 8).ToString()
                 + "." + (_program & 0xFF).ToString());
+        }
+
+        public static bool CheckUsedChannel(ushort _service, ushort _program, TreeNode _ignore)
+        {
+            return CheckUsedChannel((_service >> 8).ToString()
+                + "." + (_service & 0xFF).ToString()
+                + "." + (_program >> 8).ToString()
+                + "." + (_program & 0xFF).ToString(),
+                _ignore);
         }
 
         public static bool CheckUsedLCI(ushort _lci)
@@ -413,6 +480,64 @@ namespace SatellaWave
                     if ((_node.Tag as Channel).lci == _lci)
                     {
                         return true;
+                    }
+                }
+            }
+
+            //not found
+            return false;
+        }
+
+        public static bool CheckUsedLCI(ushort _lci, TreeNode _ignore)
+        {
+            if (_lci == 0x0124)
+                return true;
+
+            foreach (TreeNode _node in mainWindow.treeViewChn.Nodes)
+            {
+                if (!_node.Equals(_ignore))
+                {
+                    if (_node.Tag.GetType() == typeof(Directory))
+                    {
+                        if ((_node.Tag as Directory).lci == _lci)
+                        {
+                            return true;
+                        }
+
+                        //Check Folders
+                        foreach (TreeNode _nodeChildFolder in _node.Nodes)
+                        {
+                            if (_nodeChildFolder.Tag.GetType() == typeof(Folder))
+                            {
+                                //Check Files
+                                foreach (TreeNode _nodeFile in _nodeChildFolder.Nodes)
+                                {
+                                    if ((_nodeFile.Tag as DownloadFile).lci == _lci)
+                                    {
+                                        return true;
+                                    }
+
+                                    if (_nodeFile.Nodes.Count > 0)
+                                    {
+                                        //Check Include Files if they exist
+                                        foreach (TreeNode _nodeIncFile in _nodeFile.Nodes)
+                                        {
+                                            if ((_nodeIncFile.Tag as DownloadFile).lci == _lci)
+                                            {
+                                                return true;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if ((_node.Tag as Channel).lci == _lci)
+                        {
+                            return true;
+                        }
                     }
                 }
             }
