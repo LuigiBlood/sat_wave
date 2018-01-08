@@ -7,7 +7,7 @@ You can then export to binary files compatible with SNES emulators that supports
 
 As of this time of writing, the SNES emulators that supports such files are:
 - bsnes-plus v073+3 and later (in bsxdat folder)
-- SNES9X 1.55 and later (in SatData folder)
+- SNES9X 1.55 and later (in SatData folder by default)
 
 However, the bigger files to be downloaded are only supported in development versions from LuigiBlood, so you may have to compile those versions yourself (repositories can be found at https://github.com/LuigiBlood).
 
@@ -18,6 +18,7 @@ Currently supported channels:
 	- Folders
 		- Files (also Include Files)
 		- Items
+- Patch
 - Time Channel (BS-X - Global)
 - Time Channel (Game Specific)
 - Shigesato Itoi no Bass Fishing No. 1 Contest Channels
@@ -29,6 +30,7 @@ Changelog:
 - BS-X Patch Support (Official BS-X Update & Custom Patches)
 - Warn User if Software Channel and/or Logical Channel already exists after editing the channel.
 - Software Channel detection now detects Directory.
+- Before Export, Repository will be checked for conflicts.
 
 0.3 (2018-01-05)
 - Fix CheckUsedLCI() which didn't take into account directories themselves (fixes hang in BS-X).

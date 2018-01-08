@@ -142,7 +142,7 @@ namespace SatellaWave
                 //Check if already present
                 if (CheckUsedChannel("1.1.0.4"))
                 {
-                    MessageBox.Show("There is already a BS-X Message Channel.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("There is already a BS-X Message Channel (1.1.0.4).", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -155,7 +155,7 @@ namespace SatellaWave
                 //Check if already present
                 if (CheckUsedChannel("1.1.0.5"))
                 {
-                    MessageBox.Show("There is already a BS-X Town Status Channel.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("There is already a BS-X Town Status Channel (1.1.0.5).", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -168,7 +168,7 @@ namespace SatellaWave
                 //Check if already present
                 if (CheckUsedChannel("1.1.0.6"))
                 {
-                    MessageBox.Show("There is already a BS-X Directory Channel.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("There is already a BS-X Directory Channel (1.1.0.6).", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -181,7 +181,7 @@ namespace SatellaWave
                 //Check if already present
                 if (CheckUsedChannel("1.1.0.7"))
                 {
-                    MessageBox.Show("There is already a BS-X Patch Channel.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("There is already a BS-X Patch Channel (1.1.0.7).", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -193,7 +193,7 @@ namespace SatellaWave
                 //BS-X - Time Channel (1.1.0.8)
                 if (CheckUsedChannel("1.1.0.8"))
                 {
-                    MessageBox.Show("There is already a BS-X Time Channel.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("There is already a BS-X Time Channel (1.1.0.8).", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -205,7 +205,7 @@ namespace SatellaWave
                 //Game - Time Channel (1.2.0.48)
                 if (CheckUsedChannel("1.2.0.48"))
                 {
-                    MessageBox.Show("There is already a Game Time Channel.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("There is already a Game Time Channel (1.2.0.48).", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -217,7 +217,7 @@ namespace SatellaWave
                 //Itoi Shigesato no Bass Tsuri No. 1 - Contest 1 (1.2.130.0)
                 if (CheckUsedChannel("1.2.130.0"))
                 {
-                    MessageBox.Show("There is already a Itoi Shigesato no Bass Tsuri No. 1 - Contest 1 Channel.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("There is already a Itoi Shigesato no Bass Tsuri No. 1 - Contest 1 Channel (1.2.130.0).", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -229,7 +229,7 @@ namespace SatellaWave
                 //Itoi Shigesato no Bass Tsuri No. 1 - Contest 2 (1.2.130.16)
                 if (CheckUsedChannel("1.2.130.16"))
                 {
-                    MessageBox.Show("There is already a Itoi Shigesato no Bass Tsuri No. 1 - Contest 2 Channel.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("There is already a Itoi Shigesato no Bass Tsuri No. 1 - Contest 2 Channel (1.2.130.16).", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -241,7 +241,7 @@ namespace SatellaWave
                 //Itoi Shigesato no Bass Tsuri No. 1 - Contest 3 (1.2.130.32)
                 if (CheckUsedChannel("1.2.130.32"))
                 {
-                    MessageBox.Show("There is already a Itoi Shigesato no Bass Tsuri No. 1 - Contest 3 Channel.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("There is already a Itoi Shigesato no Bass Tsuri No. 1 - Contest 3 Channel (1.2.130.32).", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -253,7 +253,7 @@ namespace SatellaWave
                 //Itoi Shigesato no Bass Tsuri No. 1 - Contest 4 (1.2.130.48)
                 if (CheckUsedChannel("1.2.130.48"))
                 {
-                    MessageBox.Show("There is already a Itoi Shigesato no Bass Tsuri No. 1 - Contest 4 Channel.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("There is already a Itoi Shigesato no Bass Tsuri No. 1 - Contest 4 Channel (1.2.130.48).", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -618,6 +618,69 @@ namespace SatellaWave
             while (CheckUsedChannel(0x0103, nextprgnumber))
                 nextprgnumber += 0x0100;
             return nextprgnumber;
+        }
+
+        public static bool CheckBSXRepository()
+        {
+            //Check for conflicts in the repository
+            foreach (TreeNode _node in mainWindow.treeViewChn.Nodes)
+            {
+                //Check Software Channel
+                if (CheckUsedChannel((_node.Tag as Channel).GetChannelNumberString(), _node))
+                {
+                    return false;
+                }
+
+                //Check Logical Channel (exception of LCI 0x0000 which is the time, can be shared between channels)
+                if (CheckUsedLCI((_node.Tag as Channel).lci, _node) && ((_node.Tag as Channel).lci != 0))
+                {
+                    return false;
+                }
+
+                if (_node.Tag.GetType() == typeof(Directory))
+                {
+                    //Check Folders
+                    foreach (TreeNode _nodeChildFolder in _node.Nodes)
+                    {
+                        if (_nodeChildFolder.Tag.GetType() == typeof(Folder))
+                        {
+                            //Check Files
+                            foreach (TreeNode _nodeFile in _nodeChildFolder.Nodes)
+                            {
+                                //Check Software Channel
+                                if (CheckUsedChannel((_nodeFile.Tag as DownloadFile).GetChannelNumberString(), _node))
+                                {
+                                    return false;
+                                }
+
+                                //Check Logical Channel
+                                if (CheckUsedLCI((_nodeFile.Tag as DownloadFile).lci, _node))
+                                {
+                                    return false;
+                                }
+
+                                foreach (TreeNode _inclNode in _nodeFile.Nodes)
+                                {
+                                    //Check Software Channel
+                                    if (CheckUsedChannel((_inclNode.Tag as DownloadFile).GetChannelNumberString(), _node))
+                                    {
+                                        return false;
+                                    }
+
+                                    //Check Logical Channel
+                                    if (CheckUsedLCI((_inclNode.Tag as DownloadFile).lci, _node))
+                                    {
+                                        return false;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            //Everything is fine
+            return true;
         }
 
         public static void LoadBSXRepository(string xmlPath)
@@ -1286,6 +1349,15 @@ namespace SatellaWave
             if (!CheckUsedChannelType(typeof(Directory)) || !CheckUsedChannelType(typeof(TownStatus)))
             {
                 if (MessageBox.Show("There are no Town Status and/or Directory Channels. BS-X will not detect signal properly.\nDo you want to continue?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                {
+                    return;
+                }
+            }
+
+            //Check Repository Integrity
+            if (!CheckBSXRepository())
+            {
+                if (MessageBox.Show("There are conflicts of Software Channels/Logical Channels in the repository.\nThere will be potential bugs.\nDo you want to continue?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
                 {
                     return;
                 }
