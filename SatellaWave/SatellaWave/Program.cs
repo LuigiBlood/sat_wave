@@ -1121,13 +1121,13 @@ namespace SatellaWave
                                     }
 
                                     patchchn.SetFilePath(nodeChannel.ChildNodes[0].Attributes["filePath"].Value);
-
-                                    TreeNode patchnode = new TreeNode(patchchn.name + " (" + patchchn.GetChannelNumberString() + ")");
-                                    patchnode.Tag = patchchn;
-                                    patchnode.ContextMenuStrip = mainWindow.contextMenuStripChannelMenu;
-
-                                    nodelist.Add(patchnode);
                                 }
+
+                                TreeNode patchnode = new TreeNode(patchchn.name + " (" + patchchn.GetChannelNumberString() + ")");
+                                patchnode.Tag = patchchn;
+                                patchnode.ContextMenuStrip = mainWindow.contextMenuStripChannelMenu;
+
+                                nodelist.Add(patchnode);
                             }
                         }
                     }
