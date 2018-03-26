@@ -279,6 +279,64 @@ namespace SatellaWave
         {
             if (_node.Tag.GetType() == typeof(Folder))
             {
+                if (_node.Nodes.Count >= 10)
+                {
+                    MessageBox.Show("Reached the file limit for this folder.\nCannot add any more files.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if ((_node.Tag as Folder).purpose == 1)
+                {
+                    //Shop
+                    bool canAdd = true;
+                    if ((_node.Tag as Folder).type == 0)
+                    {
+                        //Building
+                        if ((_node.Tag as Folder).id == 6)
+                        {
+                            //Beach House
+                            if (_node.Nodes.Count >= (10 - 3))
+                            {
+                                canAdd = false;
+                            }
+                        }
+                        else if((_node.Tag as Folder).id == 8)
+                        {
+                            //Convenience Center
+                            if (_node.Nodes.Count >= (10 - 8))
+                            {
+                                canAdd = false;
+                            }
+                        }
+                        else if ((_node.Tag as Folder).id == 20)
+                        {
+                            //Sewerage
+                            if (_node.Nodes.Count >= (10 - 4))
+                            {
+                                canAdd = false;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        //NPC
+                        if ((_node.Tag as Folder).id == 1)
+                        {
+                            //Dr. Hiroshi
+                            if (_node.Nodes.Count >= (10 - 2))
+                            {
+                                canAdd = false;
+                            }
+                        }
+                    }
+
+                    if (!canAdd)
+                    {
+                        MessageBox.Show("Reached the item limit for this folder.\nCannot add any more items.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+
                 DownloadFile _file = new DownloadFile((_node.Tag as Folder).purpose == 1, GetNextFileID());
 
                 _file.lci = GetNextLCI();
