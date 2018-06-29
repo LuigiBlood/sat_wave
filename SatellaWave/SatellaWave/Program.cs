@@ -2059,7 +2059,7 @@ namespace SatellaWave
             ChannelMapFile.Insert(0, 0);
             ChannelMapFile.Insert(0, 0);
 
-            FileStream mapfile = new FileStream(folderPath + "\\BSX0124-0.bin", FileMode.Create);
+            FileStream mapfile = new FileStream(folderPath + "/BSX0124-0.bin", FileMode.Create);
             mapfile.Write(ChannelMapFile.ToArray(), 0, ChannelMapFile.Count);
             mapfile.Close();
 
@@ -2073,7 +2073,7 @@ namespace SatellaWave
 
             for (int i = 0; i < fileAmount; i++)
             {
-                FileStream chnfile = new FileStream(folderPath + "\\BSX" + lci.ToString("X4") + "-" + i.ToString() + ".bin", FileMode.Create);
+                FileStream chnfile = new FileStream(folderPath + "/BSX" + lci.ToString("X4") + "-" + i.ToString() + ".bin", FileMode.Create);
 
                 chnfile.WriteByte(0); //Data Group ID
                 chnfile.WriteByte((byte)i); //Data Group Continuity
