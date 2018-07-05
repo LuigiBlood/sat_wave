@@ -262,6 +262,8 @@ namespace SatellaWave
                     SaveFile(treeViewChn.SelectedNode);
                 else if (treeViewChn.SelectedNode.Tag.GetType() == typeof(Patch))
                     SavePatch(treeViewChn.SelectedNode);
+                else if (treeViewChn.SelectedNode.Tag.GetType() == typeof(EventPlaza))
+                    SaveEventPlaza(treeViewChn.SelectedNode);
             }
         }
 
@@ -358,6 +360,11 @@ namespace SatellaWave
             {
                 (_node.Tag as Patch).SetFilePath(textBoxPatchFilePath.Text);
             }
+        }
+
+        private void SaveEventPlaza(TreeNode _node)
+        {
+            (_node.Tag as EventPlaza).name = textBoxEventPlazaName.Text;
         }
 
         private string UpdateNodeName(TreeNode _node)
@@ -555,10 +562,10 @@ namespace SatellaWave
         private void textBoxEventPlazaName_TextChanged(object sender, EventArgs e)
         {
             //Limit Characters dynamically
-            textBoxEventPlazaName.MaxLength = 20;
-            byte[] stringbytes = Encoding.Convert(Encoding.GetEncoding(932), Encoding.UTF8, Program.ConvertToBSXStringBytes(textBoxEventPlazaName.Text).Take<byte>(20).ToArray<byte>());
+            textBoxEventPlazaName.MaxLength = 16;
+            byte[] stringbytes = Encoding.Convert(Encoding.GetEncoding(932), Encoding.UTF8, Program.ConvertToBSXStringBytes(textBoxEventPlazaName.Text).Take<byte>(16).ToArray<byte>());
 
-            if (Program.ConvertToBSXStringBytes(textBoxEventPlazaName.Text).Length >= 20)
+            if (Program.ConvertToBSXStringBytes(textBoxEventPlazaName.Text).Length >= 16)
             {
                 textBoxEventPlazaName.Text = Encoding.UTF8.GetString(stringbytes);
                 textBoxEventPlazaName.MaxLength = Encoding.UTF8.GetString(stringbytes).Length;

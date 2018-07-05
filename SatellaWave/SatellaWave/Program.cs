@@ -1173,6 +1173,51 @@ namespace SatellaWave
                                         foldernode.ContextMenuStrip = mainWindow.contextMenuStripFolderMenu;
                                         dirnode.Nodes.Add(foldernode);
                                     }
+                                    else if (folderData.Name == "eventplaza")
+                                    {
+                                        //Expansion - Event Plaza
+                                        EventPlaza eventplaza = new EventPlaza(folderData.Attributes["name"].Value);
+
+                                        foreach (XmlNode _node in folderData.ChildNodes)
+                                        {
+                                            if (_node.Name == "map")
+                                            {
+                                                if (!(new Regex(@"^[0-9a-fA-F]{112}$").Match(_node.InnerText).Success))
+                                                {
+                                                    //Check tilemap data
+                                                    MessageBox.Show("Map Data is invalid in Event Plaza Expansion " + _node.BaseURI + " (" + _node.Attributes["name"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                    return;
+                                                }
+
+                                                string temp = _node.InnerText;
+                                                for (int i = 0; i < eventplaza.tilemap.Length; i++)
+                                                {
+                                                    ushort _map;
+                                                    ushort.TryParse(temp.Substring(4 * i, 4), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out _map);
+                                                    eventplaza.tilemap[i] = _map;
+                                                }
+                                            }
+                                            else if (_node.Name == "door")
+                                            {
+                                                if (!(new Regex(@"^[0-1]{28}$").Match(_node.InnerText).Success))
+                                                {
+                                                    //Check Door data
+                                                    MessageBox.Show("Door Location data in invalid in Event Plaza Expansion " + _node.BaseURI + " (" + _node.Attributes["name"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                    return;
+                                                }
+
+                                                for (int i = 0; i < eventplaza.doors.Length; i++)
+                                                {
+                                                    eventplaza.doors[i] = (_node.InnerText[i] == '1');
+                                                }
+                                            }
+                                        }
+
+                                        TreeNode expnode = new TreeNode("Expansion - Event Plaza");
+                                        expnode.Tag = eventplaza;
+                                        expnode.ContextMenuStrip = mainWindow.contextMenuStripEventPlazaMenu;
+                                        dirnode.Nodes.Add(expnode);
+                                    }
                                 }
                                 dirnode.ContextMenuStrip = mainWindow.contextMenuStripDirectoryMenu;
                                 nodelist.Add(dirnode);
@@ -1389,6 +1434,34 @@ namespace SatellaWave
 
                             xmlWriter.WriteEndElement();
                         }
+                        else if (_foldernode.Tag.GetType() == typeof(EventPlaza))
+                        {
+                            xmlWriter.WriteStartElement("eventplaza");
+
+                            //Name
+                            xmlWriter.WriteAttributeString("name", (_foldernode.Tag as EventPlaza).name);
+
+                            //Tilemap
+                            xmlWriter.WriteStartElement("map");
+                            foreach (ushort datamap in (_foldernode.Tag as EventPlaza).tilemap)
+                            {
+                                xmlWriter.WriteString(datamap.ToString("X4"));
+                            }
+                            xmlWriter.WriteEndElement();
+
+                            //Door locations
+                            xmlWriter.WriteStartElement("door");
+                            foreach (bool datadoor in (_foldernode.Tag as EventPlaza).doors)
+                            {
+                                if (datadoor == true)
+                                    xmlWriter.WriteString("1");
+                                else
+                                    xmlWriter.WriteString("0");
+                            }
+                            xmlWriter.WriteEndElement();
+
+                            xmlWriter.WriteEndElement();
+                        }
                     }
 
                     xmlWriter.WriteEndElement();
@@ -1454,19 +1527,24 @@ namespace SatellaWave
                     ChannelFile.Clear(); //Clear everything, just to make sure
 
                     bool checkInclude = false;
+                    int amountFolder = 0;
                     int amountIncludeFiles = 0;
                     foreach (TreeNode _Folder in _DirectoryCheck.Nodes)
                     {
-                        foreach (TreeNode _File in _Folder.Nodes)
+                        if (_Folder.Tag.GetType() == typeof(Folder))
                         {
-                            checkInclude |= (_File.Nodes.Count > 0);
-                            amountIncludeFiles += _File.Nodes.Count;
+                            amountFolder++;
+                            foreach (TreeNode _File in _Folder.Nodes)
+                            {
+                                checkInclude |= (_File.Nodes.Count > 0);
+                                amountIncludeFiles += _File.Nodes.Count;
+                            }
                         }
                     }
 
                     //Directory Header
                     ChannelFile.Add(lastExportID); //Directory ID
-                    ChannelFile.Add((byte)(_DirectoryCheck.Nodes.Count + Convert.ToByte(checkInclude))); //Folder Count
+                    ChannelFile.Add((byte)(amountFolder + Convert.ToByte(checkInclude))); //Folder Count
                     ChannelFile.Add(0); //Unknown
                     ChannelFile.Add(0);
                     ChannelFile.Add(0);
@@ -1826,8 +1904,125 @@ namespace SatellaWave
                         }
                     }
 
-                    //Expansion Packet (TODO)
-                    ChannelFile.Add(0); //No Expansion Packet (yet)
+                    //Expansion Packet
+
+                    //Count BS-X Expansions
+                    byte expCount = 0;
+                    foreach (TreeNode _Exp in _DirectoryCheck.Nodes)
+                    {
+                        if (_Exp.Tag.GetType() == typeof(EventPlaza))
+                        {
+                            expCount++;
+                        }
+                        //Add Script Expansion later
+                    }
+
+                    //Export Expansion Event Plaza (First)
+                    if (expCount > 0)
+                    {
+                        ChannelFile.Add(1);     //One Expansion Entry (it has every chunk)
+                        ChannelFile.Add(0);     //Flags
+                        ChannelFile.Add(0);     //Unknown
+
+                        ChannelFile.Add(0);     //Entry Size (to be added later)
+                        ChannelFile.Add(0);
+
+                        int ExpansionEntryStartOffset = ChannelFile.Count;
+
+                        foreach (TreeNode _Exp in _DirectoryCheck.Nodes)
+                        {
+                            if (_Exp.Tag.GetType() == typeof(EventPlaza))
+                            {
+                                ChannelFile.Add(0x01);      //Chunk ID = 0x01 (Event Plaza)
+                                ChannelFile.Add(0x00);      //Chunk Size (to be added later)
+                                ChannelFile.Add(0x00);
+
+                                int offsetChunkBeginning = ChannelFile.Count;
+
+                                //Event Building Name
+                                for (int i = 0; i < 16; i++)
+                                {
+                                    if (ConvertToBSXStringBytes((_Exp.Tag as EventPlaza).name).Length > i)
+                                        ChannelFile.Add(ConvertToBSXStringBytes((_Exp.Tag as EventPlaza).name)[i]);
+                                    else
+                                        ChannelFile.Add(0);
+                                }
+                                ChannelFile.Add(0);
+
+                                //Custom Palette (Not implemented yet)
+                                for (int i = 0; i < 32; i++)
+                                {
+                                    //Only put zeroes for now
+                                    ChannelFile.Add(0);
+                                }
+
+                                //Custom Tilemap
+                                ushort[] tilemapdata = (_Exp.Tag as EventPlaza).GetTileMapExport();
+                                foreach (ushort data in tilemapdata)
+                                {
+                                    ChannelFile.Add((byte)(data & 0xFF));
+                                    ChannelFile.Add((byte)((data >> 8) & 0xFF));
+                                }
+
+                                //Custom Animation Data
+                                ChannelFile.Add(2);     //Size = 2
+                                ChannelFile.Add(0);
+
+                                ChannelFile.Add(0xFF);
+                                ChannelFile.Add(0xFF);
+
+                                //Custom Tiles
+                                ChannelFile.Add(4);     //Size = 4 because of BS-X bug
+                                ChannelFile.Add(0);
+
+                                ChannelFile.Add(0);
+                                ChannelFile.Add(0);
+                                ChannelFile.Add(0);
+                                ChannelFile.Add(0);
+
+                                //Custom Tileset
+                                ChannelFile.Add(0);     //Size = 0
+                                ChannelFile.Add(0);
+
+                                //Custom Tileset Setup
+                                ChannelFile.Add(2);     //Size = 2 because of BS-X
+                                ChannelFile.Add(0);
+
+                                ChannelFile.Add(0);
+                                ChannelFile.Add(0);
+
+                                //Door Locations
+                                byte[] doors = (_Exp.Tag as EventPlaza).GetDoorLocationsExport();
+
+                                ChannelFile.Add((byte)((doors.Length + 2) & 0xFF));
+                                ChannelFile.Add((byte)(((doors.Length + 2) >> 8) & 0xFF));
+
+                                foreach (byte data in doors)
+                                {
+                                    ChannelFile.Add(data);
+                                }
+                                ChannelFile.Add(0xFF);
+                                ChannelFile.Add(0xFF);
+
+                                //Set up Size
+                                int ChunkSize = ChannelFile.Count - offsetChunkBeginning;
+                                ChannelFile[offsetChunkBeginning - 2] = (byte)(ChunkSize & 0xFF);
+                                ChannelFile[offsetChunkBeginning - 1] = (byte)((ChunkSize >> 8) & 0xFF);
+                            }
+                        }
+
+                        //Chunk ID = 0
+                        ChannelFile.Add(0);
+
+                        int ExpansionEntrySize = ChannelFile.Count - ExpansionEntryStartOffset;
+                        ChannelFile[ExpansionEntryStartOffset - 2] = (byte)((ExpansionEntrySize >> 8) & 0xFF);
+                        ChannelFile[ExpansionEntryStartOffset - 1] = (byte)(ExpansionEntrySize & 0xFF);
+                    }
+                    else
+                    {
+                        //No Expansion Entries
+                        ChannelFile.Add(0);
+                    }
 
                     if (ChannelFile.Count > 0x4000)
                     {

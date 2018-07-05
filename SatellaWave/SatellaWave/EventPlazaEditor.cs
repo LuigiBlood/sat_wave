@@ -50,6 +50,23 @@ namespace SatellaWave
 
         public void UpdateTilemapImage()
         {
+            Bitmap tilemapimage = DrawTileMap();
+
+            using (Graphics g = Graphics.FromImage(tilemapimage))
+            {
+                Bitmap tilemapimagetemp = new Bitmap(tilemapimage);
+                g.ScaleTransform(2f, 2f);
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
+                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+                g.Clear(Color.Transparent);
+                g.DrawImage(tilemapimagetemp, 0, 0);
+            }
+
+            pictureBoxBuilding.Image = tilemapimage;
+        }
+
+        public Bitmap DrawTileMap()
+        {
             Bitmap tilemapimage = new Bitmap(32 * 4, 32 * 7);
             for (int y = 0; y < 7; y++)
             {
@@ -68,17 +85,7 @@ namespace SatellaWave
                 }
             }
 
-            using (Graphics g = Graphics.FromImage(tilemapimage))
-            {
-                Bitmap tilemapimagetemp = new Bitmap(tilemapimage);
-                g.ScaleTransform(2f, 2f);
-                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
-                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-                g.Clear(Color.Transparent);
-                g.DrawImage(tilemapimagetemp, 0, 0);
-            }
-
-            pictureBoxBuilding.Image = tilemapimage;
+            return tilemapimage;
         }
 
         public int GetEditorMode()

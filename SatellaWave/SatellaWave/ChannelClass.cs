@@ -365,6 +365,44 @@ namespace SatellaWave
             tilemap = new ushort[4 * 7];
             doors = new bool[4 * 7];
         }
+
+        public EventPlaza(string _name)
+        {
+            name = _name;
+            tilemap = new ushort[4 * 7];
+            doors = new bool[4 * 7];
+        }
+
+        public ushort[] GetTileMapExport()
+        {
+            ushort[] tilemaptemp = tilemap;
+
+            for (int i = 0; i < tilemaptemp.Length; i++)
+            {
+                if (doors[i])
+                {
+                    tilemaptemp[i] |= 0x8000;   //Bit15 must be set for doors
+                }
+            }
+
+            return tilemaptemp;
+        }
+
+        public byte[] GetDoorLocationsExport()
+        {
+            List<byte> doortemp = new List<byte>();
+
+            for (int i = 0; i < doors.Length; i++)
+            {
+                if (doors[i])
+                {
+                    doortemp.Add((byte)(0x06 + (i % 4))); //X Coordinate
+                    doortemp.Add((byte)(0x0D + (i / 4))); //Y Coordinate
+                }
+            }
+
+            return doortemp.ToArray();
+        }
     }
 }
     
