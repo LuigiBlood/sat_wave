@@ -66,6 +66,11 @@
             this.toolStripMenuItemDirectory_Edit = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemDirectory_Delete = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBoxDirectory = new System.Windows.Forms.GroupBox();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.buttonCreateScriptExpansion = new System.Windows.Forms.Button();
+            this.buttonCreateEventPlaza = new System.Windows.Forms.Button();
             this.buttonAddFolder = new System.Windows.Forms.Button();
             this.groupBoxFolder = new System.Windows.Forms.GroupBox();
             this.pictureBox_FolderMugshot = new System.Windows.Forms.PictureBox();
@@ -117,10 +122,18 @@
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBoxPatch = new System.Windows.Forms.GroupBox();
-            this.comboBoxPatchType = new System.Windows.Forms.ComboBox();
-            this.label20 = new System.Windows.Forms.Label();
-            this.textBoxPatchFilePath = new System.Windows.Forms.TextBox();
             this.buttonPatchFileBrowse = new System.Windows.Forms.Button();
+            this.textBoxPatchFilePath = new System.Windows.Forms.TextBox();
+            this.label20 = new System.Windows.Forms.Label();
+            this.comboBoxPatchType = new System.Windows.Forms.ComboBox();
+            this.contextMenuStripEventPlazaMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItemDirectory_NewEventPlaza = new System.Windows.Forms.ToolStripMenuItem();
+            this.editEventPlazaBuildingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteExpansionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.groupBoxEventPlaza = new System.Windows.Forms.GroupBox();
+            this.label24 = new System.Windows.Forms.Label();
+            this.textBoxEventPlazaName = new System.Windows.Forms.TextBox();
+            this.buttonEventPlazaEditor = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.groupBoxTown.SuspendLayout();
             this.contextMenuStripChannelMenu.SuspendLayout();
@@ -136,6 +149,8 @@
             this.contextMenuStripFolderMenu.SuspendLayout();
             this.contextMenuStripFileMenu.SuspendLayout();
             this.groupBoxPatch.SuspendLayout();
+            this.contextMenuStripEventPlazaMenu.SuspendLayout();
+            this.groupBoxEventPlaza.SuspendLayout();
             this.SuspendLayout();
             // 
             // fileToolStripMenuItem
@@ -520,35 +535,36 @@
             // 
             this.contextMenuStripDirectoryMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemDirectory_NewFolder,
+            this.toolStripMenuItemDirectory_NewEventPlaza,
             this.toolStripSeparator3,
             this.toolStripMenuItemDirectory_Edit,
             this.toolStripMenuItemDirectory_Delete});
             this.contextMenuStripDirectoryMenu.Name = "contextMenuStripDirectoryMenu";
-            this.contextMenuStripDirectoryMenu.Size = new System.Drawing.Size(208, 76);
+            this.contextMenuStripDirectoryMenu.Size = new System.Drawing.Size(227, 98);
             // 
             // toolStripMenuItemDirectory_NewFolder
             // 
             this.toolStripMenuItemDirectory_NewFolder.Name = "toolStripMenuItemDirectory_NewFolder";
-            this.toolStripMenuItemDirectory_NewFolder.Size = new System.Drawing.Size(207, 22);
+            this.toolStripMenuItemDirectory_NewFolder.Size = new System.Drawing.Size(226, 22);
             this.toolStripMenuItemDirectory_NewFolder.Text = "Create New Folder";
             this.toolStripMenuItemDirectory_NewFolder.Click += new System.EventHandler(this.createFolder);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(204, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(223, 6);
             // 
             // toolStripMenuItemDirectory_Edit
             // 
             this.toolStripMenuItemDirectory_Edit.Name = "toolStripMenuItemDirectory_Edit";
-            this.toolStripMenuItemDirectory_Edit.Size = new System.Drawing.Size(207, 22);
+            this.toolStripMenuItemDirectory_Edit.Size = new System.Drawing.Size(226, 22);
             this.toolStripMenuItemDirectory_Edit.Text = "Edit Channel Information";
             this.toolStripMenuItemDirectory_Edit.Click += new System.EventHandler(this.toolStripMenuItemChannel_Edit_Click);
             // 
             // toolStripMenuItemDirectory_Delete
             // 
             this.toolStripMenuItemDirectory_Delete.Name = "toolStripMenuItemDirectory_Delete";
-            this.toolStripMenuItemDirectory_Delete.Size = new System.Drawing.Size(207, 22);
+            this.toolStripMenuItemDirectory_Delete.Size = new System.Drawing.Size(226, 22);
             this.toolStripMenuItemDirectory_Delete.Text = "Delete Channel";
             this.toolStripMenuItemDirectory_Delete.Click += new System.EventHandler(this.toolStripMenuItemChannel_Delete_Click);
             // 
@@ -557,6 +573,11 @@
             this.groupBoxDirectory.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxDirectory.Controls.Add(this.label23);
+            this.groupBoxDirectory.Controls.Add(this.label22);
+            this.groupBoxDirectory.Controls.Add(this.label21);
+            this.groupBoxDirectory.Controls.Add(this.buttonCreateScriptExpansion);
+            this.groupBoxDirectory.Controls.Add(this.buttonCreateEventPlaza);
             this.groupBoxDirectory.Controls.Add(this.buttonAddFolder);
             this.groupBoxDirectory.Location = new System.Drawing.Point(225, 27);
             this.groupBoxDirectory.Name = "groupBoxDirectory";
@@ -565,6 +586,55 @@
             this.groupBoxDirectory.TabStop = false;
             this.groupBoxDirectory.Text = "Directory";
             this.groupBoxDirectory.Visible = false;
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(183, 212);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(140, 13);
+            this.label23.TabIndex = 5;
+            this.label23.Text = "This feature is not ready yet.";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(182, 121);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(192, 52);
+            this.label22.TabIndex = 4;
+            this.label22.Text = "This will allow you to replace\r\nthe Event Plaza with your own building.\r\nAttribut" +
+    "e a folder to the Event Plaza\r\nto set up content.";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(182, 33);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(186, 39);
+            this.label21.TabIndex = 3;
+            this.label21.Text = "This will create a folder for\r\ndownloadable content and item shops\r\nattributed to" +
+    " a building or a person.";
+            // 
+            // buttonCreateScriptExpansion
+            // 
+            this.buttonCreateScriptExpansion.Enabled = false;
+            this.buttonCreateScriptExpansion.Location = new System.Drawing.Point(6, 198);
+            this.buttonCreateScriptExpansion.Name = "buttonCreateScriptExpansion";
+            this.buttonCreateScriptExpansion.Size = new System.Drawing.Size(168, 44);
+            this.buttonCreateScriptExpansion.TabIndex = 2;
+            this.buttonCreateScriptExpansion.Text = "Create Script Expansion";
+            this.buttonCreateScriptExpansion.UseVisualStyleBackColor = true;
+            // 
+            // buttonCreateEventPlaza
+            // 
+            this.buttonCreateEventPlaza.Location = new System.Drawing.Point(6, 124);
+            this.buttonCreateEventPlaza.Name = "buttonCreateEventPlaza";
+            this.buttonCreateEventPlaza.Size = new System.Drawing.Size(168, 44);
+            this.buttonCreateEventPlaza.TabIndex = 1;
+            this.buttonCreateEventPlaza.Text = "Create Event Plaza Expansion";
+            this.buttonCreateEventPlaza.UseVisualStyleBackColor = true;
+            this.buttonCreateEventPlaza.Click += new System.EventHandler(this.createEventPlaza);
             // 
             // buttonAddFolder
             // 
@@ -1143,6 +1213,35 @@
             this.groupBoxPatch.Text = "Patch";
             this.groupBoxPatch.Visible = false;
             // 
+            // buttonPatchFileBrowse
+            // 
+            this.buttonPatchFileBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonPatchFileBrowse.Location = new System.Drawing.Point(297, 75);
+            this.buttonPatchFileBrowse.Name = "buttonPatchFileBrowse";
+            this.buttonPatchFileBrowse.Size = new System.Drawing.Size(75, 23);
+            this.buttonPatchFileBrowse.TabIndex = 3;
+            this.buttonPatchFileBrowse.Text = "Browse...";
+            this.buttonPatchFileBrowse.UseVisualStyleBackColor = true;
+            this.buttonPatchFileBrowse.Click += new System.EventHandler(this.buttonPatchFileBrowse_Click);
+            // 
+            // textBoxPatchFilePath
+            // 
+            this.textBoxPatchFilePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxPatchFilePath.Location = new System.Drawing.Point(18, 77);
+            this.textBoxPatchFilePath.Name = "textBoxPatchFilePath";
+            this.textBoxPatchFilePath.Size = new System.Drawing.Size(273, 20);
+            this.textBoxPatchFilePath.TabIndex = 2;
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(15, 26);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(91, 13);
+            this.label20.TabIndex = 1;
+            this.label20.Text = "BS-X Patch Data:";
+            // 
             // comboBoxPatchType
             // 
             this.comboBoxPatchType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -1156,45 +1255,85 @@
             this.comboBoxPatchType.TabIndex = 0;
             this.comboBoxPatchType.SelectedIndexChanged += new System.EventHandler(this.comboBoxPatchType_SelectedIndexChanged);
             // 
-            // label20
+            // contextMenuStripEventPlazaMenu
             // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(15, 26);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(91, 13);
-            this.label20.TabIndex = 1;
-            this.label20.Text = "BS-X Patch Data:";
+            this.contextMenuStripEventPlazaMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.editEventPlazaBuildingToolStripMenuItem,
+            this.deleteExpansionToolStripMenuItem});
+            this.contextMenuStripEventPlazaMenu.Name = "contextMenuStripEventPlazaMenu";
+            this.contextMenuStripEventPlazaMenu.Size = new System.Drawing.Size(204, 48);
             // 
-            // textBoxPatchFilePath
+            // toolStripMenuItemDirectory_NewEventPlaza
             // 
-            this.textBoxPatchFilePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxPatchFilePath.Location = new System.Drawing.Point(18, 77);
-            this.textBoxPatchFilePath.Name = "textBoxPatchFilePath";
-            this.textBoxPatchFilePath.Size = new System.Drawing.Size(273, 20);
-            this.textBoxPatchFilePath.TabIndex = 2;
+            this.toolStripMenuItemDirectory_NewEventPlaza.Name = "toolStripMenuItemDirectory_NewEventPlaza";
+            this.toolStripMenuItemDirectory_NewEventPlaza.Size = new System.Drawing.Size(226, 22);
+            this.toolStripMenuItemDirectory_NewEventPlaza.Text = "Create Event Plaza Expansion";
+            this.toolStripMenuItemDirectory_NewEventPlaza.Click += new System.EventHandler(this.createEventPlaza);
             // 
-            // buttonPatchFileBrowse
+            // editEventPlazaBuildingToolStripMenuItem
             // 
-            this.buttonPatchFileBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonPatchFileBrowse.Location = new System.Drawing.Point(297, 75);
-            this.buttonPatchFileBrowse.Name = "buttonPatchFileBrowse";
-            this.buttonPatchFileBrowse.Size = new System.Drawing.Size(75, 23);
-            this.buttonPatchFileBrowse.TabIndex = 3;
-            this.buttonPatchFileBrowse.Text = "Browse...";
-            this.buttonPatchFileBrowse.UseVisualStyleBackColor = true;
-            this.buttonPatchFileBrowse.Click += new System.EventHandler(this.buttonPatchFileBrowse_Click);
+            this.editEventPlazaBuildingToolStripMenuItem.Name = "editEventPlazaBuildingToolStripMenuItem";
+            this.editEventPlazaBuildingToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.editEventPlazaBuildingToolStripMenuItem.Text = "Edit Event Plaza Building";
+            // 
+            // deleteExpansionToolStripMenuItem
+            // 
+            this.deleteExpansionToolStripMenuItem.Name = "deleteExpansionToolStripMenuItem";
+            this.deleteExpansionToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.deleteExpansionToolStripMenuItem.Text = "Delete Expansion";
+            this.deleteExpansionToolStripMenuItem.Click += new System.EventHandler(this.toolStripMenuItemChannel_Delete_Click);
+            // 
+            // groupBoxEventPlaza
+            // 
+            this.groupBoxEventPlaza.Controls.Add(this.buttonEventPlazaEditor);
+            this.groupBoxEventPlaza.Controls.Add(this.textBoxEventPlazaName);
+            this.groupBoxEventPlaza.Controls.Add(this.label24);
+            this.groupBoxEventPlaza.Location = new System.Drawing.Point(225, 27);
+            this.groupBoxEventPlaza.Name = "groupBoxEventPlaza";
+            this.groupBoxEventPlaza.Size = new System.Drawing.Size(378, 341);
+            this.groupBoxEventPlaza.TabIndex = 6;
+            this.groupBoxEventPlaza.TabStop = false;
+            this.groupBoxEventPlaza.Text = "Event Plaza";
+            this.groupBoxEventPlaza.Visible = false;
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(23, 29);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(38, 13);
+            this.label24.TabIndex = 0;
+            this.label24.Text = "Name:";
+            // 
+            // textBoxEventPlazaName
+            // 
+            this.textBoxEventPlazaName.Location = new System.Drawing.Point(77, 26);
+            this.textBoxEventPlazaName.Name = "textBoxEventPlazaName";
+            this.textBoxEventPlazaName.Size = new System.Drawing.Size(100, 20);
+            this.textBoxEventPlazaName.TabIndex = 1;
+            this.textBoxEventPlazaName.TextChanged += new System.EventHandler(this.textBoxEventPlazaName_TextChanged);
+            // 
+            // buttonEventPlazaEditor
+            // 
+            this.buttonEventPlazaEditor.Location = new System.Drawing.Point(26, 77);
+            this.buttonEventPlazaEditor.Name = "buttonEventPlazaEditor";
+            this.buttonEventPlazaEditor.Size = new System.Drawing.Size(148, 53);
+            this.buttonEventPlazaEditor.TabIndex = 2;
+            this.buttonEventPlazaEditor.Text = "Edit Event Plaza Building";
+            this.buttonEventPlazaEditor.UseVisualStyleBackColor = true;
+            this.buttonEventPlazaEditor.Click += new System.EventHandler(this.buttonEventPlazaEditor_Click);
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(609, 372);
+            this.Controls.Add(this.groupBoxEventPlaza);
+            this.Controls.Add(this.groupBoxDirectory);
             this.Controls.Add(this.groupBoxPatch);
             this.Controls.Add(this.groupBoxFolder);
             this.Controls.Add(this.groupBoxFileItem);
             this.Controls.Add(this.groupBoxTown);
-            this.Controls.Add(this.groupBoxDirectory);
             this.Controls.Add(this.groupBoxMessage);
             this.Controls.Add(this.treeViewChn);
             this.Controls.Add(this.menuStrip1);
@@ -1211,6 +1350,7 @@
             this.groupBoxMessage.PerformLayout();
             this.contextMenuStripDirectoryMenu.ResumeLayout(false);
             this.groupBoxDirectory.ResumeLayout(false);
+            this.groupBoxDirectory.PerformLayout();
             this.groupBoxFolder.ResumeLayout(false);
             this.groupBoxFolder.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_FolderMugshot)).EndInit();
@@ -1225,6 +1365,9 @@
             this.contextMenuStripFileMenu.ResumeLayout(false);
             this.groupBoxPatch.ResumeLayout(false);
             this.groupBoxPatch.PerformLayout();
+            this.contextMenuStripEventPlazaMenu.ResumeLayout(false);
+            this.groupBoxEventPlaza.ResumeLayout(false);
+            this.groupBoxEventPlaza.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1323,6 +1466,19 @@
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Button buttonPatchFileBrowse;
         private System.Windows.Forms.TextBox textBoxPatchFilePath;
+        private System.Windows.Forms.Button buttonCreateEventPlaza;
+        private System.Windows.Forms.Button buttonCreateScriptExpansion;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDirectory_NewEventPlaza;
+        private System.Windows.Forms.ToolStripMenuItem editEventPlazaBuildingToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteExpansionToolStripMenuItem;
+        private System.Windows.Forms.GroupBox groupBoxEventPlaza;
+        public System.Windows.Forms.ContextMenuStrip contextMenuStripEventPlazaMenu;
+        private System.Windows.Forms.TextBox textBoxEventPlazaName;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Button buttonEventPlazaEditor;
     }
 }
 

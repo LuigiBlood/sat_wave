@@ -71,6 +71,12 @@
     <Compile Include="EditChannel.Designer.cs">
       <DependentUpon>EditChannel.cs</DependentUpon>
     </Compile>
+    <Compile Include="EventPlazaEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EventPlazaEditor.Designer.cs">
+      <DependentUpon>EventPlazaEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="FolderSelectDialog\FolderSelectDialog.cs" />
     <Compile Include="FolderSelectDialog\Reflector.cs" />
     <Compile Include="ResourceAccess.cs" />
@@ -93,6 +99,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="EditChannel.resx">
       <DependentUpon>EditChannel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EventPlazaEditor.resx">
+      <DependentUpon>EventPlazaEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
@@ -133,6 +142,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Images\bsxtileset.png" />
     <Content Include="Images\icon.ico" />
     <Content Include="Images\Mugshot\00.png" />
     <Content Include="Images\Mugshot\01.png" />

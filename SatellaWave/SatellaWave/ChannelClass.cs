@@ -344,5 +344,27 @@ namespace SatellaWave
             type = (byte)ChannelType.Patch;
         }
     }
+
+    class EventPlaza
+    {
+        public string name;
+        public ushort[] tilemap; //4*7 16x16 tiles
+
+        //TODO: Animations
+
+        //Custom Building
+        //public ushort[] palette;       //16 color palette
+        //public byte[] tiles;           //Custom Graphic data
+        //public ushort[] tileset;       //Custom Tileset out of the tiles
+        //public byte[] tilesetconfig;   //Custom Tileset config (solid, priority)
+        public bool[] doors;             //Door locations (4*7)
+
+        public EventPlaza()
+        {
+            name = "Event Plaza";
+            tilemap = new ushort[4 * 7];
+            doors = new bool[4 * 7];
+        }
+    }
 }
     

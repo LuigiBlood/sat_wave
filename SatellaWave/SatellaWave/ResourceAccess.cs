@@ -30,6 +30,8 @@ namespace SatellaWave
             SatellaWave.Properties.Resources.Mugshot_10
         };
 
+        public static Bitmap tilesetBSX = SatellaWave.Properties.Resources.Tileset;
+
         public static byte[] latestBSXUpdatePatchData =
         {
             0x08,                                       //8 patches

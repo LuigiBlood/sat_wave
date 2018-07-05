@@ -7,7 +7,6 @@ Features:
 - Online Server Management (not yet)
 
 TODO:
-- Set up BS-X Channels
-  - SNES Patch (1.1.0.7)
+- BS-X Expansion Support
 - Set up other kinds of channels
   - Derby Stallion 96 (1.2.129.0, 1.2.129.16)

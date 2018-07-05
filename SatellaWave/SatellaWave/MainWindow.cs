@@ -161,6 +161,7 @@ namespace SatellaWave
             groupBoxFolder.Visible = false;
             groupBoxFileItem.Visible = false;
             groupBoxPatch.Visible = false;
+            groupBoxEventPlaza.Visible = false;
 
             if (treeViewChn.SelectedNode.Tag.GetType() == typeof(MessageChannel))
             {
@@ -239,6 +240,11 @@ namespace SatellaWave
                 groupBoxPatch.Visible = true;
                 comboBoxPatchType.SelectedIndex = (treeViewChn.SelectedNode.Tag as Patch).patchType;
                 textBoxPatchFilePath.Text = (treeViewChn.SelectedNode.Tag as Patch).filePath;
+            }
+            else if (treeViewChn.SelectedNode.Tag.GetType() == typeof(EventPlaza))
+            {
+                groupBoxEventPlaza.Visible = true;
+                textBoxEventPlazaName.Text = (treeViewChn.SelectedNode.Tag as EventPlaza).name;
             }
         }
 
@@ -399,6 +405,7 @@ namespace SatellaWave
                 groupBoxDirectory.Visible = false;
                 groupBoxFolder.Visible = false;
                 groupBoxFileItem.Visible = false;
+                groupBoxEventPlaza.Visible = false;
             }
         }
 
@@ -458,6 +465,12 @@ namespace SatellaWave
         {
             SaveLast();
             Program.AddFile(treeViewChn.SelectedNode);
+        }
+
+        private void createEventPlaza(object sender, EventArgs e)
+        {
+            SaveLast();
+            Program.AddExpansionPlaza(treeViewChn.SelectedNode);
         }
 
         private void comboBoxFolderType_SelectedIndexChanged(object sender, EventArgs e)
@@ -539,6 +552,19 @@ namespace SatellaWave
             }
         }
 
+        private void textBoxEventPlazaName_TextChanged(object sender, EventArgs e)
+        {
+            //Limit Characters dynamically
+            textBoxEventPlazaName.MaxLength = 20;
+            byte[] stringbytes = Encoding.Convert(Encoding.GetEncoding(932), Encoding.UTF8, Program.ConvertToBSXStringBytes(textBoxEventPlazaName.Text).Take<byte>(20).ToArray<byte>());
+
+            if (Program.ConvertToBSXStringBytes(textBoxEventPlazaName.Text).Length >= 20)
+            {
+                textBoxEventPlazaName.Text = Encoding.UTF8.GetString(stringbytes);
+                textBoxEventPlazaName.MaxLength = Encoding.UTF8.GetString(stringbytes).Length;
+            }
+        }
+
         private void textBoxFileItemDesc_TextChanged(object sender, EventArgs e)
         {
             //Limit Characters dynamically
@@ -576,6 +602,16 @@ namespace SatellaWave
             {
                 textBoxPatchFilePath.Enabled = true;
                 buttonPatchFileBrowse.Enabled = true;
+            }
+        }
+
+        private void buttonEventPlazaEditor_Click(object sender, EventArgs e)
+        {
+            EventPlazaEditor editor = new EventPlazaEditor((treeViewChn.SelectedNode.Tag as EventPlaza).tilemap, (treeViewChn.SelectedNode.Tag as EventPlaza).doors);
+            if (editor.ShowDialog() == DialogResult.OK)
+            {
+                (treeViewChn.SelectedNode.Tag as EventPlaza).tilemap = editor.GetTileMap();
+                (treeViewChn.SelectedNode.Tag as EventPlaza).doors = editor.GetDoorLocations();
             }
         }
     }

@@ -262,6 +262,28 @@ namespace SatellaWave
             }
         }
 
+        public static void AddExpansionPlaza(TreeNode _node)
+        {
+            if (_node.Tag.GetType() == typeof(Directory))
+            {
+                foreach (TreeNode _temp in _node.Nodes)
+                {
+                    if (_temp.Tag.GetType() == typeof(EventPlaza))
+                    {
+                        MessageBox.Show("There is already an Event Plaza Expansion. You cannot have an extra one.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+
+                EventPlaza _eventplaza = new EventPlaza();
+                TreeNode _tnode = new TreeNode("Expansion - Event Plaza");
+                _tnode.Tag = _eventplaza;
+                _tnode.ContextMenuStrip = mainWindow.contextMenuStripEventPlazaMenu;
+                _node.Nodes.Add(_tnode);
+                mainWindow.treeViewChn.SelectedNode = _tnode;
+            }
+        }
+
         public static void AddFolder(TreeNode _node)
         {
             if (_node.Tag.GetType() == typeof(Directory))
