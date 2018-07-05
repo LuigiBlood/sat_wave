@@ -1920,6 +1920,14 @@ namespace SatellaWave
                     //Export Expansion Event Plaza (First)
                     if (expCount > 0)
                     {
+                        if (amountFolder <= 0)
+                        {
+                            if (MessageBox.Show("There are no folders in the Directory. Expansions will not work. Do you want to continue the export?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.No)
+                            {
+                                return;
+                            }
+                        }
+
                         ChannelFile.Add(1);     //One Expansion Entry (it has every chunk)
                         ChannelFile.Add(0);     //Flags
                         ChannelFile.Add(0);     //Unknown
