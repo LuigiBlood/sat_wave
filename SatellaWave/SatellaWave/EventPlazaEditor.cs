@@ -3,23 +3,26 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace SatellaWave
 {
     public partial class EventPlazaEditor : Form
     {
-        static ushort selectedTile = 0;
+        static ushort selectedTile;
         public static ushort[] tileMap;
         public static bool[] doorLocations;
 
         public EventPlazaEditor()
         {
             InitializeComponent();
-
+            selectedTile = 0;
             tileMap = new ushort[7 * 4];
             doorLocations = new bool[7 * 4];
 
@@ -30,7 +33,7 @@ namespace SatellaWave
         public EventPlazaEditor(ushort[] _tilemap, bool[] _doors)
         {
             InitializeComponent();
-
+            selectedTile = 0;
             tileMap = _tilemap;
             doorLocations = _doors;
 
@@ -59,7 +62,7 @@ namespace SatellaWave
                 g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
                 g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
                 g.Clear(Color.Transparent);
-                g.DrawImage(tilemapimagetemp, 0, 0);
+                g.DrawImage(tilemapimagetemp, 0.00001f, 0.00001f);
             }
 
             pictureBoxBuilding.Image = tilemapimage;
@@ -135,7 +138,28 @@ namespace SatellaWave
 
         private void pictureBoxBuilding_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left)
+            if (e.Button == MouseButtons.Left
+                && e.Location.X >= 0 && e.Location.X < (32 * 4)
+                && e.Location.Y >= 0 && e.Location.Y < (32 * 7))
+            {
+                if (GetEditorMode() == 0)
+                {
+                    ushort[] tileMapTemp = tileMap;
+                    tileMapTemp[(e.Location.X / 32) + ((e.Location.Y / 32) * 4)] = selectedTile;
+                    if (tileMapTemp.Equals(tileMap))
+                    {
+                        tileMap = tileMapTemp;
+                        UpdateTilemapImage();
+                    }
+                }
+            }
+        }
+
+        private void pictureBoxBuilding_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left
+                && e.Location.X >= 0 && e.Location.X < (32 * 4)
+                && e.Location.Y >= 0 && e.Location.Y < (32 * 7))
             {
                 if (GetEditorMode() == 0)
                 {
@@ -152,7 +176,9 @@ namespace SatellaWave
 
         private void pictureBoxBuilding_Click(object sender, EventArgs e)
         {
-            if (((MouseEventArgs)e).Button == MouseButtons.Left)
+            if (((MouseEventArgs)e).Button == MouseButtons.Left
+                && ((MouseEventArgs)e).Location.X >= 0 && ((MouseEventArgs)e).Location.X < (32 * 4)
+                && ((MouseEventArgs)e).Location.Y >= 0 && ((MouseEventArgs)e).Location.Y < (32 * 7))
             {
                 if (GetEditorMode() == 2)
                 {
@@ -160,6 +186,11 @@ namespace SatellaWave
                     UpdateTilemapImage();
                 }
             }
+        }
+
+        private void pictureBoxBuilding_MouseUp(object sender, MouseEventArgs e)
+        {
+            drawing = false;
         }
 
         private void radioButtonBuildingMode_CheckedChanged(object sender, EventArgs e)
@@ -187,6 +218,123 @@ namespace SatellaWave
         {
             this.DialogResult = DialogResult.OK;
             this.Close();
+        }
+
+        private void quitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Cancel;
+            this.Close();
+        }
+
+        private void importToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Import XML
+            OpenFileDialog fileloadDialog = new OpenFileDialog();
+            fileloadDialog.Filter = "XML File (*.xml)|*.xml|All files|*.*";
+            fileloadDialog.Title = "Import Custom Event Plaza XML File...";
+            fileloadDialog.Multiselect = false;
+
+            if (fileloadDialog.ShowDialog() == DialogResult.OK)
+            {
+                loadXMLEventPlaza(fileloadDialog.FileName);
+                UpdateTilemapImage();
+            }
+        }
+
+        private void exportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Export XML
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "XML File (*.xml)|*.xml|All files|*.*";
+            saveFileDialog.Title = "Export Custom Event Plaza XML File...";
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                saveXMLEventPlaza(saveFileDialog.FileName);
+            }
+        }
+
+        private void loadXMLEventPlaza(string filepath)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(filepath);
+
+            if (xmlDoc.DocumentElement.Name != "eventplaza")
+            {
+                MessageBox.Show("This is not a valid Custom Event Plaza XML.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            foreach (XmlNode _node in xmlDoc.DocumentElement.ChildNodes)
+            {
+                if (_node.Name == "map")
+                {
+                    if (!(new Regex(@"^[0-9a-fA-F]{112}$").Match(_node.InnerText).Success))
+                    {
+                        //Check tilemap data
+                        MessageBox.Show("Map Data is invalid in Event Plaza Expansion " + _node.BaseURI + " (" + _node.Attributes["name"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    string temp = _node.InnerText;
+                    for (int i = 0; i < tileMap.Length; i++)
+                    {
+                        ushort _map;
+                        ushort.TryParse(temp.Substring(4 * i, 4), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out _map);
+                        tileMap[i] = _map;
+                    }
+                }
+                else if (_node.Name == "door")
+                {
+                    if (!(new Regex(@"^[0-1]{28}$").Match(_node.InnerText).Success))
+                    {
+                        //Check Door data
+                        MessageBox.Show("Door Location data in invalid in Event Plaza Expansion " + _node.BaseURI + " (" + _node.Attributes["name"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    for (int i = 0; i < doorLocations.Length; i++)
+                    {
+                        doorLocations[i] = (_node.InnerText[i] == '1');
+                    }
+                }
+            }
+        }
+
+        private void saveXMLEventPlaza(string filepath)
+        {
+            XmlWriterSettings xmlWriterSettings = new XmlWriterSettings()
+            {
+                Indent = true,
+                IndentChars = "\t"
+            };
+
+            XmlWriter xmlWriter = XmlWriter.Create(filepath, xmlWriterSettings);
+            xmlWriter.WriteStartDocument();
+            xmlWriter.WriteStartElement("eventplaza");
+
+            //Tilemap
+            xmlWriter.WriteStartElement("map");
+            foreach (ushort datamap in GetTileMap())
+            {
+                xmlWriter.WriteString(datamap.ToString("X4"));
+            }
+            xmlWriter.WriteEndElement();
+
+            //Door locations
+            xmlWriter.WriteStartElement("door");
+            foreach (bool datadoor in GetDoorLocations())
+            {
+                if (datadoor == true)
+                    xmlWriter.WriteString("1");
+                else
+                    xmlWriter.WriteString("0");
+            }
+            xmlWriter.WriteEndElement();
+
+            xmlWriter.WriteEndElement();
+            xmlWriter.WriteEndDocument();
+            xmlWriter.Close();
         }
     }
 }

@@ -39,6 +39,12 @@
             this.radioButtonAnimationMode = new System.Windows.Forms.RadioButton();
             this.radioButtonBuildingMode = new System.Windows.Forms.RadioButton();
             this.buttonSave = new System.Windows.Forms.Button();
+            this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.saveQuitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.buttonCustomGFX = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTileset)).BeginInit();
@@ -59,6 +65,12 @@
             // 
             // fileToolStripMenuItem
             // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.importToolStripMenuItem,
+            this.exportToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.saveQuitToolStripMenuItem,
+            this.quitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
@@ -98,13 +110,14 @@
             // pictureBoxBuilding
             // 
             this.pictureBoxBuilding.BackColor = System.Drawing.Color.Black;
-            this.pictureBoxBuilding.Location = new System.Drawing.Point(6, 19);
+            this.pictureBoxBuilding.Location = new System.Drawing.Point(5, 19);
             this.pictureBoxBuilding.Name = "pictureBoxBuilding";
             this.pictureBoxBuilding.Size = new System.Drawing.Size(128, 224);
             this.pictureBoxBuilding.TabIndex = 0;
             this.pictureBoxBuilding.TabStop = false;
             this.pictureBoxBuilding.Click += new System.EventHandler(this.pictureBoxBuilding_Click);
             this.pictureBoxBuilding.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBoxBuilding_MouseDown);
+            this.pictureBoxBuilding.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBoxBuilding_MouseMove);
             // 
             // groupBox2
             // 
@@ -160,13 +173,60 @@
             // 
             // buttonSave
             // 
+            this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonSave.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.buttonSave.Location = new System.Drawing.Point(401, 75);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(75, 23);
             this.buttonSave.TabIndex = 4;
-            this.buttonSave.Text = "Save";
+            this.buttonSave.Text = "Save & Quit";
+            this.buttonSave.UseMnemonic = false;
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
+            // 
+            // importToolStripMenuItem
+            // 
+            this.importToolStripMenuItem.Name = "importToolStripMenuItem";
+            this.importToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.importToolStripMenuItem.Text = "Import...";
+            this.importToolStripMenuItem.Click += new System.EventHandler(this.importToolStripMenuItem_Click);
+            // 
+            // exportToolStripMenuItem
+            // 
+            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exportToolStripMenuItem.Text = "Export...";
+            this.exportToolStripMenuItem.Click += new System.EventHandler(this.exportToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            // 
+            // saveQuitToolStripMenuItem
+            // 
+            this.saveQuitToolStripMenuItem.Name = "saveQuitToolStripMenuItem";
+            this.saveQuitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveQuitToolStripMenuItem.Text = "Save && Quit";
+            this.saveQuitToolStripMenuItem.Click += new System.EventHandler(this.buttonSave_Click);
+            // 
+            // quitToolStripMenuItem
+            // 
+            this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
+            this.quitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.quitToolStripMenuItem.Text = "Quit";
+            this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
+            // 
+            // buttonCustomGFX
+            // 
+            this.buttonCustomGFX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonCustomGFX.Enabled = false;
+            this.buttonCustomGFX.Location = new System.Drawing.Point(320, 75);
+            this.buttonCustomGFX.Name = "buttonCustomGFX";
+            this.buttonCustomGFX.Size = new System.Drawing.Size(75, 42);
+            this.buttonCustomGFX.TabIndex = 5;
+            this.buttonCustomGFX.Text = "Custom Graphics";
+            this.buttonCustomGFX.UseVisualStyleBackColor = true;
             // 
             // EventPlazaEditor
             // 
@@ -174,6 +234,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(488, 354);
+            this.Controls.Add(this.buttonCustomGFX);
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -209,5 +270,11 @@
         private System.Windows.Forms.RadioButton radioButtonAnimationMode;
         private System.Windows.Forms.RadioButton radioButtonBuildingMode;
         private System.Windows.Forms.Button buttonSave;
+        private System.Windows.Forms.ToolStripMenuItem importToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem saveQuitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem quitToolStripMenuItem;
+        private System.Windows.Forms.Button buttonCustomGFX;
     }
 }
