@@ -1241,6 +1241,17 @@ namespace SatellaWave
                                                 }
                                                 eventplaza.tileset = tempSET.ToArray();
                                             }
+                                            else if (_node.Name == "collisions")
+                                            {
+                                                if (!(new Regex(@"^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$").Match(_node.InnerText).Success))
+                                                {
+                                                    //Check collision data
+                                                    MessageBox.Show("Collision Data is invalid in Event Plaza Expansion " + _node.BaseURI, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                    return;
+                                                }
+
+                                                eventplaza.collision = Convert.FromBase64String(_node.InnerText);
+                                            }
                                             else if (_node.Name == "door")
                                             {
                                                 if (!(new Regex(@"^[0-1]{28}$").Match(_node.InnerText).Success))
@@ -1521,6 +1532,13 @@ namespace SatellaWave
                                 tilesetbyte.AddRange(BitConverter.GetBytes(tileset));
                             }
                             xmlWriter.WriteString(Convert.ToBase64String(tilesetbyte.ToArray()));
+
+                            xmlWriter.WriteEndElement();
+
+                            //Collision
+                            xmlWriter.WriteStartElement("collisions");
+
+                            xmlWriter.WriteString(Convert.ToBase64String((_foldernode.Tag as EventPlaza).collision));
 
                             xmlWriter.WriteEndElement();
 
@@ -2073,12 +2091,12 @@ namespace SatellaWave
                                     ChannelFile.Add((byte)((tilesetdata[i] >> 8) & 0xFF));
                                 }
 
-                                //Custom Tileset Setup
-                                ChannelFile.Add(2);     //Size = 2 because of BS-X
-                                ChannelFile.Add(0);
+                                //Custom Collisions
+                                byte[] coldata = (_Exp.Tag as EventPlaza).GetCollisionsExport();
+                                ChannelFile.Add((byte)(coldata.Length & 0xFF));
+                                ChannelFile.Add((byte)((coldata.Length >> 8) & 0xFF));
 
-                                ChannelFile.Add(0);
-                                ChannelFile.Add(0);
+                                ChannelFile.AddRange(coldata);
 
                                 //Door Locations
                                 byte[] doors = (_Exp.Tag as EventPlaza).GetDoorLocationsExport();

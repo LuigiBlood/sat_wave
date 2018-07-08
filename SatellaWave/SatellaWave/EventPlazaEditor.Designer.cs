@@ -48,6 +48,7 @@
             this.buttonExport = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.buttonSuperFamiconv = new System.Windows.Forms.Button();
+            this.buttonCollisionEditor = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTileset)).BeginInit();
@@ -211,9 +212,9 @@
             // 
             this.buttonCustomGFXEditor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonCustomGFXEditor.Enabled = false;
-            this.buttonCustomGFXEditor.Location = new System.Drawing.Point(6, 166);
+            this.buttonCustomGFXEditor.Location = new System.Drawing.Point(6, 183);
             this.buttonCustomGFXEditor.Name = "buttonCustomGFXEditor";
-            this.buttonCustomGFXEditor.Size = new System.Drawing.Size(103, 53);
+            this.buttonCustomGFXEditor.Size = new System.Drawing.Size(103, 36);
             this.buttonCustomGFXEditor.TabIndex = 5;
             this.buttonCustomGFXEditor.Text = "Advanced Graphics Editor";
             this.buttonCustomGFXEditor.UseVisualStyleBackColor = true;
@@ -243,6 +244,7 @@
             // groupBox3
             // 
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox3.Controls.Add(this.buttonCollisionEditor);
             this.groupBox3.Controls.Add(this.buttonSuperFamiconv);
             this.groupBox3.Controls.Add(this.buttonImport);
             this.groupBox3.Controls.Add(this.buttonExport);
@@ -258,13 +260,24 @@
             // buttonSuperFamiconv
             // 
             this.buttonSuperFamiconv.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSuperFamiconv.Location = new System.Drawing.Point(6, 110);
+            this.buttonSuperFamiconv.Location = new System.Drawing.Point(6, 91);
             this.buttonSuperFamiconv.Name = "buttonSuperFamiconv";
             this.buttonSuperFamiconv.Size = new System.Drawing.Size(103, 50);
             this.buttonSuperFamiconv.TabIndex = 8;
             this.buttonSuperFamiconv.Text = "Import SuperFamiconv Graphics...";
             this.buttonSuperFamiconv.UseVisualStyleBackColor = true;
             this.buttonSuperFamiconv.Click += new System.EventHandler(this.buttonSuperFamiconv_Click);
+            // 
+            // buttonCollisionEditor
+            // 
+            this.buttonCollisionEditor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonCollisionEditor.Location = new System.Drawing.Point(6, 147);
+            this.buttonCollisionEditor.Name = "buttonCollisionEditor";
+            this.buttonCollisionEditor.Size = new System.Drawing.Size(103, 30);
+            this.buttonCollisionEditor.TabIndex = 9;
+            this.buttonCollisionEditor.Text = "Collision Editor";
+            this.buttonCollisionEditor.UseVisualStyleBackColor = true;
+            this.buttonCollisionEditor.Click += new System.EventHandler(this.buttonCollisionEditor_Click);
             // 
             // EventPlazaEditor
             // 
@@ -317,5 +330,6 @@
         private System.Windows.Forms.Button buttonExport;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Button buttonSuperFamiconv;
+        private System.Windows.Forms.Button buttonCollisionEditor;
     }
 }

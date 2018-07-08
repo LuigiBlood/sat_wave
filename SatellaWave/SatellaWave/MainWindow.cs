@@ -38,6 +38,7 @@ namespace SatellaWave
         private void newServerRepositoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Program.NewRepository();
+            UpdateWindow();
         }
 
         private void openServerRepositoryToolStripMenuItem_Click(object sender, EventArgs e)
@@ -50,6 +51,7 @@ namespace SatellaWave
             if (fileloadDialog.ShowDialog() == DialogResult.OK)
             {
                 Program.LoadBSXRepository(fileloadDialog.FileName);
+                UpdateWindow();
             }
         }
 
@@ -162,6 +164,11 @@ namespace SatellaWave
             groupBoxFileItem.Visible = false;
             groupBoxPatch.Visible = false;
             groupBoxEventPlaza.Visible = false;
+
+            if (treeViewChn.SelectedNode == null)
+            {
+                return;
+            }
 
             if (treeViewChn.SelectedNode.Tag.GetType() == typeof(MessageChannel))
             {
@@ -618,7 +625,8 @@ namespace SatellaWave
                 (treeViewChn.SelectedNode.Tag as EventPlaza).doors,
                 (treeViewChn.SelectedNode.Tag as EventPlaza).palette,
                 (treeViewChn.SelectedNode.Tag as EventPlaza).tiles,
-                (treeViewChn.SelectedNode.Tag as EventPlaza).tileset);
+                (treeViewChn.SelectedNode.Tag as EventPlaza).tileset,
+                (treeViewChn.SelectedNode.Tag as EventPlaza).collision);
             if (editor.ShowDialog() == DialogResult.OK)
             {
                 (treeViewChn.SelectedNode.Tag as EventPlaza).tilemap = editor.GetTileMap();
@@ -626,6 +634,7 @@ namespace SatellaWave
                 (treeViewChn.SelectedNode.Tag as EventPlaza).palette = editor.GetCustomPalette();
                 (treeViewChn.SelectedNode.Tag as EventPlaza).tiles = editor.GetCustomTiles();
                 (treeViewChn.SelectedNode.Tag as EventPlaza).tileset = editor.GetCustomTileSet();
+                (treeViewChn.SelectedNode.Tag as EventPlaza).collision = editor.GetCustomCollisions();
             }
         }
     }

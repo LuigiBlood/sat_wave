@@ -357,8 +357,8 @@ namespace SatellaWave
         public Color[] palette;        //16 color palette
         public byte[] tiles;           //Custom Graphic data
         public ushort[] tileset;       //Custom Tileset out of the tiles
-        //public byte[] tilesetconfig;   //Custom Tileset config (solid, priority)
-        public bool[] doors;             //Door locations (4*7)
+        public byte[] collision;       //Collision (solid, priority)
+        public bool[] doors;           //Door locations (4*7)
 
         public EventPlaza()
         {
@@ -372,6 +372,7 @@ namespace SatellaWave
             }
             tiles = new byte[4];
             tileset = new ushort[4];
+            collision = new byte[0x30];
         }
 
         public EventPlaza(string _name)
@@ -386,6 +387,7 @@ namespace SatellaWave
             }
             tiles = new byte[4];
             tileset = new ushort[4];
+            collision = new byte[0x30];
         }
 
         public ushort[] GetPaletteExport()
@@ -427,6 +429,11 @@ namespace SatellaWave
         public ushort[] GetTilesetExport()
         {
             return tileset;
+        }
+
+        public byte[] GetCollisionsExport()
+        {
+            return collision;
         }
 
         public byte[] GetDoorLocationsExport()

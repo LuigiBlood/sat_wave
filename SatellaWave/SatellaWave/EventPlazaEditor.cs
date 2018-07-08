@@ -24,14 +24,21 @@ namespace SatellaWave
         public static byte[] TILEdata;   //0x2000 - 0xA000 VRAM (Tile Data)
         public static ushort[] TILESETdata; //0x2200 - 0x4200 WRAM (Cell Data)
         public static Color[][] PALdata; //0x2000 - 0x2200 WRAM (Palette)
-        public static byte[] SOLIDdata;  //0x4200 - 0x4600 WRAM (Solid/Priority)
+        public static byte[] COLdata;  //0x4200 - 0x4600 WRAM (Solid/Priority)
 
-        public EventPlazaEditor(ushort[] _tilemap, bool[] _doors, Color[] _pal, byte[] _tiles, ushort[] _map)
+        public EventPlazaEditor(ushort[] _tilemap, bool[] _doors, Color[] _pal, byte[] _tiles, ushort[] _map, byte[] _col)
         {
             InitializeComponent();
             selectedTile = 0;
-            tileMap = _tilemap;
-            doorLocations = _doors;
+
+            tileMap = new ushort[_tilemap.Length];
+            _tilemap.CopyTo(tileMap, 0);
+
+            doorLocations = new bool[_doors.Length];
+            _doors.CopyTo(doorLocations, 0);
+
+            COLdata = new byte[_col.Length];
+            _col.CopyTo(COLdata, 0);
 
             InitPaletteData(_pal);
             InitTileData(_tiles);
@@ -179,8 +186,9 @@ namespace SatellaWave
                 g.ScaleTransform(2f, 2f);
                 g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
                 g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+                g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
                 g.Clear(Color.Transparent);
-                g.DrawImage(tilemapimagetemp, 0.00001f, 0.00001f);
+                g.DrawImage(tilemapimagetemp, 0f, 0f);
             }
 
             pictureBoxBuilding.Image = tilemapimage;
@@ -389,6 +397,18 @@ namespace SatellaWave
                         TILESETdata[0xF40 + (n / 2)] = BitConverter.ToUInt16(temp, n);
                     }
                 }
+                else if (_node.Name == "collisions")
+                {
+                    if (!(new Regex(@"^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$").Match(_node.InnerText).Success))
+                    {
+                        //Check tile data
+                        MessageBox.Show("Collision Data is invalid in Event Plaza Expansion " + _node.BaseURI, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    byte[] temp = Convert.FromBase64String(_node.InnerText);
+                    temp.CopyTo(COLdata, 0);
+                }
                 else if (_node.Name == "door")
                 {
                     if (!(new Regex(@"^[0-1]{28}$").Match(_node.InnerText).Success))
@@ -457,6 +477,13 @@ namespace SatellaWave
 
             xmlWriter.WriteEndElement();
 
+            //Custom Collisions
+            xmlWriter.WriteStartElement("collisions");
+
+            xmlWriter.WriteString(Convert.ToBase64String(GetCustomCollisions()));
+
+            xmlWriter.WriteEndElement();
+
             //Door locations
             xmlWriter.WriteStartElement("door");
             foreach (bool datadoor in GetDoorLocations())
@@ -475,50 +502,76 @@ namespace SatellaWave
 
         private void buttonSuperFamiconv_Click(object sender, EventArgs e)
         {
-            EventPlazaEasyGraphicsImport gfximport = new EventPlazaEasyGraphicsImport();
-            if (gfximport.ShowDialog() == DialogResult.OK)
+            using (EventPlazaEasyGraphicsImport gfximport = new EventPlazaEasyGraphicsImport())
             {
-                if (gfximport.isPaletteDataImported)
+                if (gfximport.ShowDialog() == DialogResult.OK)
                 {
-                    PALdata[5] = gfximport.GetCustomPalette();
-                }
-
-                if (gfximport.isTileDataImported)
-                {
-                    byte[] tiletemp = gfximport.GetCustomTiles();
-                    for (int i = 0; i < 0xE00; i++)
+                    if (gfximport.isPaletteDataImported)
                     {
-                        if (i < tiletemp.Length)
-                        {
-                            TILEdata[0x7200 + i] = tiletemp[i];
-                        }
-                        else
-                        {
-                            TILEdata[0x7200 + i] = 0;
-                        }
+                        PALdata[5] = gfximport.GetCustomPalette();
                     }
-                }
 
-                if (gfximport.isTilesetDataImported)
-                {
-                    ushort[] tilesettemp = gfximport.GetCustomTileSet();
-                    for (int i = 0; i < 192; i++)
+                    if (gfximport.isTileDataImported)
                     {
-                        if (i < tilesettemp.Length)
+                        byte[] tiletemp = gfximport.GetCustomTiles();
+                        for (int i = 0; i < 0xE00; i++)
                         {
-                            TILESETdata[(0x3D0 * 4) + i] = tilesettemp[i];
-                        }
-                        else
-                        {
-                            TILESETdata[(0x3D0 * 4) + i] = 0;
+                            if (i < tiletemp.Length)
+                            {
+                                TILEdata[0x7200 + i] = tiletemp[i];
+                            }
+                            else
+                            {
+                                TILEdata[0x7200 + i] = 0;
+                            }
                         }
                     }
 
-                    tileMap = gfximport.GetCustomTileMap();
+                    if (gfximport.isTilesetDataImported)
+                    {
+                        ushort[] tilesettemp = gfximport.GetCustomTileSet();
+                        for (int i = 0; i < 192; i++)
+                        {
+                            if (i < tilesettemp.Length)
+                            {
+                                TILESETdata[(0x3D0 * 4) + i] = tilesettemp[i];
+                            }
+                            else
+                            {
+                                TILESETdata[(0x3D0 * 4) + i] = 0;
+                            }
+                        }
 
-                    InitTilesetImage();
-                    UpdateTilesetImage();
-                    UpdateTilemapImage();
+                        tileMap = gfximport.GetCustomTileMap();
+
+                        InitTilesetImage();
+                        UpdateTilesetImage();
+                        UpdateTilemapImage();
+                    }
+                }
+            }
+        }
+
+        private void buttonCollisionEditor_Click(object sender, EventArgs e)
+        {
+            tileSetImage = new Bitmap(16 * 8, 16 * 4);
+
+            using (Graphics g = Graphics.FromImage(tileSetImage))
+            {
+                for (int y = 0; y < 4; y++)
+                {
+                    for (int x = 0; x < 8; x++)
+                    {
+                        g.DrawImageUnscaled(DrawCell(0x3D0 + x + y * 8), 16 * x, 16 * y);
+                    }
+                }
+            }
+
+            using (EventPlazaCollisionEditor coleditor = new EventPlazaCollisionEditor(tileSetImage, COLdata))
+            {
+                if (coleditor.ShowDialog() == DialogResult.OK)
+                {
+                    COLdata = coleditor.GetCollisions();
                 }
             }
         }
@@ -561,6 +614,11 @@ namespace SatellaWave
             }
 
             return temp;
+        }
+
+        public byte[] GetCustomCollisions()
+        {
+            return COLdata;
         }
     }
 }

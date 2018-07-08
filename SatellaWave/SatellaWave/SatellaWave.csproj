@@ -71,6 +71,12 @@
     <Compile Include="EditChannel.Designer.cs">
       <DependentUpon>EditChannel.cs</DependentUpon>
     </Compile>
+    <Compile Include="EventPlazaCollisionEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EventPlazaCollisionEditor.Designer.cs">
+      <DependentUpon>EventPlazaCollisionEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="EventPlazaEasyGraphicsImport.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -111,6 +117,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="EditChannel.resx">
       <DependentUpon>EditChannel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EventPlazaCollisionEditor.resx">
+      <DependentUpon>EventPlazaCollisionEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EventPlazaEasyGraphicsImport.resx">
       <DependentUpon>EventPlazaEasyGraphicsImport.cs</DependentUpon>
