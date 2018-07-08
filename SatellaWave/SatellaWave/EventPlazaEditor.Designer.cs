@@ -153,8 +153,8 @@
             this.pictureBoxBuilding.TabIndex = 0;
             this.pictureBoxBuilding.TabStop = false;
             this.pictureBoxBuilding.Click += new System.EventHandler(this.pictureBoxBuilding_Click);
-            this.pictureBoxBuilding.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBoxBuilding_MouseDown);
-            this.pictureBoxBuilding.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBoxBuilding_MouseMove);
+            this.pictureBoxBuilding.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBoxBuilding_MouseEdit);
+            this.pictureBoxBuilding.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBoxBuilding_MouseEdit);
             // 
             // groupBox2
             // 

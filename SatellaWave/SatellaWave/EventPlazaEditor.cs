@@ -226,24 +226,7 @@ namespace SatellaWave
             UpdateTilesetImage();
         }
 
-        private void pictureBoxBuilding_MouseDown(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left
-                && e.Location.X >= 0 && e.Location.X < (32 * 4)
-                && e.Location.Y >= 0 && e.Location.Y < (32 * 7))
-            {
-                if (GetEditorMode() == 0)
-                {
-                    if (tileMap[(e.Location.X / 32) + ((e.Location.Y / 32) * 4)] != selectedTile)
-                    {
-                        tileMap[(e.Location.X / 32) + ((e.Location.Y / 32) * 4)] = selectedTile;
-                        UpdateTilemapImage();
-                    }
-                }
-            }
-        }
-
-        private void pictureBoxBuilding_MouseMove(object sender, MouseEventArgs e)
+        private void pictureBoxBuilding_MouseEdit(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left
                 && e.Location.X >= 0 && e.Location.X < (32 * 4)
