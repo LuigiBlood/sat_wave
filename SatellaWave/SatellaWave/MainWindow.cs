@@ -614,11 +614,18 @@ namespace SatellaWave
 
         private void buttonEventPlazaEditor_Click(object sender, EventArgs e)
         {
-            EventPlazaEditor editor = new EventPlazaEditor((treeViewChn.SelectedNode.Tag as EventPlaza).tilemap, (treeViewChn.SelectedNode.Tag as EventPlaza).doors);
+            EventPlazaEditor editor = new EventPlazaEditor((treeViewChn.SelectedNode.Tag as EventPlaza).tilemap,
+                (treeViewChn.SelectedNode.Tag as EventPlaza).doors,
+                (treeViewChn.SelectedNode.Tag as EventPlaza).palette,
+                (treeViewChn.SelectedNode.Tag as EventPlaza).tiles,
+                (treeViewChn.SelectedNode.Tag as EventPlaza).tileset);
             if (editor.ShowDialog() == DialogResult.OK)
             {
                 (treeViewChn.SelectedNode.Tag as EventPlaza).tilemap = editor.GetTileMap();
                 (treeViewChn.SelectedNode.Tag as EventPlaza).doors = editor.GetDoorLocations();
+                (treeViewChn.SelectedNode.Tag as EventPlaza).palette = editor.GetCustomPalette();
+                (treeViewChn.SelectedNode.Tag as EventPlaza).tiles = editor.GetCustomTiles();
+                (treeViewChn.SelectedNode.Tag as EventPlaza).tileset = editor.GetCustomTileSet();
             }
         }
     }

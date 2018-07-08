@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -353,9 +354,9 @@ namespace SatellaWave
         //TODO: Animations
 
         //Custom Building
-        //public ushort[] palette;       //16 color palette
-        //public byte[] tiles;           //Custom Graphic data
-        //public ushort[] tileset;       //Custom Tileset out of the tiles
+        public Color[] palette;        //16 color palette
+        public byte[] tiles;           //Custom Graphic data
+        public ushort[] tileset;       //Custom Tileset out of the tiles
         //public byte[] tilesetconfig;   //Custom Tileset config (solid, priority)
         public bool[] doors;             //Door locations (4*7)
 
@@ -364,6 +365,13 @@ namespace SatellaWave
             name = "Event Plaza";
             tilemap = new ushort[4 * 7];
             doors = new bool[4 * 7];
+            palette = new Color[16];
+            for (int i = 0; i < palette.Length; i++)
+            {
+                palette[i] = new Color();
+            }
+            tiles = new byte[4];
+            tileset = new ushort[4];
         }
 
         public EventPlaza(string _name)
@@ -371,6 +379,27 @@ namespace SatellaWave
             name = _name;
             tilemap = new ushort[4 * 7];
             doors = new bool[4 * 7];
+            palette = new Color[16];
+            for (int i = 0; i < palette.Length; i++)
+            {
+                palette[i] = new Color();
+            }
+            tiles = new byte[4];
+            tileset = new ushort[4];
+        }
+
+        public ushort[] GetPaletteExport()
+        {
+            ushort[] temp = new ushort[16];
+
+            for (int i = 0; i < temp.Length; i++)
+            {
+                temp[i] = (ushort)((ushort)((palette[i].R / 255f) * 31)
+                    | ((ushort)((palette[i].G / 255f) * 31) << 5)
+                    | ((ushort)((palette[i].B / 255f) * 31) << 10));
+            }
+
+            return temp;
         }
 
         public ushort[] GetTileMapExport()
@@ -386,6 +415,18 @@ namespace SatellaWave
             }
 
             return tilemaptemp;
+        }
+
+        //TODO: Animations
+
+        public byte[] GetTileDataExport()
+        {
+            return tiles;
+        }
+
+        public ushort[] GetTilesetExport()
+        {
+            return tileset;
         }
 
         public byte[] GetDoorLocationsExport()

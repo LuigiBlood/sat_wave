@@ -8,6 +8,7 @@ using System.Xml;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Text;
+using System.Drawing;
 
 namespace SatellaWave
 {
@@ -1180,12 +1181,27 @@ namespace SatellaWave
 
                                         foreach (XmlNode _node in folderData.ChildNodes)
                                         {
-                                            if (_node.Name == "map")
+                                            if (_node.Name == "palette")
+                                            {
+                                                if (!(new Regex(@"^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$").Match(_node.InnerText).Success))
+                                                {
+                                                    //Check Palette data
+                                                    MessageBox.Show("Palette Data is invalid in Event Plaza Expansion " + _node.BaseURI, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                    return;
+                                                }
+
+                                                byte[] tempPAL = Convert.FromBase64String(_node.InnerText);
+                                                for (int i = 0; i < eventplaza.palette.Length; i++)
+                                                {
+                                                    eventplaza.palette[i] = Color.FromArgb(tempPAL[i * 3], tempPAL[(i * 3) + 1], tempPAL[(i * 3) + 2]);
+                                                }
+                                            }
+                                            else if(_node.Name == "map")
                                             {
                                                 if (!(new Regex(@"^[0-9a-fA-F]{112}$").Match(_node.InnerText).Success))
                                                 {
                                                     //Check tilemap data
-                                                    MessageBox.Show("Map Data is invalid in Event Plaza Expansion " + _node.BaseURI + " (" + _node.Attributes["name"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                    MessageBox.Show("Map Data is invalid in Event Plaza Expansion " + _node.BaseURI, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                                     return;
                                                 }
 
@@ -1197,12 +1213,40 @@ namespace SatellaWave
                                                     eventplaza.tilemap[i] = _map;
                                                 }
                                             }
+                                            else if (_node.Name == "tiles")
+                                            {
+                                                if (!(new Regex(@"^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$").Match(_node.InnerText).Success))
+                                                {
+                                                    //Check tile data
+                                                    MessageBox.Show("Tile Data is invalid in Event Plaza Expansion " + _node.BaseURI, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                    return;
+                                                }
+
+                                                eventplaza.tiles = Convert.FromBase64String(_node.InnerText);
+                                            }
+                                            else if (_node.Name == "tileset")
+                                            {
+                                                if (!(new Regex(@"^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$").Match(_node.InnerText).Success))
+                                                {
+                                                    //Check tileset data
+                                                    MessageBox.Show("TileSet Data is invalid in Event Plaza Expansion " + _node.BaseURI, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                    return;
+                                                }
+
+                                                byte[] temp = Convert.FromBase64String(_node.InnerText);
+                                                List<ushort> tempSET = new List<ushort>();
+                                                for (int n = 0; n < temp.Length; n += 2)
+                                                {
+                                                    tempSET.Add(BitConverter.ToUInt16(temp, n));
+                                                }
+                                                eventplaza.tileset = tempSET.ToArray();
+                                            }
                                             else if (_node.Name == "door")
                                             {
                                                 if (!(new Regex(@"^[0-1]{28}$").Match(_node.InnerText).Success))
                                                 {
                                                     //Check Door data
-                                                    MessageBox.Show("Door Location data in invalid in Event Plaza Expansion " + _node.BaseURI + " (" + _node.Attributes["name"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                    MessageBox.Show("Door Location data in invalid in Event Plaza Expansion " + _node.BaseURI, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                                     return;
                                                 }
 
@@ -1441,12 +1485,43 @@ namespace SatellaWave
                             //Name
                             xmlWriter.WriteAttributeString("name", (_foldernode.Tag as EventPlaza).name);
 
+                            //Custom Palette
+                            xmlWriter.WriteStartElement("palette");
+                            List<byte> RGBmap = new List<byte>();
+                            foreach (Color colormap in (_foldernode.Tag as EventPlaza).palette)
+                            {
+                                RGBmap.Add(colormap.R);
+                                RGBmap.Add(colormap.G);
+                                RGBmap.Add(colormap.B);
+                            }
+                            xmlWriter.WriteString(Convert.ToBase64String(RGBmap.ToArray()));
+
+                            xmlWriter.WriteEndElement();
+
                             //Tilemap
                             xmlWriter.WriteStartElement("map");
                             foreach (ushort datamap in (_foldernode.Tag as EventPlaza).tilemap)
                             {
                                 xmlWriter.WriteString(datamap.ToString("X4"));
                             }
+                            xmlWriter.WriteEndElement();
+
+                            //Tiles
+                            xmlWriter.WriteStartElement("tiles");
+
+                            xmlWriter.WriteString(Convert.ToBase64String((_foldernode.Tag as EventPlaza).tiles));
+
+                            xmlWriter.WriteEndElement();
+
+                            //Custom Tileset
+                            xmlWriter.WriteStartElement("tileset");
+                            List<byte> tilesetbyte = new List<byte>();
+                            foreach (ushort tileset in (_foldernode.Tag as EventPlaza).tileset)
+                            {
+                                tilesetbyte.AddRange(BitConverter.GetBytes(tileset));
+                            }
+                            xmlWriter.WriteString(Convert.ToBase64String(tilesetbyte.ToArray()));
+
                             xmlWriter.WriteEndElement();
 
                             //Door locations
@@ -1957,11 +2032,12 @@ namespace SatellaWave
                                 }
                                 ChannelFile.Add(0);
 
-                                //Custom Palette (Not implemented yet)
-                                for (int i = 0; i < 32; i++)
+                                //Custom Palette
+                                ushort[] paldata = (_Exp.Tag as EventPlaza).GetPaletteExport();
+                                for (int i = 0; i < 16; i++)
                                 {
-                                    //Only put zeroes for now
-                                    ChannelFile.Add(0);
+                                    ChannelFile.Add((byte)(paldata[i] & 0xFF));
+                                    ChannelFile.Add((byte)((paldata[i] >> 8) & 0xFF));
                                 }
 
                                 //Custom Tilemap
@@ -1980,17 +2056,22 @@ namespace SatellaWave
                                 ChannelFile.Add(0xFF);
 
                                 //Custom Tiles
-                                ChannelFile.Add(4);     //Size = 4 because of BS-X bug
-                                ChannelFile.Add(0);
+                                byte[] tiledata = (_Exp.Tag as EventPlaza).GetTileDataExport();
+                                ChannelFile.Add((byte)(tiledata.Length & 0xFF));
+                                ChannelFile.Add((byte)((tiledata.Length >> 8) & 0xFF));
 
-                                ChannelFile.Add(0);
-                                ChannelFile.Add(0);
-                                ChannelFile.Add(0);
-                                ChannelFile.Add(0);
+                                ChannelFile.AddRange(tiledata);
 
                                 //Custom Tileset
-                                ChannelFile.Add(0);     //Size = 0
-                                ChannelFile.Add(0);
+                                ushort[] tilesetdata = (_Exp.Tag as EventPlaza).GetTilesetExport();
+                                ChannelFile.Add((byte)((tilesetdata.Length * 2) & 0xFF));
+                                ChannelFile.Add((byte)(((tilesetdata.Length * 2) >> 8) & 0xFF));
+
+                                for (int i = 0; i < tilesetdata.Length; i++)
+                                {
+                                    ChannelFile.Add((byte)(tilesetdata[i] & 0xFF));
+                                    ChannelFile.Add((byte)((tilesetdata[i] >> 8) & 0xFF));
+                                }
 
                                 //Custom Tileset Setup
                                 ChannelFile.Add(2);     //Size = 2 because of BS-X

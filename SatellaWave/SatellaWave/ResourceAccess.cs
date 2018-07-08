@@ -30,6 +30,11 @@ namespace SatellaWave
             SatellaWave.Properties.Resources.Mugshot_10
         };
 
+        public static byte[] defaultPaletteBSX = SatellaWave.Properties.Resources.bsxpalette;
+        public static byte[] defaultTilesBSX = SatellaWave.Properties.Resources.bsxtiles;
+        public static byte[] defaultTileSetBSX = SatellaWave.Properties.Resources.bsxtileset;
+        public static byte[] defaultTileSetConfigBSX = SatellaWave.Properties.Resources.bsxtilesetconfig;
+
         public static Bitmap tilesetBSX = SatellaWave.Properties.Resources.Tileset;
 
         public static byte[] latestBSXUpdatePatchData =

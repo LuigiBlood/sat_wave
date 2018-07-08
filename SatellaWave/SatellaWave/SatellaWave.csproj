@@ -71,11 +71,23 @@
     <Compile Include="EditChannel.Designer.cs">
       <DependentUpon>EditChannel.cs</DependentUpon>
     </Compile>
+    <Compile Include="EventPlazaEasyGraphicsImport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EventPlazaEasyGraphicsImport.Designer.cs">
+      <DependentUpon>EventPlazaEasyGraphicsImport.cs</DependentUpon>
+    </Compile>
     <Compile Include="EventPlazaEditor.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="EventPlazaEditor.Designer.cs">
       <DependentUpon>EventPlazaEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EventPlazaGFXEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EventPlazaGFXEditor.Designer.cs">
+      <DependentUpon>EventPlazaGFXEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="FolderSelectDialog\FolderSelectDialog.cs" />
     <Compile Include="FolderSelectDialog\Reflector.cs" />
@@ -100,8 +112,14 @@
     <EmbeddedResource Include="EditChannel.resx">
       <DependentUpon>EditChannel.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="EventPlazaEasyGraphicsImport.resx">
+      <DependentUpon>EventPlazaEasyGraphicsImport.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EventPlazaEditor.resx">
       <DependentUpon>EventPlazaEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EventPlazaGFXEditor.resx">
+      <DependentUpon>EventPlazaGFXEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
@@ -125,6 +143,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Resources\Data\bsxpalette.bin" />
+    <None Include="Resources\Data\bsxtiles.bin" />
+    <None Include="Resources\Data\bsxtileset.bin" />
+    <None Include="Resources\Data\bsxtilesetconfig.bin" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -165,8 +187,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
