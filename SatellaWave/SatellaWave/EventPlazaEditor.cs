@@ -234,11 +234,9 @@ namespace SatellaWave
             {
                 if (GetEditorMode() == 0)
                 {
-                    ushort[] tileMapTemp = tileMap;
-                    tileMapTemp[(e.Location.X / 32) + ((e.Location.Y / 32) * 4)] = selectedTile;
-                    if (tileMapTemp.Equals(tileMap))
+                    if (tileMap[(e.Location.X / 32) + ((e.Location.Y / 32) * 4)] != selectedTile)
                     {
-                        tileMap = tileMapTemp;
+                        tileMap[(e.Location.X / 32) + ((e.Location.Y / 32) * 4)] = selectedTile;
                         UpdateTilemapImage();
                     }
                 }
@@ -253,11 +251,9 @@ namespace SatellaWave
             {
                 if (GetEditorMode() == 0)
                 {
-                    ushort[] tileMapTemp = tileMap;
-                    tileMapTemp[(e.Location.X / 32) + ((e.Location.Y / 32) * 4)] = selectedTile;
-                    if (tileMapTemp.Equals(tileMap))
+                    if (tileMap[(e.Location.X / 32) + ((e.Location.Y / 32) * 4)] != selectedTile)
                     {
-                        tileMap = tileMapTemp;
+                        tileMap[(e.Location.X / 32) + ((e.Location.Y / 32) * 4)] = selectedTile;
                         UpdateTilemapImage();
                     }
                 }
