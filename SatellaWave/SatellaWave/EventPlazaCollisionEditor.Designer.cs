@@ -113,7 +113,7 @@
             this.groupBox2.Controls.Add(this.pictureBoxTileset);
             this.groupBox2.Location = new System.Drawing.Point(12, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(140, 89);
+            this.groupBox2.Size = new System.Drawing.Size(140, 121);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Select Tile";
@@ -123,7 +123,7 @@
             this.pictureBoxTileset.BackColor = System.Drawing.Color.Black;
             this.pictureBoxTileset.Location = new System.Drawing.Point(6, 19);
             this.pictureBoxTileset.Name = "pictureBoxTileset";
-            this.pictureBoxTileset.Size = new System.Drawing.Size(128, 64);
+            this.pictureBoxTileset.Size = new System.Drawing.Size(128, 96);
             this.pictureBoxTileset.TabIndex = 0;
             this.pictureBoxTileset.TabStop = false;
             this.pictureBoxTileset.Click += new System.EventHandler(this.pictureBoxTileset_Click);

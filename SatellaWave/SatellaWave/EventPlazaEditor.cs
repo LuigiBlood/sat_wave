@@ -554,11 +554,11 @@ namespace SatellaWave
 
         private void buttonCollisionEditor_Click(object sender, EventArgs e)
         {
-            tileSetImage = new Bitmap(16 * 8, 16 * 4);
+            Bitmap customTileSetImage = new Bitmap(16 * 8, 16 * 6);
 
-            using (Graphics g = Graphics.FromImage(tileSetImage))
+            using (Graphics g = Graphics.FromImage(customTileSetImage))
             {
-                for (int y = 0; y < 4; y++)
+                for (int y = 0; y < 6; y++)
                 {
                     for (int x = 0; x < 8; x++)
                     {
@@ -567,7 +567,7 @@ namespace SatellaWave
                 }
             }
 
-            using (EventPlazaCollisionEditor coleditor = new EventPlazaCollisionEditor(tileSetImage, COLdata))
+            using (EventPlazaCollisionEditor coleditor = new EventPlazaCollisionEditor(customTileSetImage, COLdata))
             {
                 if (coleditor.ShowDialog() == DialogResult.OK)
                 {
