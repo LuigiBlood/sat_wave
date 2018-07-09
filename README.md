@@ -1,6 +1,9 @@
 SatellaWave
 ========
 
+Compiling:
+- You can compile this project with a vanilla install of Visual Studio 2017 on Windows. There are no dependencies.
+
 Satellaview Server Manager
 Features:
 - Export as BSX*-*.bin (bsnes-plus and snes9x)
