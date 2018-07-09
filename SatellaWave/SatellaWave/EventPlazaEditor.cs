@@ -349,7 +349,14 @@ namespace SatellaWave
                     byte[] tempPAL = Convert.FromBase64String(_node.InnerText);
                     for (int i = 0; i < PALdata[5].Length; i++)
                     {
-                        PALdata[5][i] = Color.FromArgb(tempPAL[i * 3], tempPAL[(i * 3) + 1], tempPAL[(i * 3) + 2]);
+                        if (i != 0)
+                        {
+                            PALdata[5][i] = Color.FromArgb(tempPAL[i * 3], tempPAL[(i * 3) + 1], tempPAL[(i * 3) + 2]);
+                        }
+                        else
+                        {
+                            PALdata[5][i] = Color.FromArgb(0, tempPAL[i * 3], tempPAL[(i * 3) + 1], tempPAL[(i * 3) + 2]);
+                        }
                     }
                 }
                 else if (_node.Name == "map")
@@ -572,6 +579,20 @@ namespace SatellaWave
                 if (coleditor.ShowDialog() == DialogResult.OK)
                 {
                     COLdata = coleditor.GetCollisions();
+                }
+            }
+        }
+
+        private void buttonTilesetEditor_Click(object sender, EventArgs e)
+        {
+            using (EventPlazaTilesetEditor tilesetEditor = new EventPlazaTilesetEditor(TILEdata, TILESETdata, PALdata))
+            {
+                if (tilesetEditor.ShowDialog() == DialogResult.OK)
+                {
+                    TILESETdata = tilesetEditor.GetNewTileSet();
+                    InitTilesetImage();
+                    UpdateTilesetImage();
+                    UpdateTilemapImage();
                 }
             }
         }

@@ -101,7 +101,7 @@ namespace SatellaWave
                 if (j != 0)
                     PALdata[j] = Color.FromArgb(r, g, b);
                 else
-                    PALdata[j] = Color.FromArgb(0, 0, 0, 0);
+                    PALdata[j] = Color.FromArgb(0, r, g, b);
             }
 
             binaryReader.Close();

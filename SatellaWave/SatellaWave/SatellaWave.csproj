@@ -89,6 +89,12 @@
     <Compile Include="EventPlazaEditor.Designer.cs">
       <DependentUpon>EventPlazaEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="EventPlazaTilesetEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EventPlazaTilesetEditor.Designer.cs">
+      <DependentUpon>EventPlazaTilesetEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="FolderSelectDialog\FolderSelectDialog.cs" />
     <Compile Include="FolderSelectDialog\Reflector.cs" />
     <Compile Include="ResourceAccess.cs" />
@@ -120,6 +126,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="EventPlazaEditor.resx">
       <DependentUpon>EventPlazaEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EventPlazaTilesetEditor.resx">
+      <DependentUpon>EventPlazaTilesetEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>

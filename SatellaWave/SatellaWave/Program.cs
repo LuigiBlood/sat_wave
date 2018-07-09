@@ -1193,7 +1193,14 @@ namespace SatellaWave
                                                 byte[] tempPAL = Convert.FromBase64String(_node.InnerText);
                                                 for (int i = 0; i < eventplaza.palette.Length; i++)
                                                 {
-                                                    eventplaza.palette[i] = Color.FromArgb(tempPAL[i * 3], tempPAL[(i * 3) + 1], tempPAL[(i * 3) + 2]);
+                                                    if (i != 0)
+                                                    {
+                                                        eventplaza.palette[i] = Color.FromArgb(tempPAL[i * 3], tempPAL[(i * 3) + 1], tempPAL[(i * 3) + 2]);
+                                                    }
+                                                    else
+                                                    {
+                                                        eventplaza.palette[i] = Color.FromArgb(0, tempPAL[i * 3], tempPAL[(i * 3) + 1], tempPAL[(i * 3) + 2]);
+                                                    }
                                                 }
                                             }
                                             else if(_node.Name == "map")

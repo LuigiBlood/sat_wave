@@ -43,12 +43,13 @@
             this.radioButtonDoorMode = new System.Windows.Forms.RadioButton();
             this.radioButtonBuildingMode = new System.Windows.Forms.RadioButton();
             this.buttonSave = new System.Windows.Forms.Button();
-            this.buttonCustomGFXEditor = new System.Windows.Forms.Button();
+            this.buttonTilesetEditor = new System.Windows.Forms.Button();
             this.buttonImport = new System.Windows.Forms.Button();
             this.buttonExport = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.buttonCollisionEditor = new System.Windows.Forms.Button();
             this.buttonSuperFamiconv = new System.Windows.Forms.Button();
+            this.buttonAnimationEditor = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTileset)).BeginInit();
@@ -64,7 +65,7 @@
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(432, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(456, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -83,33 +84,33 @@
             // importToolStripMenuItem
             // 
             this.importToolStripMenuItem.Name = "importToolStripMenuItem";
-            this.importToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
-            this.importToolStripMenuItem.Text = "Import...";
+            this.importToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.importToolStripMenuItem.Text = "Import Building...";
             this.importToolStripMenuItem.Click += new System.EventHandler(this.importToolStripMenuItem_Click);
             // 
             // exportToolStripMenuItem
             // 
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
-            this.exportToolStripMenuItem.Text = "Export...";
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.exportToolStripMenuItem.Text = "Export Building...";
             this.exportToolStripMenuItem.Click += new System.EventHandler(this.exportToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(134, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
             // 
             // saveQuitToolStripMenuItem
             // 
             this.saveQuitToolStripMenuItem.Name = "saveQuitToolStripMenuItem";
-            this.saveQuitToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.saveQuitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveQuitToolStripMenuItem.Text = "Save && Quit";
             this.saveQuitToolStripMenuItem.Click += new System.EventHandler(this.buttonSave_Click);
             // 
             // quitToolStripMenuItem
             // 
             this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
-            this.quitToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.quitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.quitToolStripMenuItem.Text = "Quit";
             this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
             // 
@@ -165,7 +166,7 @@
             this.groupBox2.Controls.Add(this.radioButtonBuildingMode);
             this.groupBox2.Location = new System.Drawing.Point(152, 28);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(268, 41);
+            this.groupBox2.Size = new System.Drawing.Size(292, 41);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Editor Mode";
@@ -201,32 +202,32 @@
             this.buttonSave.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.buttonSave.Location = new System.Drawing.Point(6, 225);
             this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(103, 23);
+            this.buttonSave.Size = new System.Drawing.Size(122, 23);
             this.buttonSave.TabIndex = 4;
             this.buttonSave.Text = "Save & Quit";
             this.buttonSave.UseMnemonic = false;
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
-            // buttonCustomGFXEditor
+            // buttonTilesetEditor
             // 
-            this.buttonCustomGFXEditor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonCustomGFXEditor.Enabled = false;
-            this.buttonCustomGFXEditor.Location = new System.Drawing.Point(6, 183);
-            this.buttonCustomGFXEditor.Name = "buttonCustomGFXEditor";
-            this.buttonCustomGFXEditor.Size = new System.Drawing.Size(103, 36);
-            this.buttonCustomGFXEditor.TabIndex = 5;
-            this.buttonCustomGFXEditor.Text = "Advanced Graphics Editor";
-            this.buttonCustomGFXEditor.UseVisualStyleBackColor = true;
+            this.buttonTilesetEditor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonTilesetEditor.Location = new System.Drawing.Point(6, 157);
+            this.buttonTilesetEditor.Name = "buttonTilesetEditor";
+            this.buttonTilesetEditor.Size = new System.Drawing.Size(122, 23);
+            this.buttonTilesetEditor.TabIndex = 5;
+            this.buttonTilesetEditor.Text = "Tileset Editor";
+            this.buttonTilesetEditor.UseVisualStyleBackColor = true;
+            this.buttonTilesetEditor.Click += new System.EventHandler(this.buttonTilesetEditor_Click);
             // 
             // buttonImport
             // 
             this.buttonImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonImport.Location = new System.Drawing.Point(6, 19);
             this.buttonImport.Name = "buttonImport";
-            this.buttonImport.Size = new System.Drawing.Size(103, 23);
+            this.buttonImport.Size = new System.Drawing.Size(122, 23);
             this.buttonImport.TabIndex = 6;
-            this.buttonImport.Text = "Import...";
+            this.buttonImport.Text = "Import Building...";
             this.buttonImport.UseVisualStyleBackColor = true;
             this.buttonImport.Click += new System.EventHandler(this.importToolStripMenuItem_Click);
             // 
@@ -235,24 +236,25 @@
             this.buttonExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonExport.Location = new System.Drawing.Point(6, 48);
             this.buttonExport.Name = "buttonExport";
-            this.buttonExport.Size = new System.Drawing.Size(103, 23);
+            this.buttonExport.Size = new System.Drawing.Size(122, 23);
             this.buttonExport.TabIndex = 7;
-            this.buttonExport.Text = "Export...";
+            this.buttonExport.Text = "Export Building...";
             this.buttonExport.UseVisualStyleBackColor = true;
             this.buttonExport.Click += new System.EventHandler(this.exportToolStripMenuItem_Click);
             // 
             // groupBox3
             // 
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox3.Controls.Add(this.buttonAnimationEditor);
             this.groupBox3.Controls.Add(this.buttonCollisionEditor);
             this.groupBox3.Controls.Add(this.buttonSuperFamiconv);
             this.groupBox3.Controls.Add(this.buttonImport);
             this.groupBox3.Controls.Add(this.buttonExport);
             this.groupBox3.Controls.Add(this.buttonSave);
-            this.groupBox3.Controls.Add(this.buttonCustomGFXEditor);
-            this.groupBox3.Location = new System.Drawing.Point(305, 75);
+            this.groupBox3.Controls.Add(this.buttonTilesetEditor);
+            this.groupBox3.Location = new System.Drawing.Point(310, 75);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(115, 254);
+            this.groupBox3.Size = new System.Drawing.Size(134, 254);
             this.groupBox3.TabIndex = 8;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Menu";
@@ -260,9 +262,9 @@
             // buttonCollisionEditor
             // 
             this.buttonCollisionEditor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonCollisionEditor.Location = new System.Drawing.Point(6, 147);
+            this.buttonCollisionEditor.Location = new System.Drawing.Point(6, 128);
             this.buttonCollisionEditor.Name = "buttonCollisionEditor";
-            this.buttonCollisionEditor.Size = new System.Drawing.Size(103, 30);
+            this.buttonCollisionEditor.Size = new System.Drawing.Size(122, 23);
             this.buttonCollisionEditor.TabIndex = 9;
             this.buttonCollisionEditor.Text = "Collision Editor";
             this.buttonCollisionEditor.UseVisualStyleBackColor = true;
@@ -271,20 +273,31 @@
             // buttonSuperFamiconv
             // 
             this.buttonSuperFamiconv.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSuperFamiconv.Location = new System.Drawing.Point(6, 91);
+            this.buttonSuperFamiconv.Location = new System.Drawing.Point(6, 85);
             this.buttonSuperFamiconv.Name = "buttonSuperFamiconv";
-            this.buttonSuperFamiconv.Size = new System.Drawing.Size(103, 50);
+            this.buttonSuperFamiconv.Size = new System.Drawing.Size(122, 37);
             this.buttonSuperFamiconv.TabIndex = 8;
-            this.buttonSuperFamiconv.Text = "Easy Import SuperFamiconv Graphics...";
+            this.buttonSuperFamiconv.Text = "Import SuperFamiconv\r\n/ Native Graphics...";
             this.buttonSuperFamiconv.UseVisualStyleBackColor = true;
             this.buttonSuperFamiconv.Click += new System.EventHandler(this.buttonSuperFamiconv_Click);
+            // 
+            // buttonAnimationEditor
+            // 
+            this.buttonAnimationEditor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonAnimationEditor.Enabled = false;
+            this.buttonAnimationEditor.Location = new System.Drawing.Point(6, 186);
+            this.buttonAnimationEditor.Name = "buttonAnimationEditor";
+            this.buttonAnimationEditor.Size = new System.Drawing.Size(122, 23);
+            this.buttonAnimationEditor.TabIndex = 10;
+            this.buttonAnimationEditor.Text = "Animation Editor";
+            this.buttonAnimationEditor.UseVisualStyleBackColor = true;
             // 
             // EventPlazaEditor
             // 
             this.AcceptButton = this.buttonSave;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(432, 340);
+            this.ClientSize = new System.Drawing.Size(456, 340);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -325,11 +338,12 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem saveQuitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem quitToolStripMenuItem;
-        private System.Windows.Forms.Button buttonCustomGFXEditor;
+        private System.Windows.Forms.Button buttonTilesetEditor;
         private System.Windows.Forms.Button buttonImport;
         private System.Windows.Forms.Button buttonExport;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Button buttonSuperFamiconv;
         private System.Windows.Forms.Button buttonCollisionEditor;
+        private System.Windows.Forms.Button buttonAnimationEditor;
     }
 }
