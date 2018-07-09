@@ -2067,11 +2067,22 @@ namespace SatellaWave
                                 }
 
                                 //Custom Animation Data
-                                ChannelFile.Add(2);     //Size = 2
+                                int AnimationDataStartOffset = ChannelFile.Count;
+                                ChannelFile.Add(0);     //Size
                                 ChannelFile.Add(0);
 
                                 ChannelFile.Add(0xFF);
                                 ChannelFile.Add(0xFF);
+
+                                //Padding to prevent Custom Tile BS-X copy bug
+                                for (int i = (ChannelFile.Count & 0xFF); ((i >= 0x00) && (i <= 0x01)); i--)
+                                {
+                                    ChannelFile.Add(0);
+                                }
+
+                                int AnimationDataSize = ChannelFile.Count - AnimationDataStartOffset;
+                                ChannelFile[AnimationDataStartOffset] = (byte)(AnimationDataSize & 0xFF);
+                                ChannelFile[AnimationDataStartOffset + 1] = (byte)((AnimationDataSize >> 8) & 0xFF);
 
                                 //Custom Tiles
                                 byte[] tiledata = (_Exp.Tag as EventPlaza).GetTileDataExport();
