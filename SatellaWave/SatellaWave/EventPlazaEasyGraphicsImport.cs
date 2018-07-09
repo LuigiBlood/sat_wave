@@ -79,6 +79,17 @@ namespace SatellaWave
             Stream file = new FileStream(textBoxPAL.Text, FileMode.Open);
             BinaryReader binaryReader = new BinaryReader(file);
 
+            if (file.Length < 0x20)
+            {
+                if (MessageBox.Show("Palette Data is too small. Cancelling import.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
+                {
+                    isPaletteDataImported = false;
+                    binaryReader.Close();
+                    file.Close();
+                    return;
+                }
+            }
+
             PALdata = new Color[16];
             for (int j = 0; j < PALdata.Length; j++)
             {
@@ -109,8 +120,18 @@ namespace SatellaWave
 
             Stream file = new FileStream(textBoxGFX.Text, FileMode.Open);
 
-            TILEdata = new byte[file.Length];
-            file.Read(TILEdata, 0, (int)file.Length);
+            if (file.Length > 0xE00)
+            {
+                if (MessageBox.Show("Tile Data is too big (more than 0xE00 bytes) to fit dedicated VRAM, do you want to continue? It will not copy the rest of the data.", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
+                {
+                    isTileDataImported = false;
+                    file.Close();
+                    return;
+                }
+            }
+
+            TILEdata = new byte[Math.Min(file.Length, 0xE00)];
+            file.Read(TILEdata, 0, (int)Math.Min(file.Length, 0xE00));
 
             file.Close();
             isTileDataImported = true;
@@ -126,6 +147,16 @@ namespace SatellaWave
 
             Stream file = new FileStream(textBoxMAP.Text, FileMode.Open);
             BinaryReader binaryReader = new BinaryReader(file);
+
+            if ((file.Length != 224))
+            {
+                MessageBox.Show("Tile Map Data size is not 224 bytes. Cancelling import.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                binaryReader.Close();
+                file.Close();
+                isTilesetDataImported = false;
+                return;
+            }
+
             List<ushort> MAPtemp = new List<ushort>();
 
             //Load TileSet in order
@@ -150,6 +181,7 @@ namespace SatellaWave
 
             TILESETdata = MAPtemp.ToArray();
 
+            binaryReader.Close();
             file.Close();
 
             isTilesetDataImported = true;

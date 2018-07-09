@@ -67,7 +67,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 33);
+            this.label1.Location = new System.Drawing.Point(12, 34);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(84, 13);
             this.label1.TabIndex = 2;
@@ -76,15 +76,15 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 82);
+            this.label2.Location = new System.Drawing.Point(12, 83);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(72, 13);
+            this.label2.Size = new System.Drawing.Size(118, 13);
             this.label2.TabIndex = 3;
-            this.label2.Text = "Tile Graphics:";
+            this.label2.Text = "8x8 Tile Graphics Data:";
             // 
             // textBoxPAL
             // 
-            this.textBoxPAL.Location = new System.Drawing.Point(15, 49);
+            this.textBoxPAL.Location = new System.Drawing.Point(15, 50);
             this.textBoxPAL.Name = "textBoxPAL";
             this.textBoxPAL.Size = new System.Drawing.Size(268, 20);
             this.textBoxPAL.TabIndex = 4;
@@ -92,7 +92,7 @@
             // buttonBrowsePAL
             // 
             this.buttonBrowsePAL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonBrowsePAL.Location = new System.Drawing.Point(289, 47);
+            this.buttonBrowsePAL.Location = new System.Drawing.Point(289, 48);
             this.buttonBrowsePAL.Name = "buttonBrowsePAL";
             this.buttonBrowsePAL.Size = new System.Drawing.Size(75, 23);
             this.buttonBrowsePAL.TabIndex = 5;
@@ -102,7 +102,7 @@
             // 
             // textBoxGFX
             // 
-            this.textBoxGFX.Location = new System.Drawing.Point(15, 98);
+            this.textBoxGFX.Location = new System.Drawing.Point(15, 99);
             this.textBoxGFX.Name = "textBoxGFX";
             this.textBoxGFX.Size = new System.Drawing.Size(268, 20);
             this.textBoxGFX.TabIndex = 6;
@@ -110,7 +110,7 @@
             // buttonBrowseGFX
             // 
             this.buttonBrowseGFX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonBrowseGFX.Location = new System.Drawing.Point(289, 96);
+            this.buttonBrowseGFX.Location = new System.Drawing.Point(289, 97);
             this.buttonBrowseGFX.Name = "buttonBrowseGFX";
             this.buttonBrowseGFX.Size = new System.Drawing.Size(75, 23);
             this.buttonBrowseGFX.TabIndex = 7;
@@ -121,15 +121,15 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 131);
+            this.label3.Location = new System.Drawing.Point(12, 132);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(51, 13);
+            this.label3.Size = new System.Drawing.Size(71, 13);
             this.label3.TabIndex = 8;
-            this.label3.Text = "Tile Map:";
+            this.label3.Text = "8x8 Tile Map:";
             // 
             // buttonBrowseMAP
             // 
-            this.buttonBrowseMAP.Location = new System.Drawing.Point(289, 145);
+            this.buttonBrowseMAP.Location = new System.Drawing.Point(289, 146);
             this.buttonBrowseMAP.Name = "buttonBrowseMAP";
             this.buttonBrowseMAP.Size = new System.Drawing.Size(75, 23);
             this.buttonBrowseMAP.TabIndex = 9;
@@ -139,7 +139,7 @@
             // 
             // textBoxMAP
             // 
-            this.textBoxMAP.Location = new System.Drawing.Point(15, 147);
+            this.textBoxMAP.Location = new System.Drawing.Point(15, 148);
             this.textBoxMAP.Name = "textBoxMAP";
             this.textBoxMAP.Size = new System.Drawing.Size(268, 20);
             this.textBoxMAP.TabIndex = 10;
@@ -148,11 +148,12 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(71, 9);
+            this.label4.Location = new System.Drawing.Point(82, 9);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(238, 13);
+            this.label4.Size = new System.Drawing.Size(214, 13);
             this.label4.TabIndex = 11;
-            this.label4.Text = "Make sure the original picture is 64x112.";
+            this.label4.Text = "The original picture must be 64x112.";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // EventPlazaEasyGraphicsImport
             // 
@@ -173,7 +174,7 @@
             this.Controls.Add(this.buttonOK);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "EventPlazaEasyGraphicsImport";
-            this.Text = "Import SuperFamiconv Graphics...";
+            this.Text = "Easy Import SuperFamiconv Graphics...";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.EventPlazaEasyGraphicsImport_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -47,8 +47,8 @@
             this.buttonImport = new System.Windows.Forms.Button();
             this.buttonExport = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.buttonSuperFamiconv = new System.Windows.Forms.Button();
             this.buttonCollisionEditor = new System.Windows.Forms.Button();
+            this.buttonSuperFamiconv = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTileset)).BeginInit();
@@ -126,7 +126,7 @@
             // 
             // pictureBoxTileset
             // 
-            this.pictureBoxTileset.BackColor = System.Drawing.Color.Black;
+            this.pictureBoxTileset.BackColor = System.Drawing.Color.DimGray;
             this.pictureBoxTileset.Image = global::SatellaWave.Properties.Resources.Tileset;
             this.pictureBoxTileset.Location = new System.Drawing.Point(0, 0);
             this.pictureBoxTileset.Name = "pictureBoxTileset";
@@ -147,7 +147,7 @@
             // 
             // pictureBoxBuilding
             // 
-            this.pictureBoxBuilding.BackColor = System.Drawing.Color.Black;
+            this.pictureBoxBuilding.BackColor = System.Drawing.Color.DimGray;
             this.pictureBoxBuilding.Location = new System.Drawing.Point(5, 19);
             this.pictureBoxBuilding.Name = "pictureBoxBuilding";
             this.pictureBoxBuilding.Size = new System.Drawing.Size(128, 224);
@@ -257,17 +257,6 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Menu";
             // 
-            // buttonSuperFamiconv
-            // 
-            this.buttonSuperFamiconv.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSuperFamiconv.Location = new System.Drawing.Point(6, 91);
-            this.buttonSuperFamiconv.Name = "buttonSuperFamiconv";
-            this.buttonSuperFamiconv.Size = new System.Drawing.Size(103, 50);
-            this.buttonSuperFamiconv.TabIndex = 8;
-            this.buttonSuperFamiconv.Text = "Import SuperFamiconv Graphics...";
-            this.buttonSuperFamiconv.UseVisualStyleBackColor = true;
-            this.buttonSuperFamiconv.Click += new System.EventHandler(this.buttonSuperFamiconv_Click);
-            // 
             // buttonCollisionEditor
             // 
             this.buttonCollisionEditor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -278,6 +267,17 @@
             this.buttonCollisionEditor.Text = "Collision Editor";
             this.buttonCollisionEditor.UseVisualStyleBackColor = true;
             this.buttonCollisionEditor.Click += new System.EventHandler(this.buttonCollisionEditor_Click);
+            // 
+            // buttonSuperFamiconv
+            // 
+            this.buttonSuperFamiconv.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonSuperFamiconv.Location = new System.Drawing.Point(6, 91);
+            this.buttonSuperFamiconv.Name = "buttonSuperFamiconv";
+            this.buttonSuperFamiconv.Size = new System.Drawing.Size(103, 50);
+            this.buttonSuperFamiconv.TabIndex = 8;
+            this.buttonSuperFamiconv.Text = "Easy Import SuperFamiconv Graphics...";
+            this.buttonSuperFamiconv.UseVisualStyleBackColor = true;
+            this.buttonSuperFamiconv.Click += new System.EventHandler(this.buttonSuperFamiconv_Click);
             // 
             // EventPlazaEditor
             // 

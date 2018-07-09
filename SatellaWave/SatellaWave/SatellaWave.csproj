@@ -89,12 +89,6 @@
     <Compile Include="EventPlazaEditor.Designer.cs">
       <DependentUpon>EventPlazaEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="EventPlazaGFXEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="EventPlazaGFXEditor.Designer.cs">
-      <DependentUpon>EventPlazaGFXEditor.cs</DependentUpon>
-    </Compile>
     <Compile Include="FolderSelectDialog\FolderSelectDialog.cs" />
     <Compile Include="FolderSelectDialog\Reflector.cs" />
     <Compile Include="ResourceAccess.cs" />
@@ -126,9 +120,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="EventPlazaEditor.resx">
       <DependentUpon>EventPlazaEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="EventPlazaGFXEditor.resx">
-      <DependentUpon>EventPlazaGFXEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>

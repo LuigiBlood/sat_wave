@@ -100,7 +100,7 @@
             // 
             // pictureBoxTile
             // 
-            this.pictureBoxTile.BackColor = System.Drawing.Color.Black;
+            this.pictureBoxTile.BackColor = System.Drawing.Color.DimGray;
             this.pictureBoxTile.Location = new System.Drawing.Point(6, 19);
             this.pictureBoxTile.Name = "pictureBoxTile";
             this.pictureBoxTile.Size = new System.Drawing.Size(64, 64);
@@ -120,7 +120,7 @@
             // 
             // pictureBoxTileset
             // 
-            this.pictureBoxTileset.BackColor = System.Drawing.Color.Black;
+            this.pictureBoxTileset.BackColor = System.Drawing.Color.DimGray;
             this.pictureBoxTileset.Location = new System.Drawing.Point(6, 19);
             this.pictureBoxTileset.Name = "pictureBoxTileset";
             this.pictureBoxTileset.Size = new System.Drawing.Size(128, 96);
