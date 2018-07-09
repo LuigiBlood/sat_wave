@@ -2082,7 +2082,7 @@ namespace SatellaWave
                                 ChannelFile.Add(0xFF);
 
                                 //Padding to prevent Custom Tile BS-X copy bug
-                                for (int i = (ChannelFile.Count & 0xFF); ((i >= 0x00) && (i <= 0x01)); i--)
+                                for (int i = ((ChannelFile.Count + 2) & 0xFF); ((i >= 0x00) && (i <= 0x01)); i--)
                                 {
                                     ChannelFile.Add(0);
                                 }
