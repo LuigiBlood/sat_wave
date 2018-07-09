@@ -46,7 +46,7 @@
             // 
             this.buttonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.buttonOK.Location = new System.Drawing.Point(289, 193);
+            this.buttonOK.Location = new System.Drawing.Point(208, 193);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(75, 23);
             this.buttonOK.TabIndex = 0;
@@ -57,7 +57,7 @@
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(208, 193);
+            this.buttonCancel.Location = new System.Drawing.Point(289, 193);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 1;
@@ -67,7 +67,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 34);
+            this.label1.Location = new System.Drawing.Point(12, 42);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(84, 13);
             this.label1.TabIndex = 2;
@@ -76,7 +76,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 83);
+            this.label2.Location = new System.Drawing.Point(12, 91);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(118, 13);
             this.label2.TabIndex = 3;
@@ -84,7 +84,9 @@
             // 
             // textBoxPAL
             // 
-            this.textBoxPAL.Location = new System.Drawing.Point(15, 50);
+            this.textBoxPAL.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxPAL.Location = new System.Drawing.Point(15, 58);
             this.textBoxPAL.Name = "textBoxPAL";
             this.textBoxPAL.Size = new System.Drawing.Size(268, 20);
             this.textBoxPAL.TabIndex = 4;
@@ -92,7 +94,7 @@
             // buttonBrowsePAL
             // 
             this.buttonBrowsePAL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonBrowsePAL.Location = new System.Drawing.Point(289, 48);
+            this.buttonBrowsePAL.Location = new System.Drawing.Point(289, 56);
             this.buttonBrowsePAL.Name = "buttonBrowsePAL";
             this.buttonBrowsePAL.Size = new System.Drawing.Size(75, 23);
             this.buttonBrowsePAL.TabIndex = 5;
@@ -102,7 +104,9 @@
             // 
             // textBoxGFX
             // 
-            this.textBoxGFX.Location = new System.Drawing.Point(15, 99);
+            this.textBoxGFX.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxGFX.Location = new System.Drawing.Point(15, 107);
             this.textBoxGFX.Name = "textBoxGFX";
             this.textBoxGFX.Size = new System.Drawing.Size(268, 20);
             this.textBoxGFX.TabIndex = 6;
@@ -110,7 +114,7 @@
             // buttonBrowseGFX
             // 
             this.buttonBrowseGFX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonBrowseGFX.Location = new System.Drawing.Point(289, 97);
+            this.buttonBrowseGFX.Location = new System.Drawing.Point(289, 105);
             this.buttonBrowseGFX.Name = "buttonBrowseGFX";
             this.buttonBrowseGFX.Size = new System.Drawing.Size(75, 23);
             this.buttonBrowseGFX.TabIndex = 7;
@@ -121,15 +125,16 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 132);
+            this.label3.Location = new System.Drawing.Point(12, 140);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(71, 13);
+            this.label3.Size = new System.Drawing.Size(343, 13);
             this.label3.TabIndex = 8;
-            this.label3.Text = "8x8 Tile Map:";
+            this.label3.Text = "8x8 SuperFamiconv Building Tile Map (original picture must be 64x112):";
             // 
             // buttonBrowseMAP
             // 
-            this.buttonBrowseMAP.Location = new System.Drawing.Point(289, 146);
+            this.buttonBrowseMAP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonBrowseMAP.Location = new System.Drawing.Point(289, 154);
             this.buttonBrowseMAP.Name = "buttonBrowseMAP";
             this.buttonBrowseMAP.Size = new System.Drawing.Size(75, 23);
             this.buttonBrowseMAP.TabIndex = 9;
@@ -139,7 +144,9 @@
             // 
             // textBoxMAP
             // 
-            this.textBoxMAP.Location = new System.Drawing.Point(15, 148);
+            this.textBoxMAP.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxMAP.Location = new System.Drawing.Point(15, 156);
             this.textBoxMAP.Name = "textBoxMAP";
             this.textBoxMAP.Size = new System.Drawing.Size(268, 20);
             this.textBoxMAP.TabIndex = 10;
@@ -150,9 +157,9 @@
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.Location = new System.Drawing.Point(82, 9);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(214, 13);
+            this.label4.Size = new System.Drawing.Size(224, 26);
             this.label4.TabIndex = 11;
-            this.label4.Text = "The original picture must be 64x112.";
+            this.label4.Text = "You can just import your palette / tiles\r\nand make your tileset manually.";
             this.label4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // EventPlazaEasyGraphicsImport
