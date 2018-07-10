@@ -442,8 +442,7 @@ namespace SatellaWave
 
                 if (Program.CheckUsedLCI(editform._ret_lci, treeViewChn.SelectedNode))
                 {
-                    ushort usedLCI = editform._ret_lci; // resolves warning CS1690
-
+                    ushort usedLCI = editform._ret_lci; // Resolves warning CS1690
                     if (MessageBox.Show("Logical Channel " + usedLCI.ToString("X4") + " already exists in another channel.\nThis will create a conflict. Are you sure you want to save it?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
                     {
                         return;
