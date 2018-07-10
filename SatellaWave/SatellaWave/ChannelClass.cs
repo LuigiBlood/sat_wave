@@ -346,12 +346,56 @@ namespace SatellaWave
         }
     }
 
+    public class EventPlazaAnimationFrame
+    {
+        public List<EventPlazaAnimationTile> tiles;
+        public ushort duration;
+
+        public EventPlazaAnimationFrame(ushort _duration = 1)
+        {
+            tiles = new List<EventPlazaAnimationTile>();
+            tiles.Add(new EventPlazaAnimationTile());
+            duration = _duration;
+        }
+
+        public EventPlazaAnimationFrame(List<EventPlazaAnimationTile> _tiles, ushort _duration = 1)
+        {
+            tiles = new List<EventPlazaAnimationTile>();
+            tiles.AddRange(_tiles);
+
+            if (tiles.Count <= 0)
+            {
+                tiles.Add(new EventPlazaAnimationTile());
+            }
+
+            duration = _duration;
+        }
+    }
+
+    public class EventPlazaAnimationTile
+    {
+        public ushort x;
+        public ushort y;
+        public ushort bg1_tile;
+        public ushort bg2_tile;
+
+        public EventPlazaAnimationTile(ushort _x = 0x6, ushort _y = 0xD, ushort _bg1_tile = 0xFFFF, ushort _bg2_tile = 0xFFFF)
+        {
+            x = _x;
+            y = _y;
+            bg1_tile = _bg1_tile;  //No change = 0xFFFF
+            bg2_tile = _bg2_tile;  //No change = 0xFFFF
+        }
+    }
+
     class EventPlaza
     {
         public string name;
         public ushort[] tilemap; //4*7 16x16 tiles
 
-        //TODO: Animations
+        //Animations
+        public List<EventPlazaAnimationFrame> animation;    //Can be 0 frames, in which case there's no animation data.
+        //It is also possible to animate other parts of the map (TODO)
 
         //Custom Building
         public Color[] palette;        //16 color palette
@@ -370,6 +414,7 @@ namespace SatellaWave
             {
                 palette[i] = new Color();
             }
+            animation = new List<EventPlazaAnimationFrame>();
             tiles = new byte[4];
             tileset = new ushort[4];
             collision = new byte[0x30];
@@ -385,6 +430,7 @@ namespace SatellaWave
             {
                 palette[i] = new Color();
             }
+            animation = new List<EventPlazaAnimationFrame>();
             tiles = new byte[4];
             tileset = new ushort[4];
             collision = new byte[0x30];
@@ -419,7 +465,68 @@ namespace SatellaWave
             return tilemaptemp;
         }
 
-        //TODO: Animations
+        public byte[] GetAnimDataExport(int chunkOffset)
+        {
+            List<byte> export = new List<byte>();
+
+            if (animation.Count <= 0)
+            {
+                //No animation
+                export.Add(0xFF);
+                export.Add(0xFF);
+            }
+            else
+            {
+                //Base X Position
+                export.Add(0x00);
+                export.Add(0x00);
+                //Base Y Position
+                export.Add(0x00);
+                export.Add(0x00);
+                //Frame Pointers
+                int framePointer = export.Count;
+                foreach (EventPlazaAnimationFrame frame in animation)
+                {
+                    export.Add(0x00);
+                    export.Add(0x00);
+                    export.Add((byte)(frame.duration & 0xFF));
+                    export.Add((byte)((frame.duration >> 8) & 0xFF));
+                }
+                //Loop Animation (by default since the other option is buggy)
+                export.Add(0xFE);
+                export.Add(0xFF);
+
+                foreach (EventPlazaAnimationFrame frame in animation)
+                {
+                    //Set up pointer
+                    export[framePointer] = (byte)(((chunkOffset + export.Count)) & 0xFF);
+                    export[framePointer + 1] = (byte)(((chunkOffset + export.Count) >> 8) & 0xFF);
+                    framePointer += 4;
+
+                    foreach (EventPlazaAnimationTile tile in frame.tiles)
+                    {
+                        //X Position
+                        export.Add((byte)(tile.x & 0xFF));
+                        export.Add((byte)((tile.x >> 8) & 0xFF));
+                        //Y Position
+                        export.Add((byte)(tile.y & 0xFF));
+                        export.Add((byte)((tile.y >> 8) & 0xFF));
+                        //BG1 Tile
+                        export.Add((byte)(tile.bg1_tile & 0xFF));
+                        export.Add((byte)((tile.bg1_tile >> 8) & 0xFF));
+                        //BG2 Tile
+                        export.Add((byte)(tile.bg2_tile & 0xFF));
+                        export.Add((byte)((tile.bg2_tile >> 8) & 0xFF));
+                    }
+
+                    //End of Frame List
+                    export.Add(0x00);
+                    export.Add(0x80);
+                }
+            }
+
+            return export.ToArray();
+        }
 
         public byte[] GetTileDataExport()
         {

@@ -25,8 +25,9 @@ namespace SatellaWave
         public static ushort[] TILESETdata; //0x2200 - 0x4200 WRAM (Cell Data)
         public static Color[][] PALdata; //0x2000 - 0x2200 WRAM (Palette)
         public static byte[] COLdata;  //0x4200 - 0x4600 WRAM (Solid/Priority)
+        public static List<EventPlazaAnimationFrame> frames;
 
-        public EventPlazaEditor(ushort[] _tilemap, bool[] _doors, Color[] _pal, byte[] _tiles, ushort[] _map, byte[] _col)
+        public EventPlazaEditor(ushort[] _tilemap, bool[] _doors, Color[] _pal, byte[] _tiles, ushort[] _map, byte[] _col, List<EventPlazaAnimationFrame> _frames)
         {
             InitializeComponent();
             selectedTile = 0;
@@ -40,6 +41,9 @@ namespace SatellaWave
             COLdata = new byte[_col.Length];
             _col.CopyTo(COLdata, 0);
 
+            frames = new List<EventPlazaAnimationFrame>();
+            frames.AddRange(_frames);
+
             InitPaletteData(_pal);
             InitTileData(_tiles);
             InitTilesetData(_map);
@@ -49,7 +53,7 @@ namespace SatellaWave
             UpdateTilemapImage();
         }
 
-        public void InitTilesetImage()
+        private void InitTilesetImage()
         {
             tileSetImage = new Bitmap(16 * 8, 16 * 128);
 
@@ -65,7 +69,7 @@ namespace SatellaWave
             }
         }
 
-        public void InitTileData(byte[] _tiles)
+        private void InitTileData(byte[] _tiles)
         {
             TILEdata = new byte[ResourceAccess.defaultTilesBSX.Length];
             for (int i = 0; i < TILEdata.Length; i++)
@@ -78,7 +82,7 @@ namespace SatellaWave
             }
         }
 
-        public void InitTilesetData(ushort[] _map)
+        private void InitTilesetData(ushort[] _map)
         {
             TILESETdata = new ushort[ResourceAccess.defaultTileSetBSX.Length / 2];
             for (int i = 0; i < TILESETdata.Length; i++)
@@ -91,7 +95,7 @@ namespace SatellaWave
             }
         }
 
-        public void InitPaletteData(Color[] _pal)
+        private void InitPaletteData(Color[] _pal)
         {
             PALdata = new Color[8][];
             for (int i = 0; i < PALdata.Length; i++)
@@ -119,7 +123,7 @@ namespace SatellaWave
             }
         }
 
-        public static Bitmap DrawCell(int id)
+        private static Bitmap DrawCell(int id)
         {
             Bitmap celltemp = new Bitmap(16, 16);
 
@@ -136,7 +140,7 @@ namespace SatellaWave
             return celltemp;
         }
 
-        public static Bitmap DrawTile(int id, int pal, bool xflip, bool yflip)
+        private static Bitmap DrawTile(int id, int pal, bool xflip, bool yflip)
         {
             //4BPP SNES
             Bitmap tiletemp = new Bitmap(8, 8);
@@ -165,7 +169,7 @@ namespace SatellaWave
             return tiletemp;
         }
 
-        public void UpdateTilesetImage()
+        private void UpdateTilesetImage()
         {
             Bitmap tileset = new Bitmap(tileSetImage);
             using (Graphics g = Graphics.FromImage(tileset))
@@ -176,7 +180,7 @@ namespace SatellaWave
             pictureBoxTileset.Image = tileset;
         }
 
-        public void UpdateTilemapImage()
+        private void UpdateTilemapImage()
         {
             Bitmap tilemapimage = DrawTileMap();
 
@@ -194,7 +198,7 @@ namespace SatellaWave
             pictureBoxBuilding.Image = tilemapimage;
         }
 
-        public Bitmap DrawTileMap()
+        private Bitmap DrawTileMap(bool noOverlay = false)
         {
             Bitmap tilemapimage = new Bitmap(32 * 4, 32 * 7);
             for (int y = 0; y < 7; y++)
@@ -205,7 +209,7 @@ namespace SatellaWave
                     {
                         g.DrawImageUnscaled(DrawCell(tileMap[x + (y * 4)]), x * 16, y * 16);
 
-                        if ((GetEditorMode() == 2) && doorLocations[x + (y * 4)])
+                        if ((GetEditorMode() == 2) && doorLocations[x + (y * 4)] && !noOverlay)
                         {
                             Brush brush = new SolidBrush(Color.FromArgb(100, 255, 0, 0));
                             g.FillRectangle(brush, x * 16, y * 16, 16, 16);
@@ -217,7 +221,7 @@ namespace SatellaWave
             return tilemapimage;
         }
 
-        public int GetEditorMode()
+        private int GetEditorMode()
         {
             if (radioButtonBuildingMode.Checked)
                 return 0;
@@ -376,6 +380,72 @@ namespace SatellaWave
                         tileMap[i] = _map;
                     }
                 }
+                else if (_node.Name == "animation")
+                {
+                    List<EventPlazaAnimationFrame> _animation = new List<EventPlazaAnimationFrame>();
+
+                    if (_node.HasChildNodes)
+                    {
+                        foreach (XmlNode _frameNode in _node.ChildNodes)
+                        {
+                            if (_frameNode.Name == "frame")
+                            {
+                                if (!(new Regex(@"^[0-9]+$").Match(_frameNode.Attributes["duration"].Value).Success))
+                                {
+                                    //Duration Check
+                                    MessageBox.Show("Duration is invalid in Event Plaza Expansion Animation " + _frameNode.BaseURI + " (" + _frameNode.Attributes["duration"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    return;
+                                }
+
+                                //Tile Data
+                                List<EventPlazaAnimationTile> _tiles = new List<EventPlazaAnimationTile>();
+                                if (_frameNode.HasChildNodes)
+                                {
+                                    foreach (XmlNode _tileNode in _frameNode.ChildNodes)
+                                    {
+                                        if (!(new Regex(@"^[0-9]+$").Match(_tileNode.Attributes["x"].Value).Success))
+                                        {
+                                            //X Position Check
+                                            MessageBox.Show("X Position is invalid in Event Plaza Expansion Animation Tile " + _tileNode.BaseURI + " (" + _tileNode.Attributes["x"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                            return;
+                                        }
+                                        if (!(new Regex(@"^[0-9]+$").Match(_tileNode.Attributes["y"].Value).Success))
+                                        {
+                                            //Y Position Check
+                                            MessageBox.Show("Y Position is invalid in Event Plaza Expansion Animation Tile " + _tileNode.BaseURI + " (" + _tileNode.Attributes["y"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                            return;
+                                        }
+                                        if (!(new Regex(@"^[0-9a-fA-F]{4}$").Match(_tileNode.Attributes["bg1tile"].Value).Success))
+                                        {
+                                            //BG1 Tile Check
+                                            MessageBox.Show("BG1 Tile is invalid in Event Plaza Expansion Animation Tile " + _tileNode.BaseURI + " (" + _tileNode.Attributes["bg1tile"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                            return;
+                                        }
+                                        if (!(new Regex(@"^[0-9a-fA-F]{4}$").Match(_tileNode.Attributes["bg2tile"].Value).Success))
+                                        {
+                                            //BG2 Tile Check
+                                            MessageBox.Show("BG2 Tile is invalid in Event Plaza Expansion Animation Tile " + _tileNode.BaseURI + " (" + _tileNode.Attributes["bg2tile"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                            return;
+                                        }
+
+                                        ushort _x = Convert.ToUInt16(_tileNode.Attributes["x"].Value);
+                                        ushort _y = Convert.ToUInt16(_tileNode.Attributes["y"].Value);
+                                        ushort _bg1tile;
+                                        ushort.TryParse(_tileNode.Attributes["bg1tile"].Value, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out _bg1tile);
+                                        ushort _bg2tile;
+                                        ushort.TryParse(_tileNode.Attributes["bg2tile"].Value, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out _bg2tile);
+
+                                        _tiles.Add(new EventPlazaAnimationTile(_x, _y, _bg1tile, _bg2tile));
+                                    }
+                                }
+
+                                EventPlazaAnimationFrame _frame = new EventPlazaAnimationFrame(_tiles, Convert.ToUInt16(_frameNode.Attributes["duration"].Value));
+                                _animation.Add(_frame);
+                            }
+                        }
+                    }
+                    frames = _animation;
+                }
                 else if (_node.Name == "tiles")
                 {
                     if (!(new Regex(@"^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$").Match(_node.InnerText).Success))
@@ -463,6 +533,27 @@ namespace SatellaWave
             foreach (ushort datamap in GetTileMap())
             {
                 xmlWriter.WriteString(datamap.ToString("X4"));
+            }
+            xmlWriter.WriteEndElement();
+
+            //Animation (Frames -> Tiles)
+            xmlWriter.WriteStartElement("animation");
+            foreach (EventPlazaAnimationFrame dataframe in GetFrameData())
+            {
+                xmlWriter.WriteStartElement("frame");
+                xmlWriter.WriteAttributeString("duration", dataframe.duration.ToString());
+
+                foreach (EventPlazaAnimationTile datatile in dataframe.tiles)
+                {
+                    xmlWriter.WriteStartElement("tile");
+                    xmlWriter.WriteAttributeString("x", datatile.x.ToString());
+                    xmlWriter.WriteAttributeString("y", datatile.y.ToString());
+                    xmlWriter.WriteAttributeString("bg1tile", datatile.bg1_tile.ToString("X4"));
+                    xmlWriter.WriteAttributeString("bg2tile", datatile.bg2_tile.ToString("X4"));
+                    xmlWriter.WriteEndElement();
+                }
+
+                xmlWriter.WriteEndElement();
             }
             xmlWriter.WriteEndElement();
 
@@ -597,6 +688,18 @@ namespace SatellaWave
             }
         }
 
+        private void buttonAnimationEditor_Click(object sender, EventArgs e)
+        {
+            using (EventPlazaAnimationEditor animEditor = new EventPlazaAnimationEditor(tileSetImage, DrawTileMap(true), frames))
+            {
+                if (animEditor.ShowDialog() == DialogResult.OK)
+                {
+                    frames.Clear();
+                    frames.AddRange(animEditor.GetFrameData());
+                }
+            }
+        }
+
         //Save
         public ushort[] GetTileMap()
         {
@@ -640,6 +743,11 @@ namespace SatellaWave
         public byte[] GetCustomCollisions()
         {
             return COLdata;
+        }
+
+        public List<EventPlazaAnimationFrame> GetFrameData()
+        {
+            return frames;
         }
     }
 }

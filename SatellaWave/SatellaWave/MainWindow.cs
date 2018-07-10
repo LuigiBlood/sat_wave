@@ -626,7 +626,8 @@ namespace SatellaWave
                 (treeViewChn.SelectedNode.Tag as EventPlaza).palette,
                 (treeViewChn.SelectedNode.Tag as EventPlaza).tiles,
                 (treeViewChn.SelectedNode.Tag as EventPlaza).tileset,
-                (treeViewChn.SelectedNode.Tag as EventPlaza).collision);
+                (treeViewChn.SelectedNode.Tag as EventPlaza).collision,
+                (treeViewChn.SelectedNode.Tag as EventPlaza).animation);
             if (editor.ShowDialog() == DialogResult.OK)
             {
                 (treeViewChn.SelectedNode.Tag as EventPlaza).tilemap = editor.GetTileMap();
@@ -635,6 +636,7 @@ namespace SatellaWave
                 (treeViewChn.SelectedNode.Tag as EventPlaza).tiles = editor.GetCustomTiles();
                 (treeViewChn.SelectedNode.Tag as EventPlaza).tileset = editor.GetCustomTileSet();
                 (treeViewChn.SelectedNode.Tag as EventPlaza).collision = editor.GetCustomCollisions();
+                (treeViewChn.SelectedNode.Tag as EventPlaza).animation = editor.GetFrameData();
             }
         }
     }

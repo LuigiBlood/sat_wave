@@ -1220,6 +1220,72 @@ namespace SatellaWave
                                                     eventplaza.tilemap[i] = _map;
                                                 }
                                             }
+                                            else if (_node.Name == "animation")
+                                            {
+                                                List<EventPlazaAnimationFrame> _animation = new List<EventPlazaAnimationFrame>();
+
+                                                if (_node.HasChildNodes)
+                                                {
+                                                    foreach (XmlNode _frameNode in _node.ChildNodes)
+                                                    {
+                                                        if (_frameNode.Name == "frame")
+                                                        {
+                                                            if (!(new Regex(@"^[0-9]+$").Match(_frameNode.Attributes["duration"].Value).Success))
+                                                            {
+                                                                //Duration Check
+                                                                MessageBox.Show("Duration is invalid in Event Plaza Expansion Animation " + _frameNode.BaseURI + " (" + _frameNode.Attributes["duration"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                                return;
+                                                            }
+
+                                                            //Tile Data
+                                                            List<EventPlazaAnimationTile> _tiles = new List<EventPlazaAnimationTile>();
+                                                            if (_frameNode.HasChildNodes)
+                                                            {
+                                                                foreach (XmlNode _tileNode in _frameNode.ChildNodes)
+                                                                {
+                                                                    if (!(new Regex(@"^[0-9]+$").Match(_tileNode.Attributes["x"].Value).Success))
+                                                                    {
+                                                                        //X Position Check
+                                                                        MessageBox.Show("X Position is invalid in Event Plaza Expansion Animation Tile " + _tileNode.BaseURI + " (" + _tileNode.Attributes["x"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                                        return;
+                                                                    }
+                                                                    if (!(new Regex(@"^[0-9]+$").Match(_tileNode.Attributes["y"].Value).Success))
+                                                                    {
+                                                                        //Y Position Check
+                                                                        MessageBox.Show("Y Position is invalid in Event Plaza Expansion Animation Tile " + _tileNode.BaseURI + " (" + _tileNode.Attributes["y"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                                        return;
+                                                                    }
+                                                                    if (!(new Regex(@"^[0-9a-fA-F]{4}$").Match(_tileNode.Attributes["bg1tile"].Value).Success))
+                                                                    {
+                                                                        //BG1 Tile Check
+                                                                        MessageBox.Show("BG1 Tile is invalid in Event Plaza Expansion Animation Tile " + _tileNode.BaseURI + " (" + _tileNode.Attributes["bg1tile"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                                        return;
+                                                                    }
+                                                                    if (!(new Regex(@"^[0-9a-fA-F]{4}$").Match(_tileNode.Attributes["bg2tile"].Value).Success))
+                                                                    {
+                                                                        //BG2 Tile Check
+                                                                        MessageBox.Show("BG2 Tile is invalid in Event Plaza Expansion Animation Tile " + _tileNode.BaseURI + " (" + _tileNode.Attributes["bg2tile"].Value + ")", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                                        return;
+                                                                    }
+
+                                                                    ushort _x = Convert.ToUInt16(_tileNode.Attributes["x"].Value);
+                                                                    ushort _y = Convert.ToUInt16(_tileNode.Attributes["y"].Value);
+                                                                    ushort _bg1tile;
+                                                                    ushort.TryParse(_tileNode.Attributes["bg1tile"].Value, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out _bg1tile);
+                                                                    ushort _bg2tile;
+                                                                    ushort.TryParse(_tileNode.Attributes["bg2tile"].Value, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out _bg2tile);
+
+                                                                    _tiles.Add(new EventPlazaAnimationTile(_x, _y, _bg1tile, _bg2tile));
+                                                                }
+                                                            }
+
+                                                            EventPlazaAnimationFrame _frame = new EventPlazaAnimationFrame(_tiles, Convert.ToUInt16(_frameNode.Attributes["duration"].Value));
+                                                            _animation.Add(_frame);
+                                                        }
+                                                    }
+                                                }
+                                                eventplaza.animation = _animation;
+                                            }
                                             else if (_node.Name == "tiles")
                                             {
                                                 if (!(new Regex(@"^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$").Match(_node.InnerText).Success))
@@ -1521,6 +1587,27 @@ namespace SatellaWave
                             foreach (ushort datamap in (_foldernode.Tag as EventPlaza).tilemap)
                             {
                                 xmlWriter.WriteString(datamap.ToString("X4"));
+                            }
+                            xmlWriter.WriteEndElement();
+
+                            //Animation (Frames -> Tiles)
+                            xmlWriter.WriteStartElement("animation");
+                            foreach (EventPlazaAnimationFrame dataframe in (_foldernode.Tag as EventPlaza).animation)
+                            {
+                                xmlWriter.WriteStartElement("frame");
+                                xmlWriter.WriteAttributeString("duration", dataframe.duration.ToString());
+
+                                foreach (EventPlazaAnimationTile datatile in dataframe.tiles)
+                                {
+                                    xmlWriter.WriteStartElement("tile");
+                                    xmlWriter.WriteAttributeString("x", datatile.x.ToString());
+                                    xmlWriter.WriteAttributeString("y", datatile.y.ToString());
+                                    xmlWriter.WriteAttributeString("bg1tile", datatile.bg1_tile.ToString("X4"));
+                                    xmlWriter.WriteAttributeString("bg2tile", datatile.bg2_tile.ToString("X4"));
+                                    xmlWriter.WriteEndElement();
+                                }
+
+                                xmlWriter.WriteEndElement();
                             }
                             xmlWriter.WriteEndElement();
 
@@ -2074,12 +2161,11 @@ namespace SatellaWave
                                 }
 
                                 //Custom Animation Data
-                                int AnimationDataStartOffset = ChannelFile.Count;
                                 ChannelFile.Add(0);     //Size
                                 ChannelFile.Add(0);
 
-                                ChannelFile.Add(0xFF);
-                                ChannelFile.Add(0xFF);
+                                int AnimationDataStartOffset = ChannelFile.Count;
+                                ChannelFile.AddRange((_Exp.Tag as EventPlaza).GetAnimDataExport(AnimationDataStartOffset - offsetChunkBeginning));
 
                                 //Padding to prevent Custom Tile BS-X copy bug
                                 int PaddingTest = ChannelFile.Count + 2;
@@ -2089,8 +2175,8 @@ namespace SatellaWave
                                 }
 
                                 int AnimationDataSize = ChannelFile.Count - AnimationDataStartOffset;
-                                ChannelFile[AnimationDataStartOffset] = (byte)(AnimationDataSize & 0xFF);
-                                ChannelFile[AnimationDataStartOffset + 1] = (byte)((AnimationDataSize >> 8) & 0xFF);
+                                ChannelFile[AnimationDataStartOffset - 2] = (byte)(AnimationDataSize & 0xFF);
+                                ChannelFile[AnimationDataStartOffset - 1] = (byte)((AnimationDataSize >> 8) & 0xFF);
 
                                 //Custom Tiles
                                 byte[] tiledata = (_Exp.Tag as EventPlaza).GetTileDataExport();

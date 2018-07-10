@@ -47,9 +47,9 @@
             this.buttonImport = new System.Windows.Forms.Button();
             this.buttonExport = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.buttonAnimationEditor = new System.Windows.Forms.Button();
             this.buttonCollisionEditor = new System.Windows.Forms.Button();
             this.buttonSuperFamiconv = new System.Windows.Forms.Button();
-            this.buttonAnimationEditor = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTileset)).BeginInit();
@@ -98,19 +98,19 @@
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(163, 6);
             // 
             // saveQuitToolStripMenuItem
             // 
             this.saveQuitToolStripMenuItem.Name = "saveQuitToolStripMenuItem";
-            this.saveQuitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveQuitToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.saveQuitToolStripMenuItem.Text = "Save && Quit";
             this.saveQuitToolStripMenuItem.Click += new System.EventHandler(this.buttonSave_Click);
             // 
             // quitToolStripMenuItem
             // 
             this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
-            this.quitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.quitToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.quitToolStripMenuItem.Text = "Quit";
             this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
             // 
@@ -259,6 +259,17 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Menu";
             // 
+            // buttonAnimationEditor
+            // 
+            this.buttonAnimationEditor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonAnimationEditor.Location = new System.Drawing.Point(6, 186);
+            this.buttonAnimationEditor.Name = "buttonAnimationEditor";
+            this.buttonAnimationEditor.Size = new System.Drawing.Size(122, 23);
+            this.buttonAnimationEditor.TabIndex = 10;
+            this.buttonAnimationEditor.Text = "Animation Editor";
+            this.buttonAnimationEditor.UseVisualStyleBackColor = true;
+            this.buttonAnimationEditor.Click += new System.EventHandler(this.buttonAnimationEditor_Click);
+            // 
             // buttonCollisionEditor
             // 
             this.buttonCollisionEditor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -280,17 +291,6 @@
             this.buttonSuperFamiconv.Text = "Import SuperFamiconv\r\n/ Native Graphics...";
             this.buttonSuperFamiconv.UseVisualStyleBackColor = true;
             this.buttonSuperFamiconv.Click += new System.EventHandler(this.buttonSuperFamiconv_Click);
-            // 
-            // buttonAnimationEditor
-            // 
-            this.buttonAnimationEditor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonAnimationEditor.Enabled = false;
-            this.buttonAnimationEditor.Location = new System.Drawing.Point(6, 186);
-            this.buttonAnimationEditor.Name = "buttonAnimationEditor";
-            this.buttonAnimationEditor.Size = new System.Drawing.Size(122, 23);
-            this.buttonAnimationEditor.TabIndex = 10;
-            this.buttonAnimationEditor.Text = "Animation Editor";
-            this.buttonAnimationEditor.UseVisualStyleBackColor = true;
             // 
             // EventPlazaEditor
             // 
