@@ -95,7 +95,7 @@ namespace SatellaWave
                         {
                             for (int xt = 0; xt < 16; xt++)
                             {
-                                if (tile.bg1_tile < 0x400)
+                                if (tile.bg1_tile < 0x400 && (tile.x >= 6 && tile.x <= 9) && (tile.y >= 0xD && tile.x <= 0x13))
                                 {
                                     tilemapimage.SetPixel(((tile.x - 0x6) * 16) + xt, ((tile.y - 0xD) * 16) + yt, tileSet.GetPixel(((tile.bg1_tile % 8) * 16) + xt, ((tile.bg1_tile / 8) * 16) + yt));
                                 }
@@ -120,7 +120,7 @@ namespace SatellaWave
                     {
                         for (int xt = 0; xt < 16; xt++)
                         {
-                            if (tile.bg1_tile < 0x400)
+                            if (tile.bg1_tile < 0x400 && (tile.x >= 6 && tile.x <= 9) && (tile.y >= 0xD && tile.x <= 0x13))
                             {
                                 tilemapimage.SetPixel(((tile.x - 0x6) * 16) + xt, ((tile.y - 0xD) * 16) + yt, tileSet.GetPixel(((tile.bg1_tile % 8) * 16) + xt, ((tile.bg1_tile / 8) * 16) + yt));
                             }
