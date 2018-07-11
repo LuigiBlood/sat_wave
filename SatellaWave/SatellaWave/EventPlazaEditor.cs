@@ -69,6 +69,15 @@ namespace SatellaWave
             }
         }
 
+        private void InitTileData()
+        {
+            TILEdata = new byte[ResourceAccess.defaultTilesBSX.Length];
+            for (int i = 0; i < TILEdata.Length; i++)
+            {
+                TILEdata[i] = ResourceAccess.defaultTilesBSX[i];
+            }
+        }
+
         private void InitTileData(byte[] _tiles)
         {
             TILEdata = new byte[ResourceAccess.defaultTilesBSX.Length];
@@ -82,6 +91,15 @@ namespace SatellaWave
             }
         }
 
+        private void InitTilesetData()
+        {
+            TILESETdata = new ushort[ResourceAccess.defaultTileSetBSX.Length / 2];
+            for (int i = 0; i < TILESETdata.Length; i++)
+            {
+                TILESETdata[i] = (ushort)(ResourceAccess.defaultTileSetBSX[i * 2] | (ResourceAccess.defaultTileSetBSX[(i * 2) + 1] << 8));
+            }
+        }
+
         private void InitTilesetData(ushort[] _map)
         {
             TILESETdata = new ushort[ResourceAccess.defaultTileSetBSX.Length / 2];
@@ -91,6 +109,27 @@ namespace SatellaWave
                 if (i >= 0xF40 && i < (_map.Length + 0xF40))
                 {
                     TILESETdata[i] = _map[i - 0xF40];
+                }
+            }
+        }
+
+        private void InitPaletteData()
+        {
+            PALdata = new Color[8][];
+            for (int i = 0; i < PALdata.Length; i++)
+            {
+                PALdata[i] = new Color[16];
+                for (int j = 0; j < PALdata[i].Length; j++)
+                {
+                    ushort colordata = (ushort)(ResourceAccess.defaultPaletteBSX[(i * 32) + (j * 2)] | (ResourceAccess.defaultPaletteBSX[(i * 32) + (j * 2) + 1] << 8));
+                    int r = (int)((float)((colordata & 0x1F) / 31.0f) * 255);
+                    int g = (int)((float)(((colordata >> 5) & 0x1F) / 31.0f) * 255);
+                    int b = (int)((float)(((colordata >> 10) & 0x1F) / 31.0f) * 255);
+                
+                    if (j != 0)
+                        PALdata[i][j] = Color.FromArgb(r, g, b);
+                    else
+                        PALdata[i][j] = Color.FromArgb(0, 0, 0, 0);
                 }
             }
         }
@@ -697,6 +736,55 @@ namespace SatellaWave
                     frames.Clear();
                     frames.AddRange(animEditor.GetFrameData());
                 }
+            }
+        }
+
+        private void resetBuildingMapDataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to reset the building data?", "Reset Building Map Data", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                tileMap = new ushort[4 * 7];
+                doorLocations = new bool[4 * 7];
+                UpdateTilemapImage();
+            }
+        }
+
+        private void resetTileDataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to reset the tile graphics data?", "Reset Tile Data", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                InitTileData();
+                InitTilesetImage();
+                UpdateTilesetImage();
+                UpdateTilemapImage();
+            }
+        }
+
+        private void resetTilesetDataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to reset the tileset data?", "Reset Tileset Data", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                InitTilesetData();
+                InitTilesetImage();
+                UpdateTilesetImage();
+                UpdateTilemapImage();
+            }
+        }
+
+        private void resetCollisionDataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to reset the collision data?", "Reset Collision Data", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                COLdata = new byte[0x30];
+                UpdateTilemapImage();
+            }
+        }
+
+        private void resetAnimationDataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to reset the animation data?", "Reset Animation Data", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                frames.Clear();
             }
         }
 
