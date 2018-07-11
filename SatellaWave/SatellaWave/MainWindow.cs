@@ -96,6 +96,10 @@ namespace SatellaWave
 
             FolderSelect.FolderSelectDialog fsd = new FolderSelect.FolderSelectDialog();
             fsd.Title = "Select Export BS-X File Folder...";
+            if (Program.lastExportDirectory != "")
+            {
+                fsd.InitialDirectory = Program.lastExportDirectory;
+            }
             if (fsd.ShowDialog())
             {
                 //No \ at the end

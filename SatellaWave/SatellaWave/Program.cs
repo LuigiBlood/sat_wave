@@ -21,6 +21,7 @@ namespace SatellaWave
         public static MainWindow mainWindow;
         public static string lastSavedXMLFile = "";
         public static byte lastExportID = 0;
+        public static string lastExportDirectory = "";
 
         public static readonly string[] buildingList = {
             "Robot Tower",
@@ -1685,6 +1686,9 @@ namespace SatellaWave
 
         public static void ExportBSX(string folderPath)
         {
+            //Remember last directory path
+            lastExportDirectory = folderPath;
+
             //Check the BS-X requirements
             if (!CheckUsedChannelType(typeof(Directory)) || !CheckUsedChannelType(typeof(TownStatus)))
             {
