@@ -56,6 +56,7 @@
             this.resetCollisionDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resetAnimationDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resetBuildingMapDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.buttonQuitNoSave = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTileset)).BeginInit();
@@ -91,26 +92,26 @@
             // importToolStripMenuItem
             // 
             this.importToolStripMenuItem.Name = "importToolStripMenuItem";
-            this.importToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.importToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.importToolStripMenuItem.Text = "Import Building...";
             this.importToolStripMenuItem.Click += new System.EventHandler(this.importToolStripMenuItem_Click);
             // 
             // exportToolStripMenuItem
             // 
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.exportToolStripMenuItem.Text = "Export Building...";
             this.exportToolStripMenuItem.Click += new System.EventHandler(this.exportToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(163, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(176, 6);
             // 
             // saveQuitToolStripMenuItem
             // 
             this.saveQuitToolStripMenuItem.Name = "saveQuitToolStripMenuItem";
-            this.saveQuitToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.saveQuitToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.saveQuitToolStripMenuItem.Text = "Save && Quit";
             this.saveQuitToolStripMenuItem.Click += new System.EventHandler(this.buttonSave_Click);
             // 
@@ -173,7 +174,7 @@
             this.groupBox2.Controls.Add(this.radioButtonBuildingMode);
             this.groupBox2.Location = new System.Drawing.Point(152, 28);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(292, 41);
+            this.groupBox2.Size = new System.Drawing.Size(139, 41);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Editor Mode";
@@ -181,7 +182,7 @@
             // radioButtonDoorMode
             // 
             this.radioButtonDoorMode.AutoSize = true;
-            this.radioButtonDoorMode.Location = new System.Drawing.Point(91, 16);
+            this.radioButtonDoorMode.Location = new System.Drawing.Point(82, 16);
             this.radioButtonDoorMode.Name = "radioButtonDoorMode";
             this.radioButtonDoorMode.Size = new System.Drawing.Size(48, 17);
             this.radioButtonDoorMode.TabIndex = 2;
@@ -207,7 +208,7 @@
             // 
             this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonSave.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.buttonSave.Location = new System.Drawing.Point(6, 225);
+            this.buttonSave.Location = new System.Drawing.Point(6, 238);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(122, 23);
             this.buttonSave.TabIndex = 4;
@@ -219,7 +220,7 @@
             // buttonTilesetEditor
             // 
             this.buttonTilesetEditor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonTilesetEditor.Location = new System.Drawing.Point(6, 157);
+            this.buttonTilesetEditor.Location = new System.Drawing.Point(6, 164);
             this.buttonTilesetEditor.Name = "buttonTilesetEditor";
             this.buttonTilesetEditor.Size = new System.Drawing.Size(122, 23);
             this.buttonTilesetEditor.TabIndex = 5;
@@ -252,6 +253,7 @@
             // groupBox3
             // 
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox3.Controls.Add(this.buttonQuitNoSave);
             this.groupBox3.Controls.Add(this.buttonAnimationEditor);
             this.groupBox3.Controls.Add(this.buttonCollisionEditor);
             this.groupBox3.Controls.Add(this.buttonSuperFamiconv);
@@ -259,9 +261,9 @@
             this.groupBox3.Controls.Add(this.buttonExport);
             this.groupBox3.Controls.Add(this.buttonSave);
             this.groupBox3.Controls.Add(this.buttonTilesetEditor);
-            this.groupBox3.Location = new System.Drawing.Point(310, 75);
+            this.groupBox3.Location = new System.Drawing.Point(310, 28);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(134, 254);
+            this.groupBox3.Size = new System.Drawing.Size(134, 300);
             this.groupBox3.TabIndex = 8;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Menu";
@@ -269,7 +271,7 @@
             // buttonAnimationEditor
             // 
             this.buttonAnimationEditor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonAnimationEditor.Location = new System.Drawing.Point(6, 186);
+            this.buttonAnimationEditor.Location = new System.Drawing.Point(6, 193);
             this.buttonAnimationEditor.Name = "buttonAnimationEditor";
             this.buttonAnimationEditor.Size = new System.Drawing.Size(122, 23);
             this.buttonAnimationEditor.TabIndex = 10;
@@ -280,7 +282,7 @@
             // buttonCollisionEditor
             // 
             this.buttonCollisionEditor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonCollisionEditor.Location = new System.Drawing.Point(6, 128);
+            this.buttonCollisionEditor.Location = new System.Drawing.Point(6, 135);
             this.buttonCollisionEditor.Name = "buttonCollisionEditor";
             this.buttonCollisionEditor.Size = new System.Drawing.Size(122, 23);
             this.buttonCollisionEditor.TabIndex = 9;
@@ -291,7 +293,7 @@
             // buttonSuperFamiconv
             // 
             this.buttonSuperFamiconv.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSuperFamiconv.Location = new System.Drawing.Point(6, 85);
+            this.buttonSuperFamiconv.Location = new System.Drawing.Point(6, 92);
             this.buttonSuperFamiconv.Name = "buttonSuperFamiconv";
             this.buttonSuperFamiconv.Size = new System.Drawing.Size(122, 37);
             this.buttonSuperFamiconv.TabIndex = 8;
@@ -346,11 +348,22 @@
             this.resetBuildingMapDataToolStripMenuItem.Text = "Reset Building Map Data";
             this.resetBuildingMapDataToolStripMenuItem.Click += new System.EventHandler(this.resetBuildingMapDataToolStripMenuItem_Click);
             // 
+            // buttonQuitNoSave
+            // 
+            this.buttonQuitNoSave.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.buttonQuitNoSave.Location = new System.Drawing.Point(6, 267);
+            this.buttonQuitNoSave.Name = "buttonQuitNoSave";
+            this.buttonQuitNoSave.Size = new System.Drawing.Size(122, 23);
+            this.buttonQuitNoSave.TabIndex = 11;
+            this.buttonQuitNoSave.Text = "Quit without Saving";
+            this.buttonQuitNoSave.UseVisualStyleBackColor = true;
+            // 
             // EventPlazaEditor
             // 
             this.AcceptButton = this.buttonSave;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.buttonQuitNoSave;
             this.ClientSize = new System.Drawing.Size(456, 340);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -405,5 +418,6 @@
         private System.Windows.Forms.ToolStripMenuItem resetTilesetDataToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem resetCollisionDataToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem resetAnimationDataToolStripMenuItem;
+        private System.Windows.Forms.Button buttonQuitNoSave;
     }
 }
