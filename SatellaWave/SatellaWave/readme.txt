@@ -1,4 +1,4 @@
-﻿SatellaWave 0.3.1 (2018-01-09)
+﻿SatellaWave 0.4.0 (2018-07-12)
 by LuigiBlood
 
 This software can make Satellaview compatible server binary files.
@@ -6,10 +6,8 @@ A tree of channels is managed by the user and it is possible to save, then load 
 You can then export to binary files compatible with SNES emulators that supports them.
 
 As of this time of writing, the SNES emulators that supports such files are:
-- bsnes-plus v073+3 and later (in bsxdat folder)
-- SNES9X 1.55 and later (in SatData folder by default)
-
-However, the bigger files to be downloaded are only supported in development versions from LuigiBlood, so you may have to compile those versions yourself (repositories can be found at https://github.com/LuigiBlood).
+- bsnes-plus v074 and later (in bsxdat folder)
+- SNES9X 1.56 and later (in SatData folder by default)
 
 Currently supported channels:
 - Message Channel
@@ -18,12 +16,28 @@ Currently supported channels:
 	- Folders
 		- Files (also Include Files)
 		- Items
+	- Expansion - Event Plaza
 - Patch
 - Time Channel (BS-X - Global)
 - Time Channel (Game Specific)
 - Shigesato Itoi no Bass Fishing No. 1 Contest Channels
 
+Notes about SuperFamiconv:
+SuperFamiconv (by Optiroc) can be found here for Custom Event Plaza Buildings: https://github.com/Optiroc/SuperFamiconv
+Make sure the palette mode has subpalettes set to 1 (-P 1), and map mode is for 8x14 tilemap.
+To make it easier, the original picture has to be 64x112 (you can still cheat a bit).
+
 Changelog:
+0.4.0 (2018-07-12)
+- Full Event Plaza Expansion Support
+- Automatically adapt the header for Memory Pack downloads
+- Prevent making too many files in folders
+- Update Window when you create a new / load repository (bugfix)
+- Unix ready support for Export (bugfix) [LittleToonCat]
+- Fix SNES Patch loading from repository (bugfix) [LittleToonCat]
+- Fix latest BS-X Patch (bugfix, now it works)
+NOTE: As of this release, all aforementioned emulators fully supports file downloads now. I suggest to use the latest BS-X Patch channel for stable downloads in BS-X.
+
 0.3.1 (2018-01-09)
 - Prevent Folder and File Descriptions to be too long.
 - Automatically select the recommended file destination after browsing the file.
