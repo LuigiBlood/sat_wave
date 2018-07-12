@@ -131,37 +131,19 @@ namespace SatellaWave
                 textBoxFileItem_FilePath.Text = fileloadDialog.FileName;
                 Stream _getFileData = fileloadDialog.OpenFile();
                 long filesize = _getFileData.Length;
-                byte[] fileheaderlo = new byte[48];
-                byte[] fileheaderhi = new byte[48];
+                long headeroffset = Program.FindFirstBSContentHeader(_getFileData);
 
-                _getFileData.Seek(0x7FB0, SeekOrigin.Begin);
-                _getFileData.Read(fileheaderlo, 0, 48);           //Get header at 7FB0 - 7FDF
-                _getFileData.Seek(0xFFB0, SeekOrigin.Begin);
-                _getFileData.Read(fileheaderhi, 0, 48);           //Get header at FFB0 - FFDF
-
-                //Check Checksum and Fixed Byte
-                if (((fileheaderlo[0x2C] ^ fileheaderlo[0x2E]) == 0xFF)
-                    && ((fileheaderlo[0x2D] ^ fileheaderlo[0x2F]) == 0xFF)
-                    && ((fileheaderlo[0x2A] == 0x33) || (fileheaderlo[0x2A] == 0xFF)))
+                if (headeroffset != -1)
                 {
-                    //LoROM confirmed
+                    byte[] fileheader = new byte[48];
 
-                    //Verify File Size if possible
-                    if ((fileheaderlo[0x20] != 0) && (fileheaderlo[0x21] == 0) && (fileheaderlo[0x22] == 0) && (fileheaderlo[0x23] == 0))
-                    {
-                        filesize = 0x20000 * Program.BitCount(fileheaderlo[0x20]);
-                    }
-                }
-                else if (((fileheaderhi[0x2C] ^ fileheaderhi[0x2E]) == 0xFF)
-                    && ((fileheaderhi[0x2D] ^ fileheaderhi[0x2F]) == 0xFF)
-                    && ((fileheaderhi[0x2A] == 0x33) || (fileheaderhi[0x2A] == 0xFF)))
-                {
-                    //HiROM confirmed
+                    _getFileData.Seek(headeroffset, SeekOrigin.Begin);
+                    _getFileData.Read(fileheader, 0, 48);
 
-                    //Verify File Size if possible
-                    if ((fileheaderhi[0x20] != 0) && (fileheaderhi[0x21] == 0) && (fileheaderhi[0x22] == 0) && (fileheaderhi[0x23] == 0))
+                    //Check Checksum and Fixed Byte
+                    if ((fileheader[0x20] != 0) && (fileheader[0x21] == 0) && (fileheader[0x22] == 0) && (fileheader[0x23] == 0))
                     {
-                        filesize = 0x20000 * Program.BitCount(fileheaderhi[0x20]);
+                        filesize = 0x20000 * Program.BitCount(fileheader[0x20]);
                     }
                 }
 

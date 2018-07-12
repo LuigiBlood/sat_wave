@@ -1851,39 +1851,29 @@ namespace SatellaWave
 
                                     //Find file header
                                     byte filecheck = 0;     //0 = LoROM, 1 = HiROM, 2 = Not found
-                                    byte[] fileheaderlo = new byte[48];
-                                    byte[] fileheaderhi = new byte[48];
-
-                                    downloadFile.Seek(0x7FB0, SeekOrigin.Begin);
-                                    downloadFile.Read(fileheaderlo, 0, 48);           //Get header at 7FB0 - 7FDF
-                                    downloadFile.Seek(0xFFB0, SeekOrigin.Begin);
-                                    downloadFile.Read(fileheaderhi, 0, 48);           //Get header at FFB0 - FFDF
-
-                                    //Check Checksum and Fixed Byte
-                                    if (((fileheaderlo[0x2C] ^ fileheaderlo[0x2E]) == 0xFF)
-                                        && ((fileheaderlo[0x2D] ^ fileheaderlo[0x2F]) == 0xFF)
-                                        && ((fileheaderlo[0x2A] == 0x33) || (fileheaderlo[0x2A] == 0xFF)))
+                                    long headeroffset = FindFirstBSContentHeader(downloadFile);
+                                    byte[] fileheader = new byte[48];
+                                    if (headeroffset != -1)
                                     {
-                                        //LoROM confirmed
-                                        filecheck = 0;
+                                        downloadFile.Seek(headeroffset, SeekOrigin.Begin);
+                                        downloadFile.Read(fileheader, 0, 48);
 
-                                        //Verify File Size if possible
-                                        if ((fileheaderlo[0x20] != 0) && (fileheaderlo[0x21] == 0) && (fileheaderlo[0x22] == 0) && (fileheaderlo[0x23] == 0))
+                                        //Check Checksum and Fixed Byte
+                                        if ((headeroffset & 0xFFFF) == 0x7FB0)
                                         {
-                                            (_File.Tag as DownloadFile).filesize = 0x20000 * BitCount(fileheaderlo[0x20]);
+                                            //LoROM confirmed
+                                            filecheck = 0;
                                         }
-                                    }
-                                    else if (((fileheaderhi[0x2C] ^ fileheaderhi[0x2E]) == 0xFF)
-                                        && ((fileheaderhi[0x2D] ^ fileheaderhi[0x2F]) == 0xFF)
-                                        && ((fileheaderhi[0x2A] == 0x33) || (fileheaderhi[0x2A] == 0xFF)))
-                                    {
-                                        //HiROM confirmed
-                                        filecheck = 1;
+                                        else
+                                        {
+                                            //HiROM confirmed
+                                            filecheck = 1;
+                                        }
 
                                         //Verify File Size if possible
-                                        if ((fileheaderhi[0x20] != 0) && (fileheaderhi[0x21] == 0) && (fileheaderhi[0x22] == 0) && (fileheaderhi[0x23] == 0))
+                                        if ((fileheader[0x20] != 0) && (fileheader[0x21] == 0) && (fileheader[0x22] == 0) && (fileheader[0x23] == 0))
                                         {
-                                            (_File.Tag as DownloadFile).filesize = 0x20000 * BitCount(fileheaderhi[0x20]);
+                                                (_File.Tag as DownloadFile).filesize = 0x20000 * BitCount(fileheader[0x20]);
                                         }
                                     }
                                     else
@@ -1913,7 +1903,14 @@ namespace SatellaWave
                                     }
 
                                     byte[] downloadFileArray = new byte[(_File.Tag as DownloadFile).filesize];
-                                    downloadFile.Seek(0, SeekOrigin.Begin);
+                                    if (headeroffset != -1)
+                                    {
+                                        downloadFile.Seek(headeroffset & 0xFF0000, SeekOrigin.Begin);
+                                    }
+                                    else
+                                    {
+                                        downloadFile.Seek(0, SeekOrigin.Begin);
+                                    }
                                     downloadFile.Read(downloadFileArray, 0, (_File.Tag as DownloadFile).filesize);
 
                                     if (filecheck < 2 && (_File.Tag as DownloadFile).dest >= 2)
@@ -2057,11 +2054,7 @@ namespace SatellaWave
                                         FileStream downloadInclFile = new FileStream((_File.Nodes[inclCount].Tag as DownloadFile).filepath, FileMode.Open);
                                         (_File.Nodes[inclCount].Tag as DownloadFile).filesize = (int)downloadInclFile.Length;
 
-                                        byte[] downloadInclFileArray = new byte[(_File.Nodes[inclCount].Tag as DownloadFile).filesize];
-                                        downloadInclFile.Read(downloadInclFileArray, 0, (int)downloadInclFile.Length);
-
-                                        downloadInclFile.Close();
-
+                                        //Size Check
                                         if ((_File.Nodes[inclCount].Tag as DownloadFile).dest == 1 && (_File.Nodes[inclCount].Tag as DownloadFile).filesize > 0x80000)
                                         {
                                             MessageBox.Show("File is bigger than 512KB. The PSRAM cannot hold it on BS-X.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -2077,6 +2070,12 @@ namespace SatellaWave
                                             MessageBox.Show("File is bigger than 512KB. The Memory Pack cannot hold it. Set the file destination to Memory Pack (Full).", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                             return;
                                         }
+
+                                        byte[] downloadInclFileArray = new byte[(_File.Nodes[inclCount].Tag as DownloadFile).filesize];
+                                        downloadInclFile.Seek(0, SeekOrigin.Begin);
+                                        downloadInclFile.Read(downloadInclFileArray, 0, (int)downloadInclFile.Length);
+
+                                        downloadInclFile.Close();
 
                                         SaveChannelFile(downloadInclFileArray, (_File.Nodes[inclCount].Tag as DownloadFile).lci, folderPath);
 
@@ -2613,6 +2612,38 @@ namespace SatellaWave
                 }
                 chnfile.Close();
             }
+        }
+
+        public static long FindFirstBSContentHeader(Stream _file)
+        {
+            //returns offset (-1 = not found)
+            byte[] fileheaderlo = new byte[48];
+            byte[] fileheaderhi = new byte[48];
+            for (int i = 0; i < (_file.Length / 0x20000); i++)
+            {
+                _file.Seek(0x7FB0 + (i * 0x20000), SeekOrigin.Begin);
+                _file.Read(fileheaderlo, 0, 48);           //Get header at 7FB0 - 7FDF
+                _file.Seek(0xFFB0 + (i * 0x20000), SeekOrigin.Begin);
+                _file.Read(fileheaderhi, 0, 48);           //Get header at FFB0 - FFDF
+
+                //Check Checksum and Fixed Byte
+                if (((fileheaderlo[0x2C] ^ fileheaderlo[0x2E]) == 0xFF)
+                    && ((fileheaderlo[0x2D] ^ fileheaderlo[0x2F]) == 0xFF)
+                    && ((fileheaderlo[0x2A] == 0x33) || (fileheaderlo[0x2A] == 0xFF)))
+                {
+                    //LoROM confirmed
+                    return 0x7FB0 + (i * 0x20000);
+                }
+                else if (((fileheaderhi[0x2C] ^ fileheaderhi[0x2E]) == 0xFF)
+                    && ((fileheaderhi[0x2D] ^ fileheaderhi[0x2F]) == 0xFF)
+                    && ((fileheaderhi[0x2A] == 0x33) || (fileheaderhi[0x2A] == 0xFF)))
+                {
+                    //HiROM confirmed
+                    return 0xFFB0 + (i * 0x20000);
+                }
+            }
+
+            return -1;
         }
 
         public static byte[] ConvertToBSXStringBytes(string _string)
