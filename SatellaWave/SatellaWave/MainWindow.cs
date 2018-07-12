@@ -140,8 +140,8 @@ namespace SatellaWave
                 _getFileData.Read(fileheaderhi, 0, 48);           //Get header at FFB0 - FFDF
 
                 //Check Checksum and Fixed Byte
-                if (((fileheaderlo[0x2C] | fileheaderlo[0x2E]) == 0xFF)
-                    && ((fileheaderlo[0x2D] | fileheaderlo[0x2F]) == 0xFF)
+                if (((fileheaderlo[0x2C] ^ fileheaderlo[0x2E]) == 0xFF)
+                    && ((fileheaderlo[0x2D] ^ fileheaderlo[0x2F]) == 0xFF)
                     && ((fileheaderlo[0x2A] == 0x33) || (fileheaderlo[0x2A] == 0xFF)))
                 {
                     //LoROM confirmed
@@ -152,8 +152,8 @@ namespace SatellaWave
                         filesize = 0x20000 * Program.BitCount(fileheaderlo[0x20]);
                     }
                 }
-                else if (((fileheaderhi[0x2C] | fileheaderhi[0x2E]) == 0xFF)
-                    && ((fileheaderhi[0x2D] | fileheaderhi[0x2F]) == 0xFF)
+                else if (((fileheaderhi[0x2C] ^ fileheaderhi[0x2E]) == 0xFF)
+                    && ((fileheaderhi[0x2D] ^ fileheaderhi[0x2F]) == 0xFF)
                     && ((fileheaderhi[0x2A] == 0x33) || (fileheaderhi[0x2A] == 0xFF)))
                 {
                     //HiROM confirmed
