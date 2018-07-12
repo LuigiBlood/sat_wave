@@ -1849,6 +1849,53 @@ namespace SatellaWave
                                     FileStream downloadFile = new FileStream((_File.Tag as DownloadFile).filepath, FileMode.Open);
                                     (_File.Tag as DownloadFile).filesize = (int)downloadFile.Length;
 
+                                    //Find file header
+                                    byte filecheck = 0;     //0 = LoROM, 1 = HiROM, 2 = Not found
+                                    byte[] fileheaderlo = new byte[48];
+                                    byte[] fileheaderhi = new byte[48];
+
+                                    downloadFile.Seek(0x7FB0, SeekOrigin.Begin);
+                                    downloadFile.Read(fileheaderlo, 0, 48);           //Get header at 7FB0 - 7FDF
+                                    downloadFile.Seek(0xFFB0, SeekOrigin.Begin);
+                                    downloadFile.Read(fileheaderhi, 0, 48);           //Get header at FFB0 - FFDF
+
+                                    //Check Checksum and Fixed Byte
+                                    if (((fileheaderlo[0x2C] | fileheaderlo[0x2E]) == 0xFF)
+                                        && ((fileheaderlo[0x2D] | fileheaderlo[0x2F]) == 0xFF)
+                                        && ((fileheaderlo[0x2A] == 0x33) || (fileheaderlo[0x2A] == 0xFF)))
+                                    {
+                                        //LoROM confirmed
+                                        filecheck = 0;
+
+                                        //Verify File Size if possible
+                                        if ((fileheaderlo[0x20] != 0) && (fileheaderlo[0x21] == 0) && (fileheaderlo[0x22] == 0) && (fileheaderlo[0x23] == 0))
+                                        {
+                                            (_File.Tag as DownloadFile).filesize = 0x20000 * BitCount(fileheaderlo[0x20]);
+                                        }
+                                    }
+                                    else if (((fileheaderhi[0x2C] | fileheaderhi[0x2E]) == 0xFF)
+                                        && ((fileheaderhi[0x2D] | fileheaderhi[0x2F]) == 0xFF)
+                                        && ((fileheaderhi[0x2A] == 0x33) || (fileheaderhi[0x2A] == 0xFF)))
+                                    {
+                                        //HiROM confirmed
+                                        filecheck = 1;
+
+                                        //Verify File Size if possible
+                                        if ((fileheaderhi[0x20] != 0) && (fileheaderhi[0x21] == 0) && (fileheaderhi[0x22] == 0) && (fileheaderhi[0x23] == 0))
+                                        {
+                                            (_File.Tag as DownloadFile).filesize = 0x20000 * BitCount(fileheaderhi[0x20]);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        filecheck = 2;
+                                        if (MessageBox.Show("The header of file [" + (_File.Tag as DownloadFile).name + "] in folder [" + (_Folder.Tag as Folder).name + "] couldn't be found. Do you want to continue the export?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                                        {
+                                            return;
+                                        }
+                                    }
+
+                                    //File Size Check
                                     if ((_File.Tag as DownloadFile).dest == 1 && (_File.Tag as DownloadFile).filesize > 0x80000)
                                     {
                                         MessageBox.Show("File is bigger than 512KB. The PSRAM cannot hold it on BS-X.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -1866,7 +1913,28 @@ namespace SatellaWave
                                     }
 
                                     byte[] downloadFileArray = new byte[(_File.Tag as DownloadFile).filesize];
-                                    downloadFile.Read(downloadFileArray, 0, (int)downloadFile.Length);
+                                    downloadFile.Seek(0, SeekOrigin.Begin);
+                                    downloadFile.Read(downloadFileArray, 0, (_File.Tag as DownloadFile).filesize);
+
+                                    if (filecheck < 2 && (_File.Tag as DownloadFile).dest >= 2)
+                                    {
+                                        //Adapt header for Memory Pack download
+                                        int offset = 0x7FD0 | (0x8000 * filecheck);
+                                        downloadFileArray[offset + 0x00] = 0xFF;
+                                        downloadFileArray[offset + 0x01] = 0xFF;
+                                        downloadFileArray[offset + 0x02] = 0xFF;
+                                        downloadFileArray[offset + 0x03] = 0xFF;
+
+                                        if ((downloadFileArray[offset + 0x05] == 0x80) && (downloadFileArray[offset + 0x04] == 0))
+                                        {
+                                            //Give one limited start
+                                            downloadFileArray[offset + 0x04] = 0x01;
+                                        }
+
+                                        downloadFileArray[offset + 0x06] = 0xFF;
+                                        downloadFileArray[offset + 0x07] = 0xFF;
+                                        downloadFileArray[offset + 0x0A] = 0xFF;
+                                    }
 
                                     downloadFile.Close();
 
@@ -2562,6 +2630,13 @@ namespace SatellaWave
             _convstring = _convstring.Replace("\r", " ");
 
             return Encoding.Convert(Encoding.UTF8, Encoding.GetEncoding(932), Encoding.UTF8.GetBytes(_convstring));
+        }
+
+        public static int BitCount(int i)
+        {
+            i = i - ((i >> 1) & 0x55555555);
+            i = (i & 0x33333333) + ((i >> 2) & 0x33333333);
+            return (((i + (i >> 4)) & 0x0F0F0F0F) * 0x01010101) >> 24;
         }
     }
 }

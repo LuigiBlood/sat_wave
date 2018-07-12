@@ -130,7 +130,42 @@ namespace SatellaWave
             {
                 textBoxFileItem_FilePath.Text = fileloadDialog.FileName;
                 Stream _getFileData = fileloadDialog.OpenFile();
-                if (_getFileData.Length <= 0x80000)
+                long filesize = _getFileData.Length;
+                byte[] fileheaderlo = new byte[48];
+                byte[] fileheaderhi = new byte[48];
+
+                _getFileData.Seek(0x7FB0, SeekOrigin.Begin);
+                _getFileData.Read(fileheaderlo, 0, 48);           //Get header at 7FB0 - 7FDF
+                _getFileData.Seek(0xFFB0, SeekOrigin.Begin);
+                _getFileData.Read(fileheaderhi, 0, 48);           //Get header at FFB0 - FFDF
+
+                //Check Checksum and Fixed Byte
+                if (((fileheaderlo[0x2C] | fileheaderlo[0x2E]) == 0xFF)
+                    && ((fileheaderlo[0x2D] | fileheaderlo[0x2F]) == 0xFF)
+                    && ((fileheaderlo[0x2A] == 0x33) || (fileheaderlo[0x2A] == 0xFF)))
+                {
+                    //LoROM confirmed
+
+                    //Verify File Size if possible
+                    if ((fileheaderlo[0x20] != 0) && (fileheaderlo[0x21] == 0) && (fileheaderlo[0x22] == 0) && (fileheaderlo[0x23] == 0))
+                    {
+                        filesize = 0x20000 * Program.BitCount(fileheaderlo[0x20]);
+                    }
+                }
+                else if (((fileheaderhi[0x2C] | fileheaderhi[0x2E]) == 0xFF)
+                    && ((fileheaderhi[0x2D] | fileheaderhi[0x2F]) == 0xFF)
+                    && ((fileheaderhi[0x2A] == 0x33) || (fileheaderhi[0x2A] == 0xFF)))
+                {
+                    //HiROM confirmed
+
+                    //Verify File Size if possible
+                    if ((fileheaderhi[0x20] != 0) && (fileheaderhi[0x21] == 0) && (fileheaderhi[0x22] == 0) && (fileheaderhi[0x23] == 0))
+                    {
+                        filesize = 0x20000 * Program.BitCount(fileheaderhi[0x20]);
+                    }
+                }
+
+                if (filesize <= 0x80000)
                 {
                     comboBoxFileItem_Destination.SelectedIndex = 3;
                 }
