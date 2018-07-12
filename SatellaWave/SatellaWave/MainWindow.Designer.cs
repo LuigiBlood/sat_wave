@@ -62,6 +62,7 @@
             this.textBoxMessage = new System.Windows.Forms.TextBox();
             this.contextMenuStripDirectoryMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemDirectory_NewFolder = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemDirectory_NewEventPlaza = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItemDirectory_Edit = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemDirectory_Delete = new System.Windows.Forms.ToolStripMenuItem();
@@ -127,13 +128,12 @@
             this.label20 = new System.Windows.Forms.Label();
             this.comboBoxPatchType = new System.Windows.Forms.ComboBox();
             this.contextMenuStripEventPlazaMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripMenuItemDirectory_NewEventPlaza = new System.Windows.Forms.ToolStripMenuItem();
             this.editEventPlazaBuildingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteExpansionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBoxEventPlaza = new System.Windows.Forms.GroupBox();
-            this.label24 = new System.Windows.Forms.Label();
-            this.textBoxEventPlazaName = new System.Windows.Forms.TextBox();
             this.buttonEventPlazaEditor = new System.Windows.Forms.Button();
+            this.textBoxEventPlazaName = new System.Windows.Forms.TextBox();
+            this.label24 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.groupBoxTown.SuspendLayout();
             this.contextMenuStripChannelMenu.SuspendLayout();
@@ -548,6 +548,13 @@
             this.toolStripMenuItemDirectory_NewFolder.Size = new System.Drawing.Size(226, 22);
             this.toolStripMenuItemDirectory_NewFolder.Text = "Create New Folder";
             this.toolStripMenuItemDirectory_NewFolder.Click += new System.EventHandler(this.createFolder);
+            // 
+            // toolStripMenuItemDirectory_NewEventPlaza
+            // 
+            this.toolStripMenuItemDirectory_NewEventPlaza.Name = "toolStripMenuItemDirectory_NewEventPlaza";
+            this.toolStripMenuItemDirectory_NewEventPlaza.Size = new System.Drawing.Size(226, 22);
+            this.toolStripMenuItemDirectory_NewEventPlaza.Text = "Create Event Plaza Expansion";
+            this.toolStripMenuItemDirectory_NewEventPlaza.Click += new System.EventHandler(this.createEventPlaza);
             // 
             // toolStripSeparator3
             // 
@@ -1263,13 +1270,6 @@
             this.contextMenuStripEventPlazaMenu.Name = "contextMenuStripEventPlazaMenu";
             this.contextMenuStripEventPlazaMenu.Size = new System.Drawing.Size(204, 48);
             // 
-            // toolStripMenuItemDirectory_NewEventPlaza
-            // 
-            this.toolStripMenuItemDirectory_NewEventPlaza.Name = "toolStripMenuItemDirectory_NewEventPlaza";
-            this.toolStripMenuItemDirectory_NewEventPlaza.Size = new System.Drawing.Size(226, 22);
-            this.toolStripMenuItemDirectory_NewEventPlaza.Text = "Create Event Plaza Expansion";
-            this.toolStripMenuItemDirectory_NewEventPlaza.Click += new System.EventHandler(this.createEventPlaza);
-            // 
             // editEventPlazaBuildingToolStripMenuItem
             // 
             this.editEventPlazaBuildingToolStripMenuItem.Name = "editEventPlazaBuildingToolStripMenuItem";
@@ -1296,32 +1296,32 @@
             this.groupBoxEventPlaza.Text = "Event Plaza";
             this.groupBoxEventPlaza.Visible = false;
             // 
-            // label24
+            // buttonEventPlazaEditor
             // 
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(23, 29);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(38, 13);
-            this.label24.TabIndex = 0;
-            this.label24.Text = "Name:";
+            this.buttonEventPlazaEditor.Location = new System.Drawing.Point(43, 64);
+            this.buttonEventPlazaEditor.Name = "buttonEventPlazaEditor";
+            this.buttonEventPlazaEditor.Size = new System.Drawing.Size(148, 34);
+            this.buttonEventPlazaEditor.TabIndex = 2;
+            this.buttonEventPlazaEditor.Text = "Event Plaza Editor";
+            this.buttonEventPlazaEditor.UseVisualStyleBackColor = true;
+            this.buttonEventPlazaEditor.Click += new System.EventHandler(this.buttonEventPlazaEditor_Click);
             // 
             // textBoxEventPlazaName
             // 
-            this.textBoxEventPlazaName.Location = new System.Drawing.Point(77, 26);
+            this.textBoxEventPlazaName.Location = new System.Drawing.Point(107, 25);
             this.textBoxEventPlazaName.Name = "textBoxEventPlazaName";
             this.textBoxEventPlazaName.Size = new System.Drawing.Size(100, 20);
             this.textBoxEventPlazaName.TabIndex = 1;
             this.textBoxEventPlazaName.TextChanged += new System.EventHandler(this.textBoxEventPlazaName_TextChanged);
             // 
-            // buttonEventPlazaEditor
+            // label24
             // 
-            this.buttonEventPlazaEditor.Location = new System.Drawing.Point(26, 77);
-            this.buttonEventPlazaEditor.Name = "buttonEventPlazaEditor";
-            this.buttonEventPlazaEditor.Size = new System.Drawing.Size(148, 53);
-            this.buttonEventPlazaEditor.TabIndex = 2;
-            this.buttonEventPlazaEditor.Text = "Edit Event Plaza Building";
-            this.buttonEventPlazaEditor.UseVisualStyleBackColor = true;
-            this.buttonEventPlazaEditor.Click += new System.EventHandler(this.buttonEventPlazaEditor_Click);
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(23, 29);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(78, 13);
+            this.label24.TabIndex = 0;
+            this.label24.Text = "Building Name:";
             // 
             // MainWindow
             // 
