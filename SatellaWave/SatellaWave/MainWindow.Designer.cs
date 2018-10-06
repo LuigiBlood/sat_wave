@@ -269,8 +269,8 @@
             "[Coconut at the Beach]",
             "Dr. Hiroshi",
             "Dororin",
-            "Temple Guardian Left",
-            "Temple Guardian Right",
+            "Hikari Ota (Bakusho Mondai)",
+            "Yuji Tanaka (Bakusho Mondai)",
             "Ghost",
             "Otakuman",
             "Gorou",
@@ -1328,12 +1328,12 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(609, 372);
+            this.Controls.Add(this.groupBoxTown);
             this.Controls.Add(this.groupBoxEventPlaza);
             this.Controls.Add(this.groupBoxDirectory);
             this.Controls.Add(this.groupBoxPatch);
             this.Controls.Add(this.groupBoxFolder);
             this.Controls.Add(this.groupBoxFileItem);
-            this.Controls.Add(this.groupBoxTown);
             this.Controls.Add(this.groupBoxMessage);
             this.Controls.Add(this.treeViewChn);
             this.Controls.Add(this.menuStrip1);
