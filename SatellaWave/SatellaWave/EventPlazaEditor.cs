@@ -788,6 +788,31 @@ namespace SatellaWave
             }
         }
 
+        private void resetAllBuildingDataMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to reset all the current data?", "Reset All Data", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                //Building Map
+                tileMap = new ushort[4 * 7];
+                doorLocations = new bool[4 * 7];
+
+                //Tile Graphics and Tile Set Data
+                InitTileData();
+                InitTilesetData();
+                InitTilesetImage();
+
+                //Collision Data
+                COLdata = new byte[0x30];
+
+                //Animation Data
+                frames.Clear();
+
+                //We're all done here, update the display.
+                UpdateTilesetImage();
+                UpdateTilemapImage();
+            }
+        }
+
         //Save
         public ushort[] GetTileMap()
         {

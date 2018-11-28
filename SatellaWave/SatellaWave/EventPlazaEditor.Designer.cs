@@ -56,6 +56,7 @@
             this.resetCollisionDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resetAnimationDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resetBuildingMapDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.resetAllBuildingDataMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonQuitNoSave = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -308,7 +309,8 @@
             this.resetTileDataToolStripMenuItem,
             this.resetTilesetDataToolStripMenuItem,
             this.resetCollisionDataToolStripMenuItem,
-            this.resetAnimationDataToolStripMenuItem});
+            this.resetAnimationDataToolStripMenuItem,
+            this.resetAllBuildingDataMenuItem});
             this.resetToolStripMenuItem.Name = "resetToolStripMenuItem";
             this.resetToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
             this.resetToolStripMenuItem.Text = "Reset";
@@ -347,6 +349,13 @@
             this.resetBuildingMapDataToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             this.resetBuildingMapDataToolStripMenuItem.Text = "Reset Building Map Data";
             this.resetBuildingMapDataToolStripMenuItem.Click += new System.EventHandler(this.resetBuildingMapDataToolStripMenuItem_Click);
+            //
+            // resetAllBuildingDataMenuItem
+            //
+            this.resetAllBuildingDataMenuItem.Name = "resetAllBuildingDataMenuItem";
+            this.resetAllBuildingDataMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.resetAllBuildingDataMenuItem.Text = "Reset All Data";
+            this.resetAllBuildingDataMenuItem.Click += new System.EventHandler(this.resetAllBuildingDataMenuItem_Click);
             // 
             // buttonQuitNoSave
             // 
@@ -418,6 +427,7 @@
         private System.Windows.Forms.ToolStripMenuItem resetTilesetDataToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem resetCollisionDataToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem resetAnimationDataToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem resetAllBuildingDataMenuItem;
         private System.Windows.Forms.Button buttonQuitNoSave;
     }
 }
