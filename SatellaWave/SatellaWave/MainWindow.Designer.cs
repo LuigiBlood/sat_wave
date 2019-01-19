@@ -1275,6 +1275,7 @@
             this.editEventPlazaBuildingToolStripMenuItem.Name = "editEventPlazaBuildingToolStripMenuItem";
             this.editEventPlazaBuildingToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             this.editEventPlazaBuildingToolStripMenuItem.Text = "Edit Event Plaza Building";
+            this.editEventPlazaBuildingToolStripMenuItem.Click += new System.EventHandler(this.buttonEventPlazaEditor_Click);
             // 
             // deleteExpansionToolStripMenuItem
             // 
