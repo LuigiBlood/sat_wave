@@ -680,11 +680,11 @@ namespace SatellaWave
                         }
 
                         tileMap = gfximport.GetCustomTileMap();
-
-                        InitTilesetImage();
-                        UpdateTilesetImage();
-                        UpdateTilemapImage();
                     }
+
+                    InitTilesetImage();
+                    UpdateTilesetImage();
+                    UpdateTilemapImage();
                 }
             }
         }
