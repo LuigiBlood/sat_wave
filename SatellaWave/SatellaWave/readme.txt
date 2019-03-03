@@ -1,4 +1,4 @@
-﻿SatellaWave 0.4.0 (2018-07-12)
+﻿SatellaWave 0.5.0 (2019-03-??)
 by LuigiBlood
 
 This software can make Satellaview compatible server binary files.
@@ -17,6 +17,7 @@ Currently supported channels:
 		- Files (also Include Files)
 		- Items
 	- Expansion - Event Plaza
+	- Expansion - Script
 - Patch
 - Time Channel (BS-X - Global)
 - Time Channel (Game Specific)
@@ -28,6 +29,16 @@ Make sure the palette mode has subpalettes set to 1 (-P 1), and map mode is for 
 To make it easier, the original picture has to be 64x112 (you can still cheat a bit).
 
 Changelog:
+0.5.0 (2019-03-??)
+- Basic Script Expansion File Import
+- Fix Padding to prevent Tile Copy bug
+- Update People List with Bakusho Mondai names
+- Add option to reset all data on Event Plaza Editor [LittleToonCat]
+- Fix 'Edit Event Plaza Building' toolstrip [LittleToonCat]
+- Always update display when importing graphics to Event Plaza Editor [LittleToonCat]
+- Update edited generic channel names
+- Focus on Channel name when editing the channel info
+
 0.4.0 (2018-07-12)
 - Full Event Plaza Expansion Support
 - Automatically adapt the header for Memory Pack downloads
