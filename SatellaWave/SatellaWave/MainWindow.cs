@@ -397,6 +397,8 @@ namespace SatellaWave
 
         private string UpdateNodeName(TreeNode _node)
         {
+            if (_node.Tag.GetType() == typeof(Channel))
+                return (_node.Tag as Channel).name + " (" + (_node.Tag as Channel).GetChannelNumberString() + ")";
             if (_node.Tag.GetType() == typeof(MessageChannel))
                 return (_node.Tag as MessageChannel).name + " (" + (_node.Tag as MessageChannel).GetChannelNumberString() + ")";
             else if (_node.Tag.GetType() == typeof(TownStatus))
