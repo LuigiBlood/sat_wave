@@ -174,6 +174,20 @@ namespace SatellaWave
             }
         }
 
+        private void buttonScriptBrowse_Click(object sender, EventArgs e)
+        {
+            //Browse File for Download
+            OpenFileDialog fileloadDialog = new OpenFileDialog();
+            fileloadDialog.Filter = "BS-X Script (*.bin)|*.bin|All files|*.*";
+            fileloadDialog.Title = "Load Assembled BS-X Script File...";
+            fileloadDialog.Multiselect = false;
+
+            if (fileloadDialog.ShowDialog() == DialogResult.OK)
+            {
+                textBoxScriptPath.Text = fileloadDialog.FileName;
+            }
+        }
+
         /* OTHER FUNCTIONS */
 
         private void UpdateWindow()
@@ -185,6 +199,7 @@ namespace SatellaWave
             groupBoxFileItem.Visible = false;
             groupBoxPatch.Visible = false;
             groupBoxEventPlaza.Visible = false;
+            groupBoxEventScript.Visible = false;
 
             if (treeViewChn.SelectedNode == null)
             {
@@ -274,6 +289,11 @@ namespace SatellaWave
                 groupBoxEventPlaza.Visible = true;
                 textBoxEventPlazaName.Text = (treeViewChn.SelectedNode.Tag as EventPlaza).name;
             }
+            else if (treeViewChn.SelectedNode.Tag.GetType() == typeof(EventScript))
+            {
+                groupBoxEventScript.Visible = true;
+                textBoxScriptPath.Text = (treeViewChn.SelectedNode.Tag as EventScript).filePath;
+            }
         }
 
         private void SaveLast()
@@ -292,6 +312,8 @@ namespace SatellaWave
                     SavePatch(treeViewChn.SelectedNode);
                 else if (treeViewChn.SelectedNode.Tag.GetType() == typeof(EventPlaza))
                     SaveEventPlaza(treeViewChn.SelectedNode);
+                else if (treeViewChn.SelectedNode.Tag.GetType() == typeof(EventScript))
+                    SaveScript(treeViewChn.SelectedNode);
             }
         }
 
@@ -395,6 +417,11 @@ namespace SatellaWave
             (_node.Tag as EventPlaza).name = textBoxEventPlazaName.Text;
         }
 
+        private void SaveScript(TreeNode _node)
+        {
+            (_node.Tag as EventScript).SetFilePath(textBoxScriptPath.Text);
+        }
+
         private string UpdateNodeName(TreeNode _node)
         {
             if (_node.Tag.GetType() == typeof(Channel))
@@ -443,6 +470,7 @@ namespace SatellaWave
                 groupBoxFolder.Visible = false;
                 groupBoxFileItem.Visible = false;
                 groupBoxEventPlaza.Visible = false;
+                groupBoxEventScript.Visible = false;
             }
         }
 
@@ -509,6 +537,12 @@ namespace SatellaWave
         {
             SaveLast();
             Program.AddExpansionPlaza(treeViewChn.SelectedNode);
+        }
+
+        private void createEventScript(object sender, EventArgs e)
+        {
+            SaveLast();
+            Program.AddExpansionScript(treeViewChn.SelectedNode);
         }
 
         private void comboBoxFolderType_SelectedIndexChanged(object sender, EventArgs e)

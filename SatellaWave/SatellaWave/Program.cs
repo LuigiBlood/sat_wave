@@ -286,6 +286,28 @@ namespace SatellaWave
             }
         }
 
+        public static void AddExpansionScript(TreeNode _node)
+        {
+            if (_node.Tag.GetType() == typeof(Directory))
+            {
+                foreach (TreeNode _temp in _node.Nodes)
+                {
+                    if (_temp.Tag.GetType() == typeof(EventScript))
+                    {
+                        MessageBox.Show("There is already a Script Expansion. You cannot have an extra one.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+
+                EventScript _eventscript = new EventScript();
+                TreeNode _tnode = new TreeNode("Expansion - Script");
+                _tnode.Tag = _eventscript;
+                _tnode.ContextMenuStrip = mainWindow.contextMenuStripEventScriptMenu;
+                _node.Nodes.Add(_tnode);
+                mainWindow.treeViewChn.SelectedNode = _tnode;
+            }
+        }
+
         public static void AddFolder(TreeNode _node)
         {
             if (_node.Tag.GetType() == typeof(Directory))
@@ -1347,6 +1369,25 @@ namespace SatellaWave
                                         expnode.ContextMenuStrip = mainWindow.contextMenuStripEventPlazaMenu;
                                         dirnode.Nodes.Add(expnode);
                                     }
+                                    else if (folderData.Name == "script")
+                                    {
+                                        //Expansion - Script
+                                        EventScript _script = new EventScript();
+                                        //Can only be 1
+                                        if (!(new Regex(@"^[1]$").Match(folderData.Attributes["fileType"].Value).Success))
+                                        {
+                                            //patchType
+                                            MessageBox.Show("File Type is invalid in Expansion Script " + folderData.BaseURI, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                            return;
+                                        }
+
+                                        _script.SetFilePath(folderData.Attributes["filePath"].Value);
+
+                                        TreeNode expnode = new TreeNode("Expansion - Script");
+                                        expnode.Tag = _script;
+                                        expnode.ContextMenuStrip = mainWindow.contextMenuStripEventPlazaMenu;
+                                        dirnode.Nodes.Add(expnode);
+                                    }
                                 }
                                 dirnode.ContextMenuStrip = mainWindow.contextMenuStripDirectoryMenu;
                                 nodelist.Add(dirnode);
@@ -1647,6 +1688,17 @@ namespace SatellaWave
                                     xmlWriter.WriteString("0");
                             }
                             xmlWriter.WriteEndElement();
+
+                            xmlWriter.WriteEndElement();
+                        }
+                        else if (_foldernode.Tag.GetType() == typeof(EventScript))
+                        {
+                            xmlWriter.WriteStartElement("script");
+                            xmlWriter.WriteAttributeString("fileType", (_foldernode.Tag as EventScript).fileType.ToString());
+                            if ((_foldernode.Tag as EventScript).fileType == 1)
+                            {
+                                xmlWriter.WriteAttributeString("filePath", (_foldernode.Tag as EventScript).filePath);
+                            }
 
                             xmlWriter.WriteEndElement();
                         }
@@ -2172,7 +2224,10 @@ namespace SatellaWave
                         {
                             expCount++;
                         }
-                        //Add Script Expansion later
+                        else if (_Exp.Tag.GetType() == typeof(EventScript))
+                        {
+                            expCount++;
+                        }
                     }
 
                     //Export Expansion Event Plaza (First)
@@ -2195,6 +2250,7 @@ namespace SatellaWave
 
                         int ExpansionEntryStartOffset = ChannelFile.Count;
 
+                        //Event Plaza Expansion
                         foreach (TreeNode _Exp in _DirectoryCheck.Nodes)
                         {
                             if (_Exp.Tag.GetType() == typeof(EventPlaza))
@@ -2286,6 +2342,31 @@ namespace SatellaWave
                                 }
                                 ChannelFile.Add(0xFF);
                                 ChannelFile.Add(0xFF);
+
+                                //Set up Size
+                                int ChunkSize = ChannelFile.Count - offsetChunkBeginning;
+                                ChannelFile[offsetChunkBeginning - 2] = (byte)(ChunkSize & 0xFF);
+                                ChannelFile[offsetChunkBeginning - 1] = (byte)((ChunkSize >> 8) & 0xFF);
+                            }
+                        }
+
+                        //Script Expansion
+                        foreach (TreeNode _Exp in _DirectoryCheck.Nodes)
+                        {
+                            if (_Exp.Tag.GetType() == typeof(EventScript))
+                            {
+                                ChannelFile.Add(0x02);      //Chunk ID = 0x02 (Script)
+                                ChannelFile.Add(0x00);      //Chunk Size (to be added later)
+                                ChannelFile.Add(0x00);
+
+                                int offsetChunkBeginning = ChannelFile.Count;
+
+                                //Put Script Data
+                                FileStream _scriptFile = File.Open((_Exp.Tag as EventScript).filePath, FileMode.Open);
+                                byte[] array = new byte[_scriptFile.Length];
+                                _scriptFile.Read(array, 0, (int)_scriptFile.Length);
+                                _scriptFile.Close();
+                                ChannelFile.AddRange(array);
 
                                 //Set up Size
                                 int ChunkSize = ChannelFile.Count - offsetChunkBeginning;

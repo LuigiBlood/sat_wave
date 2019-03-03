@@ -559,5 +559,39 @@ namespace SatellaWave
             return doortemp.ToArray();
         }
     }
+
+    class EventScript
+    {
+        //Meant for file import, very basic support for testing purposes.
+        public int fileType;    //0 = None, 1 = File Path, 2 = Array
+        public string filePath;
+        public byte[] array;
+
+        public EventScript()
+        {
+            fileType = 0;
+        }
+
+        public void SetFilePath(string _path)
+        {
+            fileType = 1;
+            filePath = _path;
+            array = null;
+        }
+
+        public void SetByteArray(byte[] _array)
+        {
+            fileType = 2;
+            filePath = null;
+            array = _array;
+        }
+
+        public void SetNone()
+        {
+            fileType = 0;
+            filePath = null;
+            array = null;
+        }
+    }
 }
     

@@ -134,6 +134,13 @@
             this.buttonEventPlazaEditor = new System.Windows.Forms.Button();
             this.textBoxEventPlazaName = new System.Windows.Forms.TextBox();
             this.label24 = new System.Windows.Forms.Label();
+            this.groupBoxEventScript = new System.Windows.Forms.GroupBox();
+            this.contextMenuStripEventScriptMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.label25 = new System.Windows.Forms.Label();
+            this.toolStripMenuItemDirectory_NewScript = new System.Windows.Forms.ToolStripMenuItem();
+            this.buttonBrowseScriptFile = new System.Windows.Forms.Button();
+            this.textBoxScriptPath = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
             this.groupBoxTown.SuspendLayout();
             this.contextMenuStripChannelMenu.SuspendLayout();
@@ -151,6 +158,8 @@
             this.groupBoxPatch.SuspendLayout();
             this.contextMenuStripEventPlazaMenu.SuspendLayout();
             this.groupBoxEventPlaza.SuspendLayout();
+            this.groupBoxEventScript.SuspendLayout();
+            this.contextMenuStripEventScriptMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // fileToolStripMenuItem
@@ -536,11 +545,12 @@
             this.contextMenuStripDirectoryMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemDirectory_NewFolder,
             this.toolStripMenuItemDirectory_NewEventPlaza,
+            this.toolStripMenuItemDirectory_NewScript,
             this.toolStripSeparator3,
             this.toolStripMenuItemDirectory_Edit,
             this.toolStripMenuItemDirectory_Delete});
             this.contextMenuStripDirectoryMenu.Name = "contextMenuStripDirectoryMenu";
-            this.contextMenuStripDirectoryMenu.Size = new System.Drawing.Size(227, 98);
+            this.contextMenuStripDirectoryMenu.Size = new System.Drawing.Size(227, 120);
             // 
             // toolStripMenuItemDirectory_NewFolder
             // 
@@ -597,11 +607,11 @@
             // label23
             // 
             this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(183, 212);
+            this.label23.Location = new System.Drawing.Point(183, 208);
             this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(140, 13);
+            this.label23.Size = new System.Drawing.Size(189, 26);
             this.label23.TabIndex = 5;
-            this.label23.Text = "This feature is not ready yet.";
+            this.label23.Text = "This will allow you to add BS-X Scripts.\r\nThis feature is for advanced users.";
             // 
             // label22
             // 
@@ -625,13 +635,13 @@
             // 
             // buttonCreateScriptExpansion
             // 
-            this.buttonCreateScriptExpansion.Enabled = false;
             this.buttonCreateScriptExpansion.Location = new System.Drawing.Point(6, 198);
             this.buttonCreateScriptExpansion.Name = "buttonCreateScriptExpansion";
             this.buttonCreateScriptExpansion.Size = new System.Drawing.Size(168, 44);
             this.buttonCreateScriptExpansion.TabIndex = 2;
             this.buttonCreateScriptExpansion.Text = "Create Script Expansion";
             this.buttonCreateScriptExpansion.UseVisualStyleBackColor = true;
+            this.buttonCreateScriptExpansion.Click += new System.EventHandler(this.createEventScript);
             // 
             // buttonCreateEventPlaza
             // 
@@ -1324,20 +1334,88 @@
             this.label24.TabIndex = 0;
             this.label24.Text = "Building Name:";
             // 
+            // groupBoxEventScript
+            // 
+            this.groupBoxEventScript.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxEventScript.Controls.Add(this.buttonBrowseScriptFile);
+            this.groupBoxEventScript.Controls.Add(this.textBoxScriptPath);
+            this.groupBoxEventScript.Controls.Add(this.label25);
+            this.groupBoxEventScript.Location = new System.Drawing.Point(225, 27);
+            this.groupBoxEventScript.Name = "groupBoxEventScript";
+            this.groupBoxEventScript.Size = new System.Drawing.Size(378, 341);
+            this.groupBoxEventScript.TabIndex = 10;
+            this.groupBoxEventScript.TabStop = false;
+            this.groupBoxEventScript.Text = "Script Expansion";
+            this.groupBoxEventScript.Visible = false;
+            // 
+            // contextMenuStripEventScriptMenu
+            // 
+            this.contextMenuStripEventScriptMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem2});
+            this.contextMenuStripEventScriptMenu.Name = "contextMenuStripEventPlazaMenu";
+            this.contextMenuStripEventScriptMenu.Size = new System.Drawing.Size(164, 26);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(163, 22);
+            this.toolStripMenuItem2.Text = "Delete Expansion";
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItemChannel_Delete_Click);
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(16, 37);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(284, 52);
+            this.label25.TabIndex = 0;
+            this.label25.Text = "As of now, scripts have to be already built as binary.\r\nSupport will be extended " +
+    "in the future to be easier to make.\r\n\r\nBS-X Script File:";
+            // 
+            // toolStripMenuItemDirectory_NewScript
+            // 
+            this.toolStripMenuItemDirectory_NewScript.Name = "toolStripMenuItemDirectory_NewScript";
+            this.toolStripMenuItemDirectory_NewScript.Size = new System.Drawing.Size(226, 22);
+            this.toolStripMenuItemDirectory_NewScript.Text = "Create Script Expansion";
+            this.toolStripMenuItemDirectory_NewScript.Click += new System.EventHandler(this.createEventScript);
+            // 
+            // buttonBrowseScriptFile
+            // 
+            this.buttonBrowseScriptFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonBrowseScriptFile.Location = new System.Drawing.Point(291, 91);
+            this.buttonBrowseScriptFile.Name = "buttonBrowseScriptFile";
+            this.buttonBrowseScriptFile.Size = new System.Drawing.Size(75, 23);
+            this.buttonBrowseScriptFile.TabIndex = 5;
+            this.buttonBrowseScriptFile.Text = "Browse...";
+            this.buttonBrowseScriptFile.UseVisualStyleBackColor = true;
+            this.buttonBrowseScriptFile.Click += new System.EventHandler(this.buttonScriptBrowse_Click);
+            // 
+            // textBoxScriptPath
+            // 
+            this.textBoxScriptPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxScriptPath.Location = new System.Drawing.Point(12, 93);
+            this.textBoxScriptPath.Name = "textBoxScriptPath";
+            this.textBoxScriptPath.Size = new System.Drawing.Size(273, 20);
+            this.textBoxScriptPath.TabIndex = 4;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(609, 372);
+            this.Controls.Add(this.groupBoxEventScript);
             this.Controls.Add(this.groupBoxTown);
             this.Controls.Add(this.groupBoxEventPlaza);
-            this.Controls.Add(this.groupBoxDirectory);
-            this.Controls.Add(this.groupBoxPatch);
             this.Controls.Add(this.groupBoxFolder);
             this.Controls.Add(this.groupBoxFileItem);
             this.Controls.Add(this.groupBoxMessage);
             this.Controls.Add(this.treeViewChn);
             this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.groupBoxDirectory);
+            this.Controls.Add(this.groupBoxPatch);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainWindow";
@@ -1369,6 +1447,9 @@
             this.contextMenuStripEventPlazaMenu.ResumeLayout(false);
             this.groupBoxEventPlaza.ResumeLayout(false);
             this.groupBoxEventPlaza.PerformLayout();
+            this.groupBoxEventScript.ResumeLayout(false);
+            this.groupBoxEventScript.PerformLayout();
+            this.contextMenuStripEventScriptMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1480,6 +1561,13 @@
         private System.Windows.Forms.TextBox textBoxEventPlazaName;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.Button buttonEventPlazaEditor;
+        private System.Windows.Forms.GroupBox groupBoxEventScript;
+        public System.Windows.Forms.ContextMenuStrip contextMenuStripEventScriptMenu;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDirectory_NewScript;
+        private System.Windows.Forms.Button buttonBrowseScriptFile;
+        private System.Windows.Forms.TextBox textBoxScriptPath;
     }
 }
 
