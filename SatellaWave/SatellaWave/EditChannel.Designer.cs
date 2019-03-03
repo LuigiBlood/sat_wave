@@ -154,6 +154,7 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.Text = "Edit Channel Information...";
+            this.Shown += new System.EventHandler(this.EditChannel_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTimeout)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

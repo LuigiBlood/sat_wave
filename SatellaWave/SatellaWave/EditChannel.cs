@@ -63,5 +63,10 @@ namespace SatellaWave
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
+
+        private void EditChannel_Shown(object sender, EventArgs e)
+        {
+            textBoxChannelName.Focus();
+        }
     }
 }
