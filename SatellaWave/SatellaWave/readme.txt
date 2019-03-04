@@ -1,4 +1,4 @@
-﻿SatellaWave 0.5.0 (2019-03-??)
+﻿SatellaWave 0.5.0 (2019-03-04)
 by LuigiBlood
 
 This software can make Satellaview compatible server binary files.
@@ -23,20 +23,29 @@ Currently supported channels:
 - Time Channel (Game Specific)
 - Shigesato Itoi no Bass Fishing No. 1 Contest Channels
 
+
+
 Notes about SuperFamiconv:
 SuperFamiconv (by Optiroc) can be found here for Custom Event Plaza Buildings: https://github.com/Optiroc/SuperFamiconv
 Make sure the palette mode has subpalettes set to 1 (-P 1), and map mode is for 8x14 tilemap.
 To make it easier, the original picture has to be 64x112 (you can still cheat a bit).
 
+Notes about Expansion Scripts:
+Scripts uses the BS-X's own full on bytecode script engine. It will have to be already assembled and compiled into a bin file for import.
+Much more info about it will rolled out over time, it is implemented for advanced usage and future experimentations.
+It is used by BS-X for a lot of things such as managing the town and its NPCs, to entire magazines.
+
+
+
 Changelog:
-0.5.0 (2019-03-??)
+0.5.0 (2019-03-04)
 - Basic Script Expansion File Import
-- Fix Padding to prevent Tile Copy bug
+- Fix Padding to prevent Tile Copy bug (bugfix)
 - Update People List with Bakusho Mondai names
 - Add option to reset all data on Event Plaza Editor [LittleToonCat]
-- Fix 'Edit Event Plaza Building' toolstrip [LittleToonCat]
-- Always update display when importing graphics to Event Plaza Editor [LittleToonCat]
-- Update edited generic channel names
+- Fix 'Edit Event Plaza Building' toolstrip (bugfix) [LittleToonCat]
+- Always update display when importing graphics to Event Plaza Editor (bugfix) [LittleToonCat]
+- Update edited generic channel names (bugfix)
 - Focus on Channel name when editing the channel info
 
 0.4.0 (2018-07-12)
