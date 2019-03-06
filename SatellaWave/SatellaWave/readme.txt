@@ -1,4 +1,4 @@
-﻿SatellaWave 0.5.0 (2019-03-04)
+﻿SatellaWave 0.5.1 (2019-03-06)
 by LuigiBlood
 
 This software can make Satellaview compatible server binary files.
@@ -38,6 +38,10 @@ It is used by BS-X for a lot of things such as managing the town and its NPCs, t
 
 
 Changelog:
+0.5.1 (2019-03-06)
+- Load generic channels from XML files (Time, Bass Fishing Tournament) (bugfix)
+- Mention that you can delete a tile in the Event Plaza Animation Editor with a right click.
+
 0.5.0 (2019-03-04)
 - Basic Script Expansion File Import
 - Fix Padding to prevent Tile Copy bug (bugfix)
