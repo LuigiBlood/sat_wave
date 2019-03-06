@@ -1425,6 +1425,15 @@ namespace SatellaWave
                                 nodelist.Add(patchnode);
                             }
                         }
+                        else
+                        {
+                            //Generic Channel
+                            Channel chn = new Channel(_pv, _pr, _name, _lci, _timeout);
+                            TreeNode chnnode = new TreeNode(chn.name + " (" + chn.GetChannelNumberString() + ")");
+                            chnnode.Tag = chn;
+                            chnnode.ContextMenuStrip = mainWindow.contextMenuStripChannelMenu;
+                            nodelist.Add(chnnode);
+                        }
                     }
                     else
                     {
