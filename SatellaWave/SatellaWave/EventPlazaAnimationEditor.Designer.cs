@@ -33,6 +33,8 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.pictureBoxTileset = new System.Windows.Forms.PictureBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.numericUpDownDuration = new System.Windows.Forms.NumericUpDown();
+            this.label2 = new System.Windows.Forms.Label();
             this.labelFrame = new System.Windows.Forms.Label();
             this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
             this.pictureBoxBuilding = new System.Windows.Forms.PictureBox();
@@ -46,15 +48,13 @@
             this.buttonAdd = new System.Windows.Forms.Button();
             this.buttonRemoveLast = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.numericUpDownDuration = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTileset)).BeginInit();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDuration)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBuilding)).BeginInit();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDuration)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -91,6 +91,33 @@
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Animation Editor";
+            // 
+            // numericUpDownDuration
+            // 
+            this.numericUpDownDuration.Location = new System.Drawing.Point(65, 303);
+            this.numericUpDownDuration.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.numericUpDownDuration.Name = "numericUpDownDuration";
+            this.numericUpDownDuration.Size = new System.Drawing.Size(64, 20);
+            this.numericUpDownDuration.TabIndex = 7;
+            this.numericUpDownDuration.Value = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.numericUpDownDuration.ValueChanged += new System.EventHandler(this.numericUpDownDuration_ValueChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 287);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(101, 13);
+            this.label2.TabIndex = 6;
+            this.label2.Text = "Duration (in frames):";
             // 
             // labelFrame
             // 
@@ -224,36 +251,10 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(298, 209);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(131, 39);
+            this.label1.Size = new System.Drawing.Size(131, 52);
             this.label1.TabIndex = 14;
-            this.label1.Text = "Animation only plays when\r\na folder attributed to\r\nEvent Plaza exists.";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 287);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(101, 13);
-            this.label2.TabIndex = 6;
-            this.label2.Text = "Duration (in frames):";
-            // 
-            // numericUpDownDuration
-            // 
-            this.numericUpDownDuration.Location = new System.Drawing.Point(65, 303);
-            this.numericUpDownDuration.Maximum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            0});
-            this.numericUpDownDuration.Name = "numericUpDownDuration";
-            this.numericUpDownDuration.Size = new System.Drawing.Size(64, 20);
-            this.numericUpDownDuration.TabIndex = 7;
-            this.numericUpDownDuration.Value = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            0});
-            this.numericUpDownDuration.ValueChanged += new System.EventHandler(this.numericUpDownDuration_ValueChanged);
+            this.label1.Text = "Animation only plays when\r\na folder attributed to\r\nEvent Plaza exists.\r\nRight cli" +
+    "ck deletes a tile.";
             // 
             // EventPlazaAnimationEditor
             // 
@@ -277,10 +278,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTileset)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDuration)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBuilding)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDuration)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
