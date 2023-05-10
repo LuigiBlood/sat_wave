@@ -1974,7 +1974,8 @@ namespace SatellaWave
                                     }
                                     downloadFile.Read(downloadFileArray, 0, (_File.Tag as DownloadFile).filesize);
 
-                                    if (filecheck < 2 && (_File.Tag as DownloadFile).dest >= 2)
+                                    //Change File Data header to be FLASH rewrite friendly (also on PSRAM)
+                                    if (filecheck < 2 && (_File.Tag as DownloadFile).dest >= 1)
                                     {
                                         //Adapt header for Memory Pack download
                                         int offset = 0x7FD0 | (0x8000 * filecheck);
