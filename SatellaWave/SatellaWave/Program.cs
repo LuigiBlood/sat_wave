@@ -1949,17 +1949,17 @@ namespace SatellaWave
                                     //File Size Check
                                     if ((_File.Tag as DownloadFile).dest == 1 && (_File.Tag as DownloadFile).filesize > 0x80000)
                                     {
-                                        MessageBox.Show("File is bigger than 512KB. The PSRAM cannot hold it on BS-X.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        MessageBox.Show("File [" + (_File.Tag as DownloadFile).name + "] in folder [" + (_Folder.Tag as Folder).name + "] is bigger than 512KB. The PSRAM cannot hold it on BS-X.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                         return;
                                     }
                                     else if ((_File.Tag as DownloadFile).dest == 2 && (_File.Tag as DownloadFile).filesize > 0x100000)
                                     {
-                                        MessageBox.Show("File is bigger than 1MB. The Memory Pack cannot hold it.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        MessageBox.Show("File [" + (_File.Tag as DownloadFile).name + "] in folder [" + (_Folder.Tag as Folder).name + "] is bigger than 1MB. The Memory Pack cannot hold it.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                         return;
                                     }
                                     else if ((_File.Tag as DownloadFile).dest == 3 && (_File.Tag as DownloadFile).filesize > 0x80000)
                                     {
-                                        MessageBox.Show("File is bigger than 512KB. The Memory Pack cannot hold it. Set the file destination to Memory Pack (Full).", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        MessageBox.Show("File [" + (_File.Tag as DownloadFile).name + "] in folder [" + (_Folder.Tag as Folder).name + "] is bigger than 512KB. The Memory Pack cannot hold it. Set the file destination to Memory Pack (Full).", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                         return;
                                     }
 
