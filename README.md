@@ -1,5 +1,7 @@
 SatellaWave
 ========
+A tool to make Satellaview Broadcast binary files for emulators. 
+========
 
 Compiling:
 - You can compile this project with a vanilla install of Visual Studio 2017 on Windows. There are no dependencies.
