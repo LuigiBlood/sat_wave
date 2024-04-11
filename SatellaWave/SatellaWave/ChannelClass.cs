@@ -535,6 +535,13 @@ namespace SatellaWave
 
         public ushort[] GetTilesetExport()
         {
+            ushort[] tmp = tileset;
+            for (int i = 0; i < tmp.Length; i++)
+            {
+                //Set Priority bit depending on the Priority Collision info
+                bool overPlayer = (collision[i / 4] & 0x20) != 0;
+                tmp[i] = (ushort)((tmp[i] & 0xDFFF) | (overPlayer ? 0x2000 : 0));
+            }
             return tileset;
         }
 
