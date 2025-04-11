@@ -98,12 +98,12 @@ namespace SatellaWave
         };
 
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            mainWindow = new MainWindow();
+            mainWindow = new MainWindow(args);
 
             Application.Run(mainWindow);
         }
@@ -790,7 +790,25 @@ namespace SatellaWave
         public static void LoadBSXRepository(string xmlPath)
         {
             XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.Load(xmlPath);
+            try
+            {
+                xmlDoc.Load(xmlPath);
+            }
+            catch (Exception e) when (e is XmlException)
+            {
+                MessageBox.Show("The XML file couldn't be read.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            catch (Exception e) when (e is FileNotFoundException)
+            {
+                MessageBox.Show("The file couldn't be found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            catch (Exception e) when (e is DirectoryNotFoundException)
+            {
+                MessageBox.Show("The folder couldn't be found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             List<TreeNode> nodelist = new List<TreeNode>();
 
             if (xmlDoc.DocumentElement.Name == "bsx")
@@ -2660,7 +2678,7 @@ namespace SatellaWave
 
         public static void SaveChannelFile(byte[] filedata, ushort lci, string folderPath)
         {
-            int fileAmount = (int)Math.Ceiling(filedata.Length / 8192.0);
+            int fileAmount = (int)Math.Ceiling(filedata.Length / 32768.0);
 
             for (int i = 0; i < fileAmount; i++)
             {
@@ -2672,22 +2690,22 @@ namespace SatellaWave
                 if (i == fileAmount - 1)
                 {
                     //Data Group Size
-                    chnfile.WriteByte((byte)((filedata.Length - (i * 8192) + 5) >> 16));
-                    chnfile.WriteByte((byte)((filedata.Length - (i * 8192) + 5) >> 8));
-                    chnfile.WriteByte((byte)(filedata.Length - (i * 8192) + 5));
+                    chnfile.WriteByte((byte)((filedata.Length - (i * 32768) + 5) >> 16));
+                    chnfile.WriteByte((byte)((filedata.Length - (i * 32768) + 5) >> 8));
+                    chnfile.WriteByte((byte)(filedata.Length - (i * 32768) + 5));
 
                     chnfile.WriteByte(1); //Fixed
                     chnfile.WriteByte((byte)fileAmount);    //Amount of fragments
 
-                    chnfile.WriteByte((byte)((i * 8192) >> 16));
-                    chnfile.WriteByte((byte)((i * 8192) >> 8));
-                    chnfile.WriteByte((byte)(i * 8192));
+                    chnfile.WriteByte((byte)((i * 32768) >> 16));
+                    chnfile.WriteByte((byte)((i * 32768) >> 8));
+                    chnfile.WriteByte((byte)(i * 32768));
 
-                    chnfile.Write(filedata, (i * 8192), filedata.Length - (i * 8192));
+                    chnfile.Write(filedata, (i * 32768), filedata.Length - (i * 32768));
                 }
                 else
                 {
-                    int sizetest = 8192 + 5;
+                    int sizetest = 32768 + 5;
                     chnfile.WriteByte((byte)((sizetest) >> 16));
                     chnfile.WriteByte((byte)((sizetest) >> 8));
                     chnfile.WriteByte((byte)(sizetest));
@@ -2695,11 +2713,11 @@ namespace SatellaWave
                     chnfile.WriteByte(1); //Fixed
                     chnfile.WriteByte((byte)fileAmount);    //Amount of fragments
 
-                    chnfile.WriteByte((byte)((i * 8192) >> 16));
-                    chnfile.WriteByte((byte)((i * 8192) >> 8));
-                    chnfile.WriteByte((byte)(i * 8192));
+                    chnfile.WriteByte((byte)((i * 32768) >> 16));
+                    chnfile.WriteByte((byte)((i * 32768) >> 8));
+                    chnfile.WriteByte((byte)(i * 32768));
 
-                    chnfile.Write(filedata, (i * 8192), 8192);
+                    chnfile.Write(filedata, (i * 32768), 32768);
                 }
                 chnfile.Close();
             }

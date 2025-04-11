@@ -63,6 +63,7 @@
             this.contextMenuStripDirectoryMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemDirectory_NewFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemDirectory_NewEventPlaza = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemDirectory_NewScript = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItemDirectory_Edit = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemDirectory_Delete = new System.Windows.Forms.ToolStripMenuItem();
@@ -135,12 +136,11 @@
             this.textBoxEventPlazaName = new System.Windows.Forms.TextBox();
             this.label24 = new System.Windows.Forms.Label();
             this.groupBoxEventScript = new System.Windows.Forms.GroupBox();
-            this.contextMenuStripEventScriptMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.label25 = new System.Windows.Forms.Label();
-            this.toolStripMenuItemDirectory_NewScript = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonBrowseScriptFile = new System.Windows.Forms.Button();
             this.textBoxScriptPath = new System.Windows.Forms.TextBox();
+            this.label25 = new System.Windows.Forms.Label();
+            this.contextMenuStripEventScriptMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.groupBoxTown.SuspendLayout();
             this.contextMenuStripChannelMenu.SuspendLayout();
@@ -550,38 +550,45 @@
             this.toolStripMenuItemDirectory_Edit,
             this.toolStripMenuItemDirectory_Delete});
             this.contextMenuStripDirectoryMenu.Name = "contextMenuStripDirectoryMenu";
-            this.contextMenuStripDirectoryMenu.Size = new System.Drawing.Size(227, 120);
+            this.contextMenuStripDirectoryMenu.Size = new System.Drawing.Size(228, 120);
             // 
             // toolStripMenuItemDirectory_NewFolder
             // 
             this.toolStripMenuItemDirectory_NewFolder.Name = "toolStripMenuItemDirectory_NewFolder";
-            this.toolStripMenuItemDirectory_NewFolder.Size = new System.Drawing.Size(226, 22);
+            this.toolStripMenuItemDirectory_NewFolder.Size = new System.Drawing.Size(227, 22);
             this.toolStripMenuItemDirectory_NewFolder.Text = "Create New Folder";
             this.toolStripMenuItemDirectory_NewFolder.Click += new System.EventHandler(this.createFolder);
             // 
             // toolStripMenuItemDirectory_NewEventPlaza
             // 
             this.toolStripMenuItemDirectory_NewEventPlaza.Name = "toolStripMenuItemDirectory_NewEventPlaza";
-            this.toolStripMenuItemDirectory_NewEventPlaza.Size = new System.Drawing.Size(226, 22);
+            this.toolStripMenuItemDirectory_NewEventPlaza.Size = new System.Drawing.Size(227, 22);
             this.toolStripMenuItemDirectory_NewEventPlaza.Text = "Create Event Plaza Expansion";
             this.toolStripMenuItemDirectory_NewEventPlaza.Click += new System.EventHandler(this.createEventPlaza);
+            // 
+            // toolStripMenuItemDirectory_NewScript
+            // 
+            this.toolStripMenuItemDirectory_NewScript.Name = "toolStripMenuItemDirectory_NewScript";
+            this.toolStripMenuItemDirectory_NewScript.Size = new System.Drawing.Size(227, 22);
+            this.toolStripMenuItemDirectory_NewScript.Text = "Create Script Expansion";
+            this.toolStripMenuItemDirectory_NewScript.Click += new System.EventHandler(this.createEventScript);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(223, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(224, 6);
             // 
             // toolStripMenuItemDirectory_Edit
             // 
             this.toolStripMenuItemDirectory_Edit.Name = "toolStripMenuItemDirectory_Edit";
-            this.toolStripMenuItemDirectory_Edit.Size = new System.Drawing.Size(226, 22);
+            this.toolStripMenuItemDirectory_Edit.Size = new System.Drawing.Size(227, 22);
             this.toolStripMenuItemDirectory_Edit.Text = "Edit Channel Information";
             this.toolStripMenuItemDirectory_Edit.Click += new System.EventHandler(this.toolStripMenuItemChannel_Edit_Click);
             // 
             // toolStripMenuItemDirectory_Delete
             // 
             this.toolStripMenuItemDirectory_Delete.Name = "toolStripMenuItemDirectory_Delete";
-            this.toolStripMenuItemDirectory_Delete.Size = new System.Drawing.Size(226, 22);
+            this.toolStripMenuItemDirectory_Delete.Size = new System.Drawing.Size(227, 22);
             this.toolStripMenuItemDirectory_Delete.Text = "Delete Channel";
             this.toolStripMenuItemDirectory_Delete.Click += new System.EventHandler(this.toolStripMenuItemChannel_Delete_Click);
             // 
@@ -1350,37 +1357,6 @@
             this.groupBoxEventScript.Text = "Script Expansion";
             this.groupBoxEventScript.Visible = false;
             // 
-            // contextMenuStripEventScriptMenu
-            // 
-            this.contextMenuStripEventScriptMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem2});
-            this.contextMenuStripEventScriptMenu.Name = "contextMenuStripEventPlazaMenu";
-            this.contextMenuStripEventScriptMenu.Size = new System.Drawing.Size(164, 26);
-            // 
-            // toolStripMenuItem2
-            // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(163, 22);
-            this.toolStripMenuItem2.Text = "Delete Expansion";
-            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItemChannel_Delete_Click);
-            // 
-            // label25
-            // 
-            this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(16, 37);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(284, 52);
-            this.label25.TabIndex = 0;
-            this.label25.Text = "As of now, scripts have to be already built as binary.\r\nSupport will be extended " +
-    "in the future to be easier to make.\r\n\r\nBS-X Script File:";
-            // 
-            // toolStripMenuItemDirectory_NewScript
-            // 
-            this.toolStripMenuItemDirectory_NewScript.Name = "toolStripMenuItemDirectory_NewScript";
-            this.toolStripMenuItemDirectory_NewScript.Size = new System.Drawing.Size(226, 22);
-            this.toolStripMenuItemDirectory_NewScript.Text = "Create Script Expansion";
-            this.toolStripMenuItemDirectory_NewScript.Click += new System.EventHandler(this.createEventScript);
-            // 
             // buttonBrowseScriptFile
             // 
             this.buttonBrowseScriptFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -1401,6 +1377,30 @@
             this.textBoxScriptPath.Size = new System.Drawing.Size(273, 20);
             this.textBoxScriptPath.TabIndex = 4;
             // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(16, 37);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(284, 52);
+            this.label25.TabIndex = 0;
+            this.label25.Text = "As of now, scripts have to be already built as binary.\r\nSupport will be extended " +
+    "in the future to be easier to make.\r\n\r\nBS-X Script File:";
+            // 
+            // contextMenuStripEventScriptMenu
+            // 
+            this.contextMenuStripEventScriptMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem2});
+            this.contextMenuStripEventScriptMenu.Name = "contextMenuStripEventPlazaMenu";
+            this.contextMenuStripEventScriptMenu.Size = new System.Drawing.Size(165, 26);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(164, 22);
+            this.toolStripMenuItem2.Text = "Delete Expansion";
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItemChannel_Delete_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1420,6 +1420,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainWindow";
             this.Text = "SatellaWave";
+            this.Shown += new System.EventHandler(this.MainWindow_Shown);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.groupBoxTown.ResumeLayout(false);

@@ -13,10 +13,31 @@ namespace SatellaWave
 {
     public partial class MainWindow : Form
     {
-        public MainWindow()
+        string keepForLoading;
+
+        public MainWindow(string[] args)
         {
             InitializeComponent();
             this.Text = "SatellaWave " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
+            //Manage Loading if XML file is sent as argument
+            keepForLoading = "";
+            if (args.Length > 0)
+            {
+                if (File.Exists(args[0]))
+                {
+                    keepForLoading = args[0];
+                }
+            }
+        }
+
+        private void MainWindow_Shown(object sender, EventArgs e)
+        {
+            if (keepForLoading != "")
+            {
+                Program.LoadBSXRepository(keepForLoading);
+                UpdateWindow();
+            }
         }
 
         public void setTitle(string fileName)
